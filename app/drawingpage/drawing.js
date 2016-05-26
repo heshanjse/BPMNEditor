@@ -6,12 +6,32 @@ document.onload = (function(d3, saveAs, Blob, undefined){
   var idgatewayelement = 0;
   var idelement = 0;
   // define graphcreator object
-var modal = document.getElementById('myModal');
-var propertyclose = document.getElementsByClassName("close")[0];
-propertyclose.onclick = function() {
-    modal.style.display = "none";
-}
+var semodal = document.getElementById('SEModal');
 
+var sepropertyclose = document.getElementById('SEClose');
+sepropertyclose.onclick = function() {
+    
+    semodal.style.display = "none";
+}
+var eemodal = document.getElementById('EEModal');
+var eepropertyclose = document.getElementById('EEClose');
+eepropertyclose.onclick = function() {
+    eemodal.style.display = "none";
+    
+}
+var tmodal = document.getElementById('TModal');
+
+var tpropertyclose = document.getElementById('TClose');
+tpropertyclose.onclick = function() {
+    
+    tmodal.style.display = "none";
+}
+var gmodal = document.getElementById('GModal');
+var gpropertycloses = document.getElementById('GClose');
+gpropertycloses.onclick = function() {
+    gmodal.style.display = "none";
+    
+}
   var GraphCreator = function(svg, nodes, edges){
     var thisGraph = this;
         thisGraph.idct = 0;
@@ -213,7 +233,7 @@ console.log("ok")
           .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
           .on("mouseout", function(){d3.select(this).style("fill", "white");})
           .on("click", function(){
-            modal.style.display = "block";
+            semodal.style.display = "block";
           })
           .call(drag)
 
@@ -234,7 +254,7 @@ console.log("ok")
           .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
           .on("mouseout", function(){d3.select(this).style("fill", "white");})
           .on("click", function(){
-            modal.style.display = "block";
+            eemodal.style.display = "block";
           })
           .call(drag)
 
@@ -257,7 +277,7 @@ console.log("ok")
           .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
           .on("mouseout", function(){d3.select(this).style("fill", "white");})
           .on("click", function(){
-            modal.style.display = "block";
+            tmodal.style.display = "block";
           })
           .call(drag)
 
@@ -282,7 +302,7 @@ console.log("ok")
           .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
           .on("mouseout", function(){d3.select(this).style("fill", "white");})
           .on("click", function(){
-            $('#myModal').modal('show')
+            gmodal.style.display = "block";
           })
           .call(drags)
 
