@@ -1,37 +1,51 @@
 document.onload = (function(d3, saveAs, Blob, undefined){
   "use strict";
+  //id generation numbers
   var idstartelement = 0;
   var idendelement = 0;
   var idtaskelement = 0;
   var idgatewayelement = 0;
   var idelement = 0;
+  var arrowbuttonclick = 0;
+  var taskbuttonclick = 0;
+  var startx=0;
+  var starty=0;
+  var endx=0;
+  var endy=0;
+  var midx=0;
+  
   // define graphcreator object
-var semodal = document.getElementById('SEModal');
+// var semodal = document.getElementById('SEModal');
 
-var sepropertyclose = document.getElementById('SEClose');
-sepropertyclose.onclick = function() {
+// var sepropertyclose = document.getElementById('SEClose');
+// sepropertyclose.onclick = function() {
     
-    semodal.style.display = "none";
-}
-var eemodal = document.getElementById('EEModal');
-var eepropertyclose = document.getElementById('EEClose');
-eepropertyclose.onclick = function() {
-    eemodal.style.display = "none";
+//     semodal.style.display = "none";
+// }
+// var eemodal = document.getElementById('EEModal');
+// var eepropertyclose = document.getElementById('EEClose');
+// eepropertyclose.onclick = function() {
+//     eemodal.style.display = "none";
     
-}
-var tmodal = document.getElementById('TModal');
+// }
+// var tmodal = document.getElementById('TModal');
 
-var tpropertyclose = document.getElementById('TClose');
-tpropertyclose.onclick = function() {
+// var tpropertyclose = document.getElementById('TClose');
+// tpropertyclose.onclick = function() {
     
-    tmodal.style.display = "none";
-}
-var gmodal = document.getElementById('GModal');
-var gpropertycloses = document.getElementById('GClose');
-gpropertycloses.onclick = function() {
-    gmodal.style.display = "none";
+//     tmodal.style.display = "none";
+// }
+// var gmodal = document.getElementById('GModal');
+// var gpropertycloses = document.getElementById('GClose');
+// gpropertycloses.onclick = function() {
+//     gmodal.style.display = "none";
     
-}
+// }
+
+
+
+
+
   var GraphCreator = function(svg, nodes, edges){
     var thisGraph = this;
         thisGraph.idct = 0;
@@ -80,6 +94,11 @@ gpropertycloses.onclick = function() {
       .attr('orient', 'auto')
       .append('svg:path')
       .attr('d', 'M0,-5L10,0L0,5');
+
+    // Define the div for the tooltip
+    var div = d3.select("body").append("div") 
+    .attr("class", "tooltip")       
+    .style("opacity", 0);
 
     thisGraph.svg = svg;
     thisGraph.svgG = svg.append("g")
@@ -167,8 +186,59 @@ var drags = d3.behavior.drag().on('drag', function(d) {
  })
 
 
+
+  // // passing in a function in d3.max to tell it what we're maxing (x value)
+  //     var xScale = d3.scale.linear()
+  //         .domain([0, d3.max(dataset, function (d) { return d.x + 10; })])
+  //         .range([margin.left, w - margin.right]);  // Set margins for x specific
+
+  //     // passing in a function in d3.max to tell it what we're maxing (y value)
+  //     var yScale = d3.scale.linear()
+  //         .domain([0, d3.max(dataset, function (d) { return d.y + 10; })])
+  //         .range([margin.top, h - margin.bottom]);  // Set margins for y specific
+
+  //     // Add a X and Y Axis (Note: orient means the direction that ticks go, not position)
+  //     var xAxis = d3.svg.axis().scale(xScale).orient("top");
+  //     var yAxis = d3.svg.axis().scale(yScale).orient("left");
+
+  // function handleMouseOver(d, i) {  // Add interactivity
+
+  //           // Use D3 to select element, change color and size
+  //           // d3.select(this).attr({
+  //           //   fill: "orange",
+  //           //   r: radius * 2
+  //           // });
+
+  //           // Specify where to put label of text
+  //           svg.append("text").attr({
+  //              id: "t" + d.x + "-" + d.y + "-" + i,  // Create an id for text so we can select it later for removing on mouseout
+  //               x: function() { return xScale(d.x) - 30; },
+  //               y: function() { return yScale(d.y) - 15; }
+  //           })
+  //           .text(function() {
+  //             return [d.x, d.y];  // Value of the text
+  //           });
+  //         }
+
+  //     function handleMouseOut(d, i) {
+  //           // Use D3 to select element, change color back to normal
+  //           d3.select(this).attr({
+  //             fill: "black",
+  //             r: radius
+  //           });
+
+  //           // Select text by id and then remove
+  //           d3.select("#t" + d.x + "-" + d.y + "-" + i).remove();  // Remove text location
+  //         }
  
-    function dragMove(me) {
+
+ function arrowpath(sx,sy,ex,ey){
+ // console.log("x:"+sx+"y:"+sy+"x:"+ex+"y:"+ey+)
+ }
+ function trashfuntion(){
+     console.log("trash");
+ }
+  function dragMove(me) {
  
 
    var x = d3.event.x
@@ -184,6 +254,10 @@ console.log("ok")
 
    d3.select(me).attr('transform', 'matrix(0.7,0.7,-0.7,0.7,' + x + ',' + y + ')')
  }
+      d3.select("#trash-button").on("click", function(){
+      console.log("trash");
+    });
+
       d3.select("#arrow").on("click", function(){
       console.log("ok arrow");
       var sampleSVG = svg;
@@ -221,28 +295,71 @@ console.log("ok")
        d3.select("#start-button").on("click", function(){
       console.log("ok circle");
       
-       var sampleSVG = svg;
-    // var sampleSVG = svgG;
-       sampleSVG.append('circle')
-       .attr('id', 'startcricle'+idstartelement++)
-          .style("stroke", "black")
-          .style("stroke-width", "1.5")
-          .style("fill", "white")
-          .attr('transform', 'translate(' + '100' + ',' + '100' + ')')
-          .attr('r', '20')
-          .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
-          .on("mouseout", function(){d3.select(this).style("fill", "white");})
-          .on("click", function(){
-            semodal.style.display = "block";
-          })
+      var sampleSVG = svg;
+      sampleSVG.append('circle')
+      .attr('id', 'startcricle'+idstartelement++)
+      .style("stroke", "black")
+      .style("stroke-width", "1.5")
+      .style("fill", "white")
+      .attr('transform', 'translate(' + '100' + ',' + '100' + ')')
+      .attr('r', '20')
+      .on("mouseover",function(d){
+       var t = d3.select(this).attr("id");
+       
+       console.log(t)
+
+       function getScreenCoords(x, y, ctm) {
+        var xn = ctm.e + x*ctm.a + y*ctm.c;
+        var yn = ctm.f + x*ctm.b + y*ctm.d;
+        return { x: xn, y: yn };
+      }
+
+      var circle = document.getElementById(t),
+      cx = +circle.getAttribute('cx'),
+      cy = +circle.getAttribute('cy'),
+      ctm = circle.getCTM(),
+      coords = getScreenCoords(cx, cy, ctm);
+      console.log(coords.x, coords.y);
+      if(arrowbuttonclick==1){
+        startx=coords.x+20;
+        starty=coords.y;
+        arrowbuttonclick=2;
+        console.log("ok1")
+      }else if (arrowbuttonclick==2) {
+        endx=coords.x-20;
+        endy=coords.y;
+
+        arrowpath(startx,starty,endx,endy);
+        
+        midx = startx+((endx-startx)/2);
+        console.log("ok2")
+        console.log(startx+","+starty+","+midx+","+starty+","+midx+","+endy+","+endx+","+endy)
+
+  sampleSVG.append("polyline")      // attach a polyline
+    .style("stroke", "black")  // colour the line
+    .style("fill", "none")     // remove any fill colour
+    .attr("points", startx+","+starty+","+midx+","+starty+","+midx+","+endy+","+endx+","+endy); 
+
+    startx=0;
+    starty=0;
+    endx=0;
+    endy=0;
+    arrowbuttonclick=0;
+  }
+})
+         // .on("mouseout",handleMouseOut)
+          // .on("click", function(){
+          //   semodal.style.display = "block";
+          // })
           .call(drag)
 
-    });
+        });
 
        d3.select("#end-button").on("click", function(){
-      console.log("ok circle");
-      
+     // console.log("ok circle");
+        
         var sampleSVG = svg;
+        console.log("<input id="+"\"trash-button\""+" type="+"image"+" title="+"End Event"+" src="+"img/trash-icon.png"+" alt="+"trash"+" style="+"width:25px;"+" onclick="+"\"trashfuntion()\""+">")
       // var sampleSVG = svgG;
        sampleSVG.append('circle')
        .attr('id', 'endcricle'+idendelement++)
@@ -251,36 +368,86 @@ console.log("ok")
           .style("fill", "white")
           .attr('transform', 'translate(' + '100' + ',' + '100' + ')')
           .attr('r', '20')
-          .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
+          .on("mouseover", function(){
+           //  // function trashfuntion(){
+           //  //  // alert("Called");
+           //  //   console.log ("clicked")
+           //  // }
+           //  window.trashfuntion =  function (){
+           //  alert("Called");
+           //  }
+
+
+           //  var t = d3.select(this).attr("id");
+           //  function getScreenCoords(x, y, ctm) {
+           //    var xn = ctm.e + x*ctm.a + y*ctm.c;
+           //    var yn = ctm.f + x*ctm.b + y*ctm.d;
+           //    return { x: xn, y: yn };
+           //  }
+           //  var circle = document.getElementById(t),
+           //  cx = +circle.getAttribute('cx'),
+           //  cy = +circle.getAttribute('cy'),
+           //  ctm = circle.getCTM(),
+           //  coords = getScreenCoords(cx, cy, ctm);
+           //  console.log(coords.x, coords.y);
+
+           //  var div = d3.select("div");
+           //  div.transition()    
+           //  .duration(200)    
+           //  .style("opacity", .9)   
+           //  .style("width", 125+"px")
+           //  .style("height", 125+"px"); 
+
+           //  div.html(
+           //    "<input id="+"\"trash-button\""+" type="+"image"+" title="+"End Event"+" src="+"img/trash-icon.png"+" alt="+"trash"+" style="+"width:25px;height:30px;"+">"+
+           //    "<br>"+"<button"+" onclick="+"trashfuntion()"+">"+"Click Me"+"</button> ")  
+           //  .style("left", (coords.x+25)+ "px")   
+           //  .style("top", (coords.y-28)+ "px");  
+           // // d3.select(this).style("fill", "aliceblue");
+          
+           // console.log("done")
+                     })
           .on("mouseout", function(){d3.select(this).style("fill", "white");})
           .on("click", function(){
-            eemodal.style.display = "block";
+          //  eemodal.style.display = "block";
+          
           })
           .call(drag)
 
     });
-
+      
     d3.select("#task-button").on("click", function(){
+
+
       console.log("ok task");
+      // Extract the click location\
+
 
       var sampleSVG = svg;
        sampleSVG.append('rect')
        .attr('id', 'task'+idtaskelement++)
           .style("stroke", "black")
-          .style("stroke-width", "3")
+          .style("stroke-width", "2")
           .style("fill", "white")
-          .attr('transform', 'translate(' + '100' + ',' + '100' + ')')
-        .attr("rx", 20)
-         .attr("ry", 20)
-          .attr("width", 150)
-          .attr("height", 150)
-          .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
+          .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY+ ')')
+        .attr("rx", 10)
+         .attr("ry", 10)
+          .attr("width", 120)
+          .attr("height", 80)
+          .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");
+var point = d3.mouse(this)
+  , p = {mx: point[0], my: point[1] };
+
+console.log(p.mx +"and "+ p.my);
+
+
+        })
           .on("mouseout", function(){d3.select(this).style("fill", "white");})
           .on("click", function(){
             tmodal.style.display = "block";
           })
           .call(drag)
-
+        //  dragmove(this);
     });
     d3.select("#gateway-button").on("click", function(){
       console.log("ok gatway");
@@ -307,7 +474,13 @@ console.log("ok")
           .call(drags)
 
     });
+    d3.select("#arrow-button").on("click", function(){
+      console.log("arrow button click");
+      arrowbuttonclick = 1;
+      
 
+    });
+    
     d3.select("#upload-input").on("click", function(){
       document.getElementById("hidden-file-upload").click();
     });
@@ -349,6 +522,8 @@ console.log("ok")
       thisGraph.deleteGraph(false);
     });
   };
+
+
 
   GraphCreator.prototype.setIdCt = function(idct){
     this.idct = idct;
@@ -777,7 +952,10 @@ console.log("ok")
   // warn the user when leaving
   window.onbeforeunload = function(){
     return "Make sure to save your graph locally before leaving :-)";
-  };      
+  };  
+
+   
+
 
   var docEl = document.documentElement,
       bodyEl = document.getElementsByTagName('body')[0];
@@ -798,7 +976,9 @@ console.log("ok")
   var svg = d3.select("body").append("svg")
         .attr("width", width)
         .attr("height", height);
+       
   var graph = new GraphCreator(svg, nodes, edges);
       graph.setIdCt(2);
-  graph.updateGraph();
+  
 })(window.d3, window.saveAs, window.Blob);
+//graph.updateGraph();
