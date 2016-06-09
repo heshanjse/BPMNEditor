@@ -13,6 +13,7 @@ document.onload = (function(d3, saveAs, Blob, undefined){
   var endx=0;
   var endy=0;
   var midx=0;
+  var bpmnjson = [];
   
   // define graphcreator object
 // var semodal = document.getElementById('SEModal');
@@ -66,11 +67,11 @@ document.onload = (function(d3, saveAs, Blob, undefined){
       selectedText: null
     };
 //draging code
-    var drags = d3.behavior.drag()  
-             .on('dragstart', function() { circle.style('fill', 'red'); })
-             .on('drag', function() { circle.attr('cx', d3.event.x)
-                                            .attr('cy', d3.event.y); })
-             .on('dragend', function() { circle.style('fill', 'black'); });
+//     var drags = d3.behavior.drag()  
+//              .on('dragstart', function() { circle.style('fill', 'red'); })
+//              .on('drag', function() { circle.attr('cx', d3.event.x)
+//                                             .attr('cy', d3.event.y); })
+//              .on('dragend', function() { circle.style('fill', 'black'); });
 //
     // define arrow markers for graph links
     var defs = svg.append('svg:defs');
@@ -115,17 +116,17 @@ document.onload = (function(d3, saveAs, Blob, undefined){
     thisGraph.paths = svgG.append("g").selectAll("g");
     thisGraph.circles = svgG.append("g").selectAll("g");
 
-    thisGraph.drag = d3.behavior.drag()
-          .origin(function(d){
-            return {x: d.x, y: d.y};
-          })
-          .on("drag", function(args){
-            thisGraph.state.justDragged = true;
-            thisGraph.dragmove.call(thisGraph, args);
-          })
-          .on("dragend", function() {
-            // todo check if edge-mode is selected
-          });
+//     thisGraph.drag = d3.behavior.drag()
+//           .origin(function(d){
+//             return {x: d.x, y: d.y};
+//           })
+//           .on("drag", function(args){
+//             thisGraph.state.justDragged = true;
+//             thisGraph.dragmove.call(thisGraph, args);
+//           })
+//           .on("dragend", function() {
+//             // todo check if edge-mode is selected
+//           });
 
     // listen for key events
     d3.select(window).on("keydown", function(){
@@ -177,7 +178,8 @@ document.onload = (function(d3, saveAs, Blob, undefined){
 
 
 var drag = d3.behavior.drag().on('drag', function(d) {
-
+  console.log("d:"+d)
+ //console.log("this:"+this)
    dragMove(this)
  })
 var drags = d3.behavior.drag().on('drag', function(d) {
@@ -230,7 +232,18 @@ var drags = d3.behavior.drag().on('drag', function(d) {
   //           // Select text by id and then remove
   //           d3.select("#t" + d.x + "-" + d.y + "-" + i).remove();  // Remove text location
   //         }
- 
+ function pushBPMNArray(id,x,y,width,height){
+
+ // console.log(id+x+y+width+height)
+  bpmnjson.push({
+    "id":id,
+    "x":x,
+    "y":y,
+    "width":width,
+    "height":height,
+  })
+  //console.log(bpmnjson);
+ }
 
  function arrowpath(sx,sy,ex,ey){
  // console.log("x:"+sx+"y:"+sy+"x:"+ex+"y:"+ey+)
@@ -240,11 +253,19 @@ var drags = d3.behavior.drag().on('drag', function(d) {
  }
   function dragMove(me) {
  
-
+console.log(d3.select(me).attr("id"))
    var x = d3.event.x
    var y = d3.event.y
 
    d3.select(me).attr('transform', 'translate(' + x + ',' + y + ')')
+   for (var i=0; i<bpmnjson.length; i++) {
+  if (bpmnjson[i].id == d3.select(me).attr("id")) {
+    bpmnjson[i].x = x;
+    bpmnjson[i].y = y;
+    break;
+  }
+}
+console.log(bpmnjson);
  }
  function dragMoves(me) {
  
@@ -425,7 +446,7 @@ console.log("ok")
 
       var sampleSVG = svg;
        sampleSVG.append('rect')
-       .attr('id', 'task'+idtaskelement++)
+       .attr('id', 'task'+(++idtaskelement))
           .style("stroke", "black")
           .style("stroke-width", "2")
           .style("fill", "white")
@@ -446,8 +467,10 @@ console.log(p.mx +"and "+ p.my);
           .on("click", function(){
             tmodal.style.display = "block";
           })
-          .call(drag)
-        //  dragmove(this);
+          .call(drag);
+        //  dragmove('task'+idtaskelement);
+       // console.log(d3.select(this).attr("id")+"okkk")
+       pushBPMNArray('task'+idtaskelement,d3.event.pageX,d3.event.pageY,120,80);
     });
     d3.select("#gateway-button").on("click", function(){
       console.log("ok gatway");
