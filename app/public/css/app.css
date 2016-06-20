@@ -99,3 +99,7 @@ input.trash-button {
   height: 250px;
   width: 250px;
 }*/
+.trashbutton{
+     background-image:url('img/trash-icon.png');
+}
+
