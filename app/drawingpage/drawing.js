@@ -6,8 +6,10 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
     window.idtaskelement = 0;
     window.idgatewayelement = 0;
     window.idelement = 0;
+    window.idflow = 0;
     var arrowbuttonclick = 0;
     var taskbuttonclick = 0;
+    window.startid =0;
     window.startx = 0;
     window.starty = 0;
     window.endx = 0;
@@ -239,18 +241,18 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
         //           // Select text by id and then remove
         //           d3.select("#t" + d.x + "-" + d.y + "-" + i).remove();  // Remove text location
         //         }
-        function pushBPMNArray(id, x, y, width, height) {
+        // function pushBPMNArray(id, x, y, width, height) {
 
-            // console.log(id+x+y+width+height)
-            bpmnjson.push({
-                "id": id,
-                "x": x,
-                "y": y,
-                "width": width,
-                "height": height,
-            })
-            //console.log(bpmnjson);
-        }
+        //     // console.log(id+x+y+width+height)
+        //     bpmnjson.push({
+        //         "id": id,
+        //         "x": x,
+        //         "y": y,
+        //         "width": width,
+        //         "height": height,
+        //     })
+        //     //console.log(bpmnjson);
+        // }
 
 
 // function trashfuntion(){

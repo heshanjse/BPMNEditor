@@ -4,7 +4,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
         window.bpmnElement = null;
         var sampleSVG = svg;
         sampleSVG.append('circle')
-            .attr('id', 'startcricle' + idstartelement++)
+            .attr('id', 'startEvnet' + (++idstartelement))
             .style("stroke", "black")
             .style("stroke-width", "2")
             .style("fill", "white")
@@ -34,7 +34,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                     .duration(200)
                     .style("opacity", 1.9);
 
-                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >" + "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/upload-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
+                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+"<input id=" + "arrow-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/arrow.png" + " alt=" + "arrow" + " style=" + "width:25px;" + " >" + "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
                     .style("left", coords.x + 20 + "px")
                     .style("top", (coords.y - 20) + "px");
 
@@ -62,7 +62,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
 
                 d3.select(this).style("fill", "white");
                 var t = d3.select(this).attr("id");
-
+                
                 function getScreenCoords(x, y, ctm) {
                     var xn = ctm.e + x * ctm.a + y * ctm.c;
                     var yn = ctm.f + x * ctm.b + y * ctm.d;
@@ -76,6 +76,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                     coords = getScreenCoords(cx, cy, ctm);
 
                 if (window.bpmnElement === "flow") {
+                    startid =t;
                     startx = coords.x + 20;
                     starty = coords.y;
                     window.bpmnElement = "flowselect";
@@ -89,12 +90,14 @@ var bpmnEventDivider = function (bpmnElement,svg) {
             })
             .call(drag);
 
+            EventBPMNJsonCreator('startEvnet'+idstartelement, d3.event.pageX, d3.event.pageY, 20, 20,"startEvnet");
+
     } else if (bpmnElement === "endEvent") {
         window.bpmnElement = null;
         var sampleSVG = svg;
 // var sampleSVG = svgG;
         sampleSVG.append('circle')
-            .attr('id', 'endcricle' + idendelement++)
+            .attr('id', 'endEvent' + (++idendelement))
             .style("stroke", "black")
             .style("stroke-width", "4")
             .style("fill", "white")
@@ -124,7 +127,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                     .duration(200)
                     .style("opacity", 1.9);
 
-                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >" + "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/upload-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
+                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+"<input id=" + "arrow-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/arrow.png" + " alt=" + "arrow" + " style=" + "width:25px;" + " >" + "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
                     .style("left", coords.x + 20 + "px")
                     .style("top", (coords.y - 20) + "px");
 
@@ -170,7 +173,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
 
 
                     sampleSVG.append("marker")
-                        .attr("id", "triangle")
+                        .attr("id", "triangle"+(++idflow))
                         .attr("viewBox", "0 0 10 10")
                         .attr("refX", "0")
                         .attr("refY", "5")
@@ -183,19 +186,24 @@ var bpmnEventDivider = function (bpmnElement,svg) {
 
 
                     sampleSVG.append("polyline")      // attach a polyline
-                        .attr("marker-end", "url(#triangle)")
+                        .attr("id", "flow"+idflow)
+                        .attr("marker-end", "url(#triangle"+idflow+")")
                         .style("stroke", "black")  // colour the line
                         .style("fill", "none")     // remove any fill colour
                         .style("stroke-width", "2")
                         .attr("points", startx + "," + starty + "," + midx + "," + starty + "," + midx + "," + endy + "," + endx + "," + endy);
 
+                    FlowBPMNJsonCreator('flow'+idflow, startid, t, startx, starty,endx,endy,midx);    
+
                     startx = 0;
                     starty = 0;
                     endx = 0;
                     endy = 0;
+                    startid =0;
                 }
             })
             .call(drag);
+            EventBPMNJsonCreator('endEvent'+idstartelement, d3.event.pageX, d3.event.pageY, 20, 20,"endEvent");
 
     } else if (bpmnElement === "task") {
         window.bpmnElement = null;
@@ -240,7 +248,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                     .duration(200)
                     .style("opacity", 1.9);
 
-                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >" + "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/upload-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
+                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >" +"&nbsp"+"<input id=" + "arrow-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/arrow.png" + " alt=" + "arrow" + " style=" + "width:25px;" + " >"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+"<input id=" + "text-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/review.png" + " alt=" + "Text" + " style=" + "width:25px;" + " >")
                     .style("left", coords.x + 130 + "px")
                     .style("top", (coords.y + 15) + "px");
 
@@ -266,7 +274,6 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                 //tmodal.style.display = "block";
                 d3.select(this).style("fill", "white");
                 var t = d3.select(this).attr("id");
-
                 function getScreenCoords(x, y, ctm) {
                     var xn = ctm.e + x * ctm.a + y * ctm.c;
                     var yn = ctm.f + x * ctm.b + y * ctm.d;
@@ -280,6 +287,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                     coords = getScreenCoords(cx, cy, ctm);
 
                 if (window.bpmnElement === "flow") {
+                    startid =t;
                     startx = coords.x + 120;
                     starty = coords.y + 40;
                     window.bpmnElement = "flowselect";
@@ -296,7 +304,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
 
 
                     sampleSVG.append("marker")
-                        .attr("id", "triangle")
+                        .attr("id", "triangle"+(++idflow))
                         .attr("viewBox", "0 0 10 10")
                         .attr("refX", "0")
                         .attr("refY", "5")
@@ -309,11 +317,14 @@ var bpmnEventDivider = function (bpmnElement,svg) {
 
 
                     sampleSVG.append("polyline")      // attach a polyline
-                        .attr("marker-end", "url(#triangle)")
+                        .attr("id", "flow"+idflow)
+                        .attr("marker-end", "url(#triangle"+idflow+")")
                         .style("stroke", "black")  // colour the line
                         .style("fill", "none")     // remove any fill colour
                         .style("stroke-width", "2")
                         .attr("points", startx + "," + starty + "," + midx + "," + starty + "," + midx + "," + endy + "," + endx + "," + endy);
+                    FlowBPMNJsonCreator('flow'+idflow, startid, t, startx, starty,endx,endy,midx);
+                   
 
                     startx = 0;
                     starty = 0;
@@ -323,6 +334,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
 
             })
             .call(drag);
+            TaskBPMNJsonCreator('task'+idstartelement, d3.event.pageX, d3.event.pageY, 120, 80,"task");
         //  dragmove('task'+idtaskelement);
         // console.log(d3.select(this).attr("id")+"okkk")
         // pushBPMNArray('task'+idtaskelement,d3.event.pageX,d3.event.pageY,120,80);
@@ -330,7 +342,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
         window.bpmnElement = null;
         var sampleSVG = svg;
         sampleSVG.append('rect')
-            .attr('id', 'gateway' + idgatewayelement++)
+            .attr('id', 'gateway' + (++idgatewayelement))
             .style("stroke", "black")
             .style("stroke-width", "2")
             .style("stroke-linecap", "butt")
@@ -366,7 +378,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                     .duration(200)
                     .style("opacity", 1.9);
 
-                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >" + "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/upload-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
+                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+"<input id=" + "arrow-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/arrow.png" + " alt=" + "arrow" + " style=" + "width:25px;" + " >" + "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
                     .style("left", coords.x + 30 + "px")
                     .style("top", (coords.y + 10) + "px");
 
@@ -392,7 +404,6 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                 // gmodal.style.display = "block";
                 d3.select(this).style("fill", "white");
                 var t = d3.select(this).attr("id");
-
                 function getScreenCoords(x, y, ctm) {
                     var xn = ctm.e + x * ctm.a + y * ctm.c;
                     var yn = ctm.f + x * ctm.b + y * ctm.d;
@@ -406,6 +417,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                     coords = getScreenCoords(cx, cy, ctm);
 
                 if (window.bpmnElement === "flow") {
+                    startid =t;
                     startx = coords.x + 30;
                     starty = coords.y + 30;
                     window.bpmnElement = "flowselect";
@@ -422,7 +434,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
 
 
                     sampleSVG.append("marker")
-                        .attr("id", "triangle")
+                        .attr("id", "triangle"+(++idflow))
                         .attr("viewBox", "0 0 10 10")
                         .attr("refX", "0")
                         .attr("refY", "5")
@@ -435,11 +447,53 @@ var bpmnEventDivider = function (bpmnElement,svg) {
 
 
                     sampleSVG.append("polyline")      // attach a polyline
-                        .attr("marker-end", "url(#triangle)")
+                        .attr("id", "flow"+idflow)
+                        .attr("marker-end", "url(#triangle"+idflow+")")
                         .style("stroke", "black")  // colour the line
                         .style("fill", "none")     // remove any fill colour
                         .style("stroke-width", "2")
-                        .attr("points", startx + "," + starty + "," + midx + "," + starty + "," + midx + "," + endy + "," + endx + "," + endy);
+                        .attr("points", startx + "," + starty + "," + midx + "," + starty + "," + midx + "," + endy + "," + endx + "," + endy)
+                        .on("mouseover", function (d) {
+                            console.log("flow mouse over")
+
+                FlowBPMNJsonCreator('flow'+idflow, startid, t, startx, starty,endx,endy,midx);    
+                
+                // var t = d3.select(this).attr("id");
+
+                // function getScreenCoords(x, y, ctm) {
+                //     var xn = ctm.e + x * ctm.a + y * ctm.c;
+                //     var yn = ctm.f + x * ctm.b + y * ctm.d;
+                //     return {x: xn, y: yn};
+                // }
+
+                // var circle = document.getElementById(t),
+                //     cx = +circle.getAttribute('cx'),
+                //     cy = +circle.getAttribute('cy'),
+                //     ctm = circle.getCTM(),
+                //     coords = getScreenCoords(cx, cy, ctm);
+                // console.log(coords.x, coords.y);
+
+                // tooltipDiv.transition()
+                //     .duration(200)
+                //     .style("opacity", 1.9);
+
+                // tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >" + "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
+                //     .style("left", coords.x + 20 + "px")
+                //     .style("top", (coords.y - 20) + "px");
+
+
+                // tooltipDiv.select("#trash-button").on("click", function () {
+                //     tooltipDiv.style("opacity", 0);
+                //     // semodal.style.display = "block";
+                // });
+
+                // tooltipDiv.select("#property-button").on("click", function () {
+                //     tooltipDiv.style("opacity", 0);
+                //     console.log("end evnt button clicked ")
+                //     semodal.style.display = "block";
+                // });
+            })
+            
 
                     startx = 0;
                     starty = 0;
@@ -449,6 +503,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
             })
             .call(drags);
 
+            EventBPMNJsonCreator('gateway'+idstartelement, d3.event.pageX, d3.event.pageY, 120, 80,"gateway");
 
     }
 
