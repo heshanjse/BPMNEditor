@@ -40,7 +40,8 @@ var bpmnEventDivider = function (bpmnElement,svg) {
 
 
                 tooltipDiv.select("#trash-button").on("click", function () {
-                    tooltipDiv.style("opacity", 0);
+                    deleteElement(t);
+                    console.log("t click")
                     // semodal.style.display = "block";
                 });
 
@@ -49,6 +50,18 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                     console.log("end evnt button clicked ")
                     semodal.style.display = "block";
                 });
+                tooltipDiv.select("#arrow-button").on("click", function () {
+                    tooltipDiv.style("opacity", 0);
+                    console.log("end arrow button clicked ")
+                    starttype = "startEvent";
+                    startid =t;
+                    startx = coords.x;
+                    starty = coords.y;
+                    window.bpmnElement = "flowselect";
+                    document.body.style.cursor = "e-resize";
+
+                });
+
             })
             .on("mouseout", function () {
                 d3.select(this).style("fill", "white");
@@ -76,8 +89,9 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                     coords = getScreenCoords(cx, cy, ctm);
 
                 if (window.bpmnElement === "flow") {
+                    starttype = "startEvent";
                     startid =t;
-                    startx = coords.x + 20;
+                    startx = coords.x;
                     starty = coords.y;
                     window.bpmnElement = "flowselect";
                     document.body.style.cursor = "e-resize";
@@ -127,13 +141,14 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                     .duration(200)
                     .style("opacity", 1.9);
 
-                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+"<input id=" + "arrow-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/arrow.png" + " alt=" + "arrow" + " style=" + "width:25px;" + " >" + "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
+                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
                     .style("left", coords.x + 20 + "px")
                     .style("top", (coords.y - 20) + "px");
 
 
                 tooltipDiv.select("#trash-button").on("click", function () {
-                    tooltipDiv.style("opacity", 0);
+                    deleteElement(t);
+                    t=0;
                     // semodal.style.display = "block";
                 });
 
@@ -166,8 +181,36 @@ var bpmnEventDivider = function (bpmnElement,svg) {
 
                 if (window.bpmnElement === "flowselect") {
                     window.bpmnElement = null
-                    endx = coords.x - 26;
-                    endy = coords.y;
+
+                    
+                    if (coords.x > startx) {
+                        if (starttype === "startEvent") {
+                            startx = startx + 20;
+                            starty = starty;  
+                        }else if (starttype === "task") {
+                            startx = startx + 120;
+                            starty = starty + 40;
+                        }else if (starttype === "gateway") {
+                            startx = startx + 30;
+                            starty = starty + 30;
+                        }
+                        endx = coords.x - 26;
+                        endy = coords.y;
+                    }else if (coords.x < startx) {
+                        if (starttype === "startEvent") {
+                            startx = startx - 20;
+                            starty = starty;  
+                        }else if (starttype === "task") {
+                            startx = startx - 2;
+                            starty = starty + 40;
+                        }else if (starttype === "gateway") {
+                            startx = startx - 30;
+                            starty = starty + 30;
+                        }
+                        endx = coords.x + 26;
+                        endy = coords.y;
+                    }
+                    
 
                     midx = startx + ((endx - startx) / 2);
 
@@ -254,7 +297,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
 
 
                 tooltipDiv.select("#trash-button").on("click", function () {
-                    tooltipDiv.style("opacity", 0);
+                    deleteElement(t);
                     // semodal.style.display = "block";
                 });
 
@@ -262,6 +305,16 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                     tooltipDiv.style("opacity", 0);
                     console.log("end evnt button clicked ")
                     tmodal.style.display = "block";
+                });
+                tooltipDiv.select("#arrow-button").on("click", function () {
+                    tooltipDiv.style("opacity", 0);
+                    console.log("end arrow button clicked ")
+                    starttype = "task";
+                    startid =t;
+                    startx = coords.x;
+                    starty = coords.y;
+                    window.bpmnElement = "flowselect";
+                    document.body.style.cursor = "e-resize";
                 });
             })
             .on("mouseout", function () {
@@ -287,9 +340,10 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                     coords = getScreenCoords(cx, cy, ctm);
 
                 if (window.bpmnElement === "flow") {
+                    starttype = "task";
                     startid =t;
-                    startx = coords.x + 120;
-                    starty = coords.y + 40;
+                    startx = coords.x;
+                    starty = coords.y;
                     window.bpmnElement = "flowselect";
                     document.body.style.cursor = "e-resize";
                     console.log("ok1")
@@ -297,8 +351,34 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                     console.log(starty)
                 } else if (window.bpmnElement === "flowselect") {
                     window.bpmnElement = null
-                    endx = coords.x - 7;
-                    endy = coords.y + 40;
+                    if (coords.x > startx) {
+                        if (starttype === "startEvent") {
+                            startx = startx + 20;
+                            starty = starty;  
+                        }else if (starttype === "task") {
+                            startx = startx + 120;
+                            starty = starty + 40;
+                        }else if (starttype === "gateway") {
+                            startx = startx + 30;
+                            starty = starty + 30;
+                        }
+                        endx = coords.x - 7;
+                        endy = coords.y + 40;
+                    }else if (coords.x < startx) {
+                        if (starttype === "startEvent") {
+                            startx = startx - 20;
+                            starty = starty;  
+                        }else if (starttype === "task") {
+                            startx = startx - 2;
+                            starty = starty + 40;
+                        }else if (starttype === "gateway") {
+                            startx = startx - 30;
+                            starty = starty + 30;
+                        }
+                        endx = coords.x + 127;
+                        endy = coords.y + 40;
+                    }
+                    
 
                     midx = startx + ((endx - startx) / 2);
 
@@ -384,7 +464,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
 
 
                 tooltipDiv.select("#trash-button").on("click", function () {
-                    tooltipDiv.style("opacity", 0);
+                    deleteElement(t);
                     // semodal.style.display = "block";
                 });
 
@@ -392,6 +472,17 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                     tooltipDiv.style("opacity", 0);
                     console.log("end evnt button clicked ")
                     gmodal.style.display = "block";
+                });
+                tooltipDiv.select("#arrow-button").on("click", function () {
+                    tooltipDiv.style("opacity", 0);
+                    console.log("end arrow button clicked ");
+                    starttype = "gateway";
+                    startid =t;
+                    startx = coords.x;
+                    starty = coords.y;
+                    window.bpmnElement = "flowselect";
+                    document.body.style.cursor = "e-resize";
+
                 });
             })
             .on("mouseout", function () {
@@ -417,9 +508,10 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                     coords = getScreenCoords(cx, cy, ctm);
 
                 if (window.bpmnElement === "flow") {
+                    starttype = "gateway";
                     startid =t;
-                    startx = coords.x + 30;
-                    starty = coords.y + 30;
+                    startx = coords.x;
+                    starty = coords.y;
                     window.bpmnElement = "flowselect";
                     document.body.style.cursor = "e-resize";
                     console.log("ok1")
@@ -427,8 +519,34 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                     console.log(starty)
                 } else if (window.bpmnElement === "flowselect") {
                     window.bpmnElement = null
-                    endx = coords.x - 35;
-                    endy = coords.y + 30;
+                    if (coords.x > startx) {
+                        if (starttype === "startEvent") {
+                            startx = startx + 20;
+                            starty = starty;  
+                        }else if (starttype === "task") {
+                            startx = startx + 120;
+                            starty = starty + 40;
+                        }else if (starttype === "gateway") {
+                            startx = startx + 30;
+                            starty = starty + 30;
+                        }
+                        endx = coords.x - 35;
+                        endy = coords.y + 30;
+                    }else if (coords.x < startx) {
+                        if (starttype === "startEvent") {
+                            startx = startx - 20;
+                            starty = starty;  
+                        }else if (starttype === "task") {
+                            startx = startx - 2;
+                            starty = starty + 40;
+                        }else if (starttype === "gateway") {
+                            startx = startx - 30;
+                            starty = starty + 30;
+                        }
+                        endx = coords.x + 35;
+                        endy = coords.y + 30;
+                    }
+                    
 
                     midx = startx + ((endx - startx) / 2);
 
@@ -456,7 +574,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                         .on("mouseover", function (d) {
                             console.log("flow mouse over")
 
-                FlowBPMNJsonCreator('flow'+idflow, startid, t, startx, starty,endx,endy,midx);    
+                   
                 
                 // var t = d3.select(this).attr("id");
 
@@ -492,8 +610,8 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                 //     console.log("end evnt button clicked ")
                 //     semodal.style.display = "block";
                 // });
-            })
-            
+                    });
+                    FlowBPMNJsonCreator('flow'+idflow, startid, t, startx, starty,endx,endy,midx); 
 
                     startx = 0;
                     starty = 0;
@@ -508,6 +626,27 @@ var bpmnEventDivider = function (bpmnElement,svg) {
     }
 
 }
+ function deleteElement(id){
+                        console.log("ididid : "+id)
+                        console.log(bpmnjson);
+                    
+                    for (var i = 0; i < bpmnjson.length; i++) {
+                       var bpmnobject = bpmnjson[i];
+                       console.log(bpmnobject.id);
+                        if (bpmnobject.id === id) {
+                            delete bpmnjson[i];
+                        }else if (bpmnobject.start_id ===id || bpmnobject.end_id ===id ) {
+                            var flow_id =bpmnobject.id;
+                            d3.select(document.getElementById(flow_id)).remove(); 
+                            delete bpmnjson[i];
+                        }
+                    }
+                    d3.select(document.getElementById(id)).remove(); 
+                    tooltipDiv.transition()
+                    .style("opacity", 0);
+                    console.log(bpmnjson);
+                    
+ }
 
 function dragMove(me) {
 

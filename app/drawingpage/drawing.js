@@ -7,9 +7,10 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
     window.idgatewayelement = 0;
     window.idelement = 0;
     window.idflow = 0;
-    var arrowbuttonclick = 0;
+   // var arrowbuttonclick = 0;
     var taskbuttonclick = 0;
     window.startid =0;
+    window.starttype = "";
     window.startx = 0;
     window.starty = 0;
     window.endx = 0;
@@ -17,6 +18,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
     window.midx = 0;
     window.bpmnjson = [];
     window.bpmnElement = null;
+    window.selectedId =0;
 
    
     //element tooltip div
@@ -333,7 +335,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             console.log("arrow button click");
             document.body.style.cursor = "pointer";
             bpmnElement = "flow";
-            arrowbuttonclick = 1;
+        //    arrowbuttonclick = 1;
 
 
         });
