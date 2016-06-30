@@ -234,7 +234,45 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                         .style("stroke", "black")  // colour the line
                         .style("fill", "none")     // remove any fill colour
                         .style("stroke-width", "2")
-                        .attr("points", startx + "," + starty + "," + midx + "," + starty + "," + midx + "," + endy + "," + endx + "," + endy);
+                        .attr("points", startx + "," + starty + "," + midx + "," + starty + "," + midx + "," + endy + "," + endx + "," + endy)
+                        .on("mouseup", function () {
+                            //d3.select(this).style("fill", "aliceblue");
+                            var t = d3.select(this).attr("id");
+
+                            function getScreenCoords(x, y, ctm) {
+                                var xn = ctm.e + x * ctm.a + y * ctm.c;
+                                var yn = ctm.f + x * ctm.b + y * ctm.d;
+                                return {x: xn, y: yn};
+                            }
+
+                            var circle = document.getElementById(t),
+                                cx = +circle.getAttribute('cx'),
+                                cy = +circle.getAttribute('cy'),
+                                ctm = circle.getCTM(),
+                                coords = getScreenCoords(cx, cy, ctm);
+                            console.log(coords.x, coords.y);
+
+                            tooltipDiv.transition()
+                                .duration(200)
+                                .style("opacity", 1.9);
+
+                            tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
+                                .style("left", coords.x + 20 + "px")
+                                .style("top", (coords.y - 20) + "px");
+
+
+                            tooltipDiv.select("#trash-button").on("click", function () {
+                                deleteElement(t);
+                                t=0;
+                                // semodal.style.display = "block";
+                            });
+
+                            tooltipDiv.select("#property-button").on("click", function () {
+                                tooltipDiv.style("opacity", 0);
+                                console.log("end evnt button clicked ")
+                                eemodal.style.display = "block";
+                            });
+                        });
 
                     FlowBPMNJsonCreator('flow'+idflow, startid, t, startx, starty,endx,endy,midx);    
 
@@ -634,11 +672,15 @@ var bpmnEventDivider = function (bpmnElement,svg) {
                        var bpmnobject = bpmnjson[i];
                        console.log(bpmnobject.id);
                         if (bpmnobject.id === id) {
-                            delete bpmnjson[i];
+                            
+                            bpmnobject.id=0;
+
+                          //  delete bpmnjson[i];
                         }else if (bpmnobject.start_id ===id || bpmnobject.end_id ===id ) {
                             var flow_id =bpmnobject.id;
                             d3.select(document.getElementById(flow_id)).remove(); 
-                            delete bpmnjson[i];
+                            bpmnobject.id=0;
+                          //  delete bpmnjson[i];
                         }
                     }
                     d3.select(document.getElementById(id)).remove(); 
