@@ -117,6 +117,9 @@ var bpmnEventDivider = function (bpmnElement,svg) {
             .style("fill", "white")
             .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
             .attr('r', '20')
+            .on("dragend", function () { 
+                console.log("drag start event")
+             })
             .on("mouseover", function () {
                 d3.select(this).style("fill", "aliceblue");
             })
@@ -299,6 +302,9 @@ var bpmnEventDivider = function (bpmnElement,svg) {
             .attr("ry", 10)
             .attr("width", 120)
             .attr("height", 80)
+            .on("dragend", function () { 
+                console.log("drag start event")
+             })
             .on("mouseover", function () {
                 d3.select(this).style("fill", "aliceblue");
                 var point = d3.mouse(this)
@@ -472,6 +478,9 @@ var bpmnEventDivider = function (bpmnElement,svg) {
             .attr("width", 42.8)
             .attr("height", 42.8)
             .attr("transform", "matrix(0.7,0.7,-0.7,0.7," + d3.event.pageX + "," + d3.event.pageY + ")")
+            .on("dragend", function () { 
+                console.log("drag start event")
+             })
             .on("mouseover", function () {
                 d3.select(this).style("fill", "aliceblue");
             })
@@ -692,7 +701,7 @@ var bpmnEventDivider = function (bpmnElement,svg) {
 
 function dragMove(me) {
 
-        console.log(d3.select(me).attr("id"))
+       // console.log(d3.select(me).attr("id"))
         var x = d3.event.x
         var y = d3.event.y
 
@@ -704,7 +713,7 @@ function dragMove(me) {
                 break;
             }
         }
-        console.log(bpmnjson);
+       // console.log(bpmnjson);
     }
 
 
@@ -717,13 +726,78 @@ function dragMove(me) {
         d3.select(me).attr('transform', 'matrix(0.7,0.7,-0.7,0.7,' + x + ',' + y + ')')
     }
 
+    function getScreenCoords(x, y, ctm) {
+                    var xn = ctm.e + x * ctm.a + y * ctm.c;
+                    var yn = ctm.f + x * ctm.b + y * ctm.d;
+                    return {x: xn, y: yn};
+    }
 
-    var drag = d3.behavior.drag().on('drag', function (d) {
-        console.log("d:" + d)
-        //console.log("this:"+this)
+    var drag = d3.behavior.drag()
+    .on('drag', function (d) {
+
         dragMove(this)
-    })
+    }).on("dragend", function () { 
+      // //  var sampleSVG = sampleSVG;
+      //   console.log("drag endeeeeeeeeee") 
+      //   var elementid = d3.select(this).attr("id");
+      //   console.log(elementid)
+        
+
+      //           var circle = document.getElementById(elementid),
+      //               cx = +circle.getAttribute('cx'),
+      //               cy = +circle.getAttribute('cy'),
+      //               ctm = circle.getCTM(),
+      //               coords = getScreenCoords(cx, cy, ctm);
+      //           console.log(coords.x, coords.y);
+      //   for (var i = 0; i < bpmnjson.length; i++) {
+      //    var bpmnobject = bpmnjson[i];
+      //    console.log(bpmnobject.id);
+      //    if (bpmnobject.start_id === elementid ) {
+      //       d3.select(document.getElementById(bpmnobject.id)).remove(); 
+      //       //     "end_id":end_id,
+      //       bpmnobject.start_x =coords.x;
+      //       bpmnobject.start_y = coords.y;
+      //       bpmnobject.mid_x = coords.x + ((bpmnobject.end_x - coords.x) / 2);
+      //       sampleSVG.append("marker")
+      //                   .attr("id", "triangle"+(++idflow))
+      //                   .attr("viewBox", "0 0 10 10")
+      //                   .attr("refX", "0")
+      //                   .attr("refY", "5")
+      //                   .attr("markerUnits", "strokeWidth")
+      //                   .attr("markerWidth", "5")
+      //                   .attr("markerHeight", "4")
+      //                   .attr("orient", "auto")
+      //                   .append('svg:path')
+      //                   .attr('d', 'M 0 0 L 10 5 L 0 10 z');
+
+
+      //               sampleSVG.append("polyline")      // attach a polyline
+      //                   .attr("id", "flow"+idflow)
+      //                   .attr("marker-end", "url(#triangle"+idflow+")")
+      //                   .style("stroke", "black")  // colour the line
+      //                   .style("fill", "none")     // remove any fill colour
+      //                   .style("stroke-width", "2")
+      //                   .attr("points", coords.x + "," + coords.y + "," + bpmnobject.mid_x + "," + coords.y + "," + bpmnobject.mid_x + "," + bpmnobject.end_y+ "," + bpmnobject.end_x + "," + bpmnobject.end_y);        
+                        
+
+      //       //     "end_x": end_x,
+      //       //     "end_y": end_y,
+      //       //     "mid_x":mid_x
+      //       // bpmnobject.id=0;
+
+      //                     //  delete bpmnjson[i];
+      //    }else if (bpmnobject.end_id ===elementid ) {
+      //                   // var flow_id =bpmnobject.id;
+      //                   // d3.select(document.getElementById(flow_id)).remove(); 
+      //                   // bpmnobject.id=0;
+      //                     //  delete bpmnjson[i];
+      //                 }
+      //    }
+    });
+
+    
     var drags = d3.behavior.drag().on('drag', function (d) {
 
         dragMoves(this)
-    })
+    }).on("dragend", function () {  });
+

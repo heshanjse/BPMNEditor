@@ -19,6 +19,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
     window.bpmnjson = [];
     window.bpmnElement = null;
     window.selectedId =0;
+//     window.sampleSVG ;
 
    
     //element tooltip div
@@ -822,6 +823,8 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
     var svg = d3.select("body").append("svg")
         .attr("width", width)
         .attr("height", height);
+     
+    
 
 
     svg.on("click", function () {
@@ -853,7 +856,8 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
         //  .call(drag);
     });
 
-
+    window.sampleSVG = svg;
+    
     var graph = new GraphCreator(svg, nodes, edges);
     graph.setIdCt(2);
 

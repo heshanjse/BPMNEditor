@@ -103,3 +103,13 @@ input.trash-button {
      background-image:url('img/trash-icon.png');
 }
 
+
+/*------resizing box -------*/
+.box {
+    border: 1px black;
+    border-radius: 10px;
+}
+.resizingContainer, .resizingSquare {
+    cursor: nesw-resize;
+}
+
