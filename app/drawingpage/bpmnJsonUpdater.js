@@ -27,7 +27,7 @@ function TaskBPMNJsonCreator(id, x, y, width, height,type) {
             console.log(bpmnjson);
 
 }
-function FlowBPMNJsonCreator(id, start_id, end_id, start_x, start_y,end_x,end_y,mid_x) {
+function FlowBPMNJsonCreator(id, start_id, end_id, start_x, start_y,end_x,end_y,mid_x,start_type,end_type) {
 
             // console.log(id+x+y+width+height)
             window.bpmnjson.push({
@@ -38,7 +38,9 @@ function FlowBPMNJsonCreator(id, start_id, end_id, start_x, start_y,end_x,end_y,
                 "start_y": start_y,
                 "end_x": end_x,
                 "end_y": end_y,
-                "mid_x":mid_x
+                "mid_x":mid_x,
+                "start_type":start_type,
+                "end_type":end_type
             })
             console.log(bpmnjson);
 

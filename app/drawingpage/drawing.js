@@ -11,6 +11,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
     var taskbuttonclick = 0;
     window.startid =0;
     window.starttype = "";
+    window.endtype = "";
     window.startx = 0;
     window.starty = 0;
     window.endx = 0;
@@ -18,6 +19,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
     window.midx = 0;
     window.bpmnjson = [];
     window.bpmnElement = null;
+    window.subElement = null;
     window.selectedId =0;
 //     window.sampleSVG ;
 
@@ -305,6 +307,30 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             document.body.style.cursor = "copy";
             console.log("ok circle");
             bpmnElement = "startEvent";
+            subElement = "normal";
+
+        });
+        d3.select("#start-time-button").on("click", function () {
+            document.body.style.cursor = "copy";
+            console.log("ok circle");
+            bpmnElement = "startEvent";
+            subElement = "time";
+
+
+        });
+        d3.select("#start-message-button").on("click", function () {
+            document.body.style.cursor = "copy";
+            console.log("ok circle");
+            bpmnElement = "startEvent";
+            subElement = "message";
+
+
+        });
+        d3.select("#start-error-button").on("click", function () {
+            document.body.style.cursor = "copy";
+            console.log("ok circle");
+            bpmnElement = "startEvent";
+            subElement = "error";
 
 
         });
@@ -325,10 +351,35 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
 
 
         });
-        d3.select("#gateway-button").on("click", function () {
+        d3.select("#parallel-gateway-button").on("click", function () {
             console.log("ok gatway");
             document.body.style.cursor = "copy";
             bpmnElement = "gateway";
+            subElement = "parallel";
+
+
+        });
+        d3.select("#exclusive-gateway-button").on("click", function () {
+            console.log("ok gatway");
+            document.body.style.cursor = "copy";
+            bpmnElement = "gateway";
+            subElement = "exclusive";
+
+
+        });
+        d3.select("#inclusive-gateway-button").on("click", function () {
+            console.log("ok gatway");
+            document.body.style.cursor = "copy";
+            bpmnElement = "gateway";
+            subElement = "inclusive";
+
+
+        });
+        d3.select("#event-gateway-button").on("click", function () {
+            console.log("ok gatway");
+            document.body.style.cursor = "copy";
+            bpmnElement = "gateway";
+            subElement = "event";
 
 
         });
@@ -829,7 +880,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
 
     svg.on("click", function () {
         console.log("svg onclick")
-        bpmnEventDivider(bpmnElement,svg);
+        bpmnEventDivider(bpmnElement,subElement,svg);
         //       var sampleSVG = svg;
         // sampleSVG.append('rect')
         // .attr('id', 'task'+(++idtaskelement))

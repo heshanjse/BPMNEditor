@@ -9,7 +9,9 @@
     <script type="text/javascript" src="public/js/bootstrap.js" charset="utf-8"></script>
     <script type="text/javascript" src="drawingpage/devider.js" charset="utf-8"></script>
     <script type="text/javascript" src="drawingpage/bpmnJsonUpdater.js" charset="utf-8"></script>
-    
+    <script type="text/javascript" src="drawingpage/startevent/startevent.js" charset="utf-8"></script>
+    <script type="text/javascript" src="drawingpage/gateway/gateway.js" charset="utf-8"></script>
+    <script type="text/javascript" src="drawingpage/task/task.js" charset="utf-8"></script>
   </head>
 
   <body >
@@ -19,11 +21,38 @@
 
     <div id="toolbox">
      <!--  <input type="file" id="hidden-file-upload"> -->
-      <input id="end-button" type="image" title="End Event" src="img/black-circle.png" alt="End Event"><br>
-      <input id="start-button" type="image" title="Start Event" src="img/circle.png" alt="Start Event"><br>
-      <input id="task-button" type="image" title="Activity" src="img/rec.png" alt="Activity"><br>
-      <input id="gateway-button" type="image" title="Gateway" src="img/diamond_.png" alt="Gateway"><br>
-      <input id="arrow-button" type="image" title="Connections" src="img/arrow.png" alt="Connections"><br>
+    <!--  <span><b>Start Event</b></span><br> -->
+     <input id="start-button" type="image" title="Start Event" src="img/startevent.png" alt="Start Event" style="width: 30px;height: 30px">
+     <input id="start-time-button" type="image" title="Time Event" src="img/timestartevent.png" alt="Time Event" style="width: 30px;height: 30px"><br>
+     <input id="start-message-button" type="image" title="Message Start Event" src="img/messagestartevent.png" alt="Message Start Event" style="width: 30px;height: 30px">
+     <input id="start-error-button" type="image" title="Error Start Event" src="img/errorstartevent.png" alt="Error Start Event" style="width: 30px;height: 30px"><br>
+     <hr>
+    <!--  <span><b>End Event</b></span><br> -->
+     <input id="end-button" type="image" title="End Event" src="img/black-circle.png" alt="End Event" style="width: 30px;height: 30px">
+      <input id="end-button" type="image" title="Error End Event" src="img/errorend.png" alt="Error End Event" style="width: 30px;height: 30px"><br>
+      <input id="end-button" type="image" title="Terminate End Event" src="img/terminateend.png" alt="Terminate End Event" style="width: 30px;height: 30px">
+      <input id="end-button" type="image" title="Cancel End Event" src="img/cancelend.png" alt="Cancel End Event" style="width: 30px;height: 30px"><br>
+      <hr>
+     <!--  <span><b>Task</b></span><br> -->
+      <input id="task-button" type="image" title="User Task" src="img/user.svg" alt="User Task" style="width: 30px;height: 30px">
+      <input id="task-button" type="image" title="Script Task" src="img/script.svg" alt="Script Task" style="width: 30px;height: 30px"><br>
+      <input id="task-button" type="image" title="Mail Task" src="img/message.svg" alt="Mail Task" style="width: 30px;height: 30px">
+      <input id="task-button" type="image" title="Receive Task" src="img/manual.svg" alt="Manualtask Task" style="width: 30px;height: 30px"><br>
+      <hr>
+    <!--   <span><b>Boundary Event</b></span><br> -->
+     <input id="start-button" type="image" title="Time Boundary Event" src="img/timeboundary.png" alt="Time Boundary Event" style="width: 30px;height: 30px">
+     <input id="start-button" type="image" title="Error Boundary Event" src="img/errorboundary.png" alt="Error Boundary Event" style="width: 30px;height: 30px"><br>
+     <input id="start-button" type="image" title="Message Boundary Event" src="img/messageboundary.png" alt="Message Boundary Event" style="width: 30px;height: 30px">
+     <input id="start-button" type="image" title="Signal Boundary Event" src="img/signalboundary.png" alt="Signal Boundary Event" style="width: 30px;height: 30px"><br>
+     <hr>
+    <!--  <span><b>Gateway</b></span><br> -->
+     <input id="parallel-gateway-button" type="image" title="Parallel Gateway" src="img/parallelgateway.png" alt="Parallel Gateway" style="width: 30px;height: 30px">
+      <input id="exclusive-gateway-button" type="image" title="Exclusive Gateway" src="img/Exclusivegateway.png" alt="Exclusive Gateway" style="width: 30px;height: 30px"><br>
+      <input id="inclusive-gateway-button" type="image" title="Inclusive Gateway" src="img/inclusivedateway.png" alt="Inclusive Gateway" style="width: 30px;height: 30px">
+      <input id="event-gateway-button" type="image" title="Event Gateway" src="img/Eventgateway.png" alt="Event Gateway" style="width: 30px;height: 30px"><br>
+      <hr>
+  <!--     <span><b>Connections</b></span><br> -->
+      <input id="arrow-button" type="image" title="Sequence Flow" src="img/arrow.png" alt="Sequence Flow" style="width: 30px;height: 30px"><br>
     </div>
 
     <!-- The Modal -->
@@ -37,6 +66,7 @@
           <center><h4>Start Event</h4></center>
         </div>
         <div class="modal-body">
+        <h5>General</h5>
           <div class="form-group">
             <label>id</label>
             <input type="text" class="form-control"></input>
@@ -45,6 +75,8 @@
             <label>Name</label>
             <input type="text" class="form-control"></input>
           </div>
+          <h5>Main config</h5>
+          <hr>
           <div class="form-group">
             <label>Initiator</label>
             <input type="text" class="form-control"></input>
@@ -52,6 +84,40 @@
           <div class="form-group">
             <label>Form Key</label>
             <input type="text" class="form-control"></input>
+          </div>
+          <div class="form-group">
+          <table class="table">
+          <thead class="thead-inverse">
+            <tr>
+              <td>Id</td>
+              <td>Name</td>
+              <td>Type</td>
+              <td>Expression</td>
+              <td>Variable</td>
+              <td>Default</td>
+              <td>Pattern</td>
+              <td>Required</td>
+              <td>Readable</td>
+              <td>Writeable</td>
+              <td>form values</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>100</td>
+              <td>sjjs</td>
+              <td>djdj</td>
+              <td>djdjdjd</td>
+              <td>ssnsn</td>
+              <td>snsns</td>
+              <td>ssksks</td>
+              <td>wjwjw</td>
+              <td>djjdd</td>
+              <td>kka</td>
+              <td>form wiw</td>
+            </tr>
+            </tbody>
+          </table>
           </div>
         </div>
         <div class="modal-footer">
