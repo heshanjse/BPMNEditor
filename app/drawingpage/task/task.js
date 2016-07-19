@@ -130,6 +130,11 @@ var dragrect = newg.append("rect")
                     console.log("end evnt button clicked ")
                     tmodal.style.display = "block";
                 });
+                tooltipDiv.select("#text-button").on("click", function () {
+                    tooltipDiv.style("opacity", 0);
+                    console.log("end evnt button clicked ")
+                    TextModal.style.display = "block";
+                });
                 tooltipDiv.select("#arrow-button").on("click", function () {
                     tooltipDiv.style("opacity", 0);
                     console.log("end arrow button clicked ")
@@ -289,11 +294,79 @@ var dragbarbottom = newg.append("rect")
       .attr("cursor", "ns-resize")
       .call(dragbottom);
 
+if (subElement === "user") {
+                subElement = null;
+var dragpic1 =  newg.append('path')
+         .attr("d","m 15,12 c 0.909,-0.845 1.594,-2.049 1.594,-3.385 0,-2.554 -1.805,-4.62199999 -4.357,-4.62199999 -2.55199998,0 -4.28799998,2.06799999 -4.28799998,4.62199999 0,1.348 0.974,2.562 1.89599998,3.405 -0.52899998,0.187 -5.669,2.097 -5.794,4.7560005 v 6.718 h 17 v -6.718 c 0,-2.2980005 -5.5279996,-4.5950005 -6.0509996,-4.7760005 zm -8,6 l 0,5.5 m 11,0 l 0,-5")   
+        .attr("fill","none")
+     //   .attr("x", function(d) { return d3.event.pageX + (dragbarw/2); })
+     // .attr("y", function(d) { return d3.event.pageY + height - (dragbarw/2); })
+        .attr("transform","matrix(1,0,0,1,"+d3.event.pageX+","+d3.event.pageY+")")
+        .attr("stroke","#000000")
+        .call(drag);
+
+var dragpic2 =newg.append('path')
+        .attr("d","m 15,12 m 2.162,1.009 c 0,2.4470005 -2.158,4.4310005 -4.821,4.4310005 -2.66499998,0 -4.822,-1.981 -4.822,-4.4310005")   
+        .attr("fill","none")
+       //.attr("x", function(d) { return d3.event.pageX + (dragbarw/2); })
+     // .attr("y", function(d) { return d3.event.pageY + height - (dragbarw/2); })
+       .attr("transform","matrix(1,0,0,1,"+d3.event.pageX+","+d3.event.pageY+")")
+        .attr("stroke","#000000")
+        .call(drag);
+
+var dragpic3 =newg.append('path')
+        .attr("d","m 15,12 m -6.9,-3.80 c 0,0 2.25099998,-2.358 4.27399998,-1.177 2.024,1.181 4.221,1.537 4.124,0.965 -0.098,-0.57 -0.117,-3.79099999 -4.191,-4.13599999 -3.57499998,0.001 -4.20799998,3.36699999 -4.20699998,4.34799999 z")   
+        .attr("fill","#000000")
+      //  .attr("x", function(d) { return d3.event.pageX + (dragbarw/2); })
+     // .attr("y", function(d) { return d3.event.pageY + height - (dragbarw/2); })
+        .attr("transform","matrix(1,0,0,1,"+d3.event.pageX+","+d3.event.pageY+")")
+        .attr("stroke","#000000")
+        .call(drag);
+           }else if (subElement === "script") {
+                subElement = null;
+                newg.append('path')
+        .attr("d","M15,5L15,8M20,6L18.5,9M24,10L21,11.5M25,15L22,15M24,20L21,18.5M20,24L18.5,21M15,25L15,22M10,24L11.5,21M6,20L9,18.5M5,15L8,15M6,10L9,11.5M10,6L11.5,9M17,8L15,15L19,15")   
+        .attr("fill","none")
+        .attr("stroke","#000000")
+
+        
+        // .attr("stroke-linecap","round")
+        // .attr("stroke-linejoin","round")
+        // .attr("transform","matrix(1,0,0,1,5,5)")
+        // .style("-webkit-tap-highlight-color","rgba(0, 0, 0, 0)")
+        // .style("stroke-linecap","round")
+        // .style("stroke-linejoin","round")
+        // .style("stroke-opacity","1")
+
+        // -webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-opacity: 1;
+           }else if (subElement === "mail") {
+            subElement = null;
+                group.append('path')
+                .attr("fill","#ffffff")
+                .attr("stroke","#808080")
+       // .attr('transform', 'translate(' + 10 + ',' + 10 + ')')
+        .attr("d","M7,10L7,20L23,20L23,10ZM7,10L15,16L23,10")   
+        .attr("stroke-width","1.6")
+        .attr("stroke-linecap","round")
+        .attr("stroke-linejoin","round")
+        .attr("stroke-opacity","1")
+        .attr("transform","matrix(1.4375,0,0,1.4375,-20.9375,-20.9375)")
+        
+     
+           }else if (subElement === "manual") {
+            subElement = null;
+
+           }
 
       function dragmove(d) {
  // if (isXChecked) {
+      dragpic1
+          .attr("transform","matrix(1,0,0,1,"+d3.event.x+","+d3.event.y+")")
+      dragpic2
+          .attr("transform","matrix(1,0,0,1,"+d3.event.x+","+d3.event.y+")")
+      dragpic3
+          .attr("transform","matrix(1,0,0,1,"+d3.event.x+","+d3.event.y+")")
       dragrect
-
           .attr("x", d.x = Math.max(0, Math.min(window.innerWidth, d3.event.x)))
         //  .attr("x", function(d) { return d.x - (dragbarw/2); })
       dragbarleft 

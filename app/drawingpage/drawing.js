@@ -339,14 +339,42 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             // console.log("ok circle");
             document.body.style.cursor = "copy";
             bpmnElement = "endEvent";
-
+            
 
         });
 
-        d3.select("#task-button").on("click", function () {
+        d3.select("#user-task-button").on("click", function () {
             document.body.style.cursor = "copy";
             bpmnElement = "task";
             console.log("ok task");
+            subElement = "user";
+            // Extract the click location\
+
+
+        });
+        d3.select("#script-task-button").on("click", function () {
+            document.body.style.cursor = "copy";
+            bpmnElement = "task";
+            console.log("ok task");
+            subElement = "script";
+            // Extract the click location\
+
+
+        });
+        d3.select("#mail-task-button").on("click", function () {
+            document.body.style.cursor = "copy";
+            bpmnElement = "task";
+            console.log("ok task");
+            subElement = "mail";
+            // Extract the click location\
+
+
+        });
+        d3.select("#manual-task-button").on("click", function () {
+            document.body.style.cursor = "copy";
+            bpmnElement = "task";
+            console.log("ok task");
+            subElement = "manual";
             // Extract the click location\
 
 

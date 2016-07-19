@@ -2,7 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="public/css/toolbox.css" />
-    <link rel="stylesheet" type="text/css" href="public/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="public/css/bootstrap-material-design.min" />
     <link rel="stylesheet" type="text/css" href="public/css/app.css" />
     <script type="text/javascript" src="public/js/d3.js" charset="utf-8"></script>
     <script type="text/javascript" src="public/js/jquery.min.js" charset="utf-8"></script>     
@@ -34,10 +34,10 @@
       <input id="end-button" type="image" title="Cancel End Event" src="img/cancelend.png" alt="Cancel End Event" style="width: 30px;height: 30px"><br>
       <hr>
      <!--  <span><b>Task</b></span><br> -->
-      <input id="task-button" type="image" title="User Task" src="img/user.svg" alt="User Task" style="width: 30px;height: 30px">
-      <input id="task-button" type="image" title="Script Task" src="img/script.svg" alt="Script Task" style="width: 30px;height: 30px"><br>
-      <input id="task-button" type="image" title="Mail Task" src="img/message.svg" alt="Mail Task" style="width: 30px;height: 30px">
-      <input id="task-button" type="image" title="Receive Task" src="img/manual.svg" alt="Manualtask Task" style="width: 30px;height: 30px"><br>
+      <input id="user-task-button" type="image" title="User Task" src="img/user.svg" alt="User Task" style="width: 30px;height: 30px">
+      <input id="script-task-button" type="image" title="Script Task" src="img/script.svg" alt="Script Task" style="width: 30px;height: 30px"><br>
+      <input id="mail-task-button" type="image" title="Mail Task" src="img/message.svg" alt="Mail Task" style="width: 30px;height: 30px">
+      <input id="manual-task-button" type="image" title="Manual Task" src="img/manual.svg" alt="Manual Task" style="width: 30px;height: 30px"><br>
       <hr>
     <!--   <span><b>Boundary Event</b></span><br> -->
      <input id="start-button" type="image" title="Time Boundary Event" src="img/timeboundary.png" alt="Time Boundary Event" style="width: 30px;height: 30px">
@@ -211,6 +211,28 @@
       </div>
     </div>
 
+    <div id="TextModal" class="modal"> 
+
+      <!-- Modal content -->
+       <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="TextClose" aria-hidden="true">&times;</span></button>
+          
+          <center><h4>Text</h4></center>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Text</label>
+            <input type="text" class="form-control"></input>
+          </div>
+        </div>
+          
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default">Save changes</button>
+        </div>
+      </div>
+    </div>
 
     <div id="GModal" class="modal"> 
 
