@@ -12,188 +12,189 @@ var bpmnEventDivider = function (bpmnElement,subElement,svg) {
         
     } else if (bpmnElement === "endEvent") {
         window.bpmnElement = null;
-        var sampleSVG = svg;
+        
+        endeventdevider(subElement,svg);
 // var sampleSVG = svgG;
-        sampleSVG.append('circle')
-            .attr('id', 'endEvent' + (++idendelement))
-            .style("stroke", "black")
-            .style("stroke-width", "4")
-            .style("fill", "white")
-            .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
-            .attr('r', '20')
-            .on("dragend", function () { 
-                console.log("drag start event")
-             })
-            .on("mouseover", function () {
-                d3.select(this).style("fill", "aliceblue");
-            })
-            .on("mouseup", function () {
-                d3.select(this).style("fill", "aliceblue");
-                var t = d3.select(this).attr("id");
+        // sampleSVG.append('circle')
+        //     .attr('id', 'endEvent' + (++idendelement))
+        //     .style("stroke", "black")
+        //     .style("stroke-width", "4")
+        //     .style("fill", "white")
+        //     .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
+        //     .attr('r', '20')
+        //     .on("dragend", function () { 
+        //         console.log("drag start event")
+        //      })
+        //     .on("mouseover", function () {
+        //         d3.select(this).style("fill", "aliceblue");
+        //     })
+        //     .on("mouseup", function () {
+        //         d3.select(this).style("fill", "aliceblue");
+        //         var t = d3.select(this).attr("id");
 
-                function getScreenCoords(x, y, ctm) {
-                    var xn = ctm.e + x * ctm.a + y * ctm.c;
-                    var yn = ctm.f + x * ctm.b + y * ctm.d;
-                    return {x: xn, y: yn};
-                }
+        //         function getScreenCoords(x, y, ctm) {
+        //             var xn = ctm.e + x * ctm.a + y * ctm.c;
+        //             var yn = ctm.f + x * ctm.b + y * ctm.d;
+        //             return {x: xn, y: yn};
+        //         }
 
-                var circle = document.getElementById(t),
-                    cx = +circle.getAttribute('cx'),
-                    cy = +circle.getAttribute('cy'),
-                    ctm = circle.getCTM(),
-                    coords = getScreenCoords(cx, cy, ctm);
-                console.log(coords.x, coords.y);
+        //         var circle = document.getElementById(t),
+        //             cx = +circle.getAttribute('cx'),
+        //             cy = +circle.getAttribute('cy'),
+        //             ctm = circle.getCTM(),
+        //             coords = getScreenCoords(cx, cy, ctm);
+        //         console.log(coords.x, coords.y);
 
-                tooltipDiv.transition()
-                    .duration(200)
-                    .style("opacity", 1.9);
+        //         tooltipDiv.transition()
+        //             .duration(200)
+        //             .style("opacity", 1.9);
 
-                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
-                    .style("left", coords.x + 20 + "px")
-                    .style("top", (coords.y - 20) + "px");
+        //         tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
+        //             .style("left", coords.x + 20 + "px")
+        //             .style("top", (coords.y - 20) + "px");
 
 
-                tooltipDiv.select("#trash-button").on("click", function () {
-                    deleteElement(t);
-                    t=0;
-                    // semodal.style.display = "block";
-                });
+        //         tooltipDiv.select("#trash-button").on("click", function () {
+        //             deleteElement(t);
+        //             t=0;
+        //             // semodal.style.display = "block";
+        //         });
 
-                tooltipDiv.select("#property-button").on("click", function () {
-                    tooltipDiv.style("opacity", 0);
-                    console.log("end evnt button clicked ")
-                    eemodal.style.display = "block";
-                });
-            })
-            .on("mouseout", function () {
-                d3.select(this).style("fill", "white");
-                tooltipDiv.transition()
-                    .duration(3200)
-                    .style("opacity", 0);
-            })
-            .on("click", function () {
-                var t = d3.select(this).attr("id");
+        //         tooltipDiv.select("#property-button").on("click", function () {
+        //             tooltipDiv.style("opacity", 0);
+        //             console.log("end evnt button clicked ")
+        //             eemodal.style.display = "block";
+        //         });
+        //     })
+        //     .on("mouseout", function () {
+        //         d3.select(this).style("fill", "white");
+        //         tooltipDiv.transition()
+        //             .duration(3200)
+        //             .style("opacity", 0);
+        //     })
+        //     .on("click", function () {
+        //         var t = d3.select(this).attr("id");
 
-                function getScreenCoords(x, y, ctm) {
-                    var xn = ctm.e + x * ctm.a + y * ctm.c;
-                    var yn = ctm.f + x * ctm.b + y * ctm.d;
-                    return {x: xn, y: yn};
-                }
+        //         function getScreenCoords(x, y, ctm) {
+        //             var xn = ctm.e + x * ctm.a + y * ctm.c;
+        //             var yn = ctm.f + x * ctm.b + y * ctm.d;
+        //             return {x: xn, y: yn};
+        //         }
 
-                var circle = document.getElementById(t),
-                    cx = +circle.getAttribute('cx'),
-                    cy = +circle.getAttribute('cy'),
-                    ctm = circle.getCTM(),
-                    coords = getScreenCoords(cx, cy, ctm);
+        //         var circle = document.getElementById(t),
+        //             cx = +circle.getAttribute('cx'),
+        //             cy = +circle.getAttribute('cy'),
+        //             ctm = circle.getCTM(),
+        //             coords = getScreenCoords(cx, cy, ctm);
 
-                if (window.bpmnElement === "flowselect") {
-                    endtype = "endEvent"
-                    window.bpmnElement = null
+        //         if (window.bpmnElement === "flowselect") {
+        //             endtype = "endEvent"
+        //             window.bpmnElement = null
 
                     
-                    if (coords.x > startx) {
-                        if (starttype === "startEvent") {
-                            startx = startx + 20;
-                            starty = starty;  
-                        }else if (starttype === "task") {
-                            startx = startx + 120;
-                            starty = starty + 40;
-                        }else if (starttype === "gateway") {
-                            startx = startx + 30;
-                            starty = starty + 30;
-                        }
-                        endx = coords.x - 26;
-                        endy = coords.y;
-                    }else if (coords.x < startx) {
-                        if (starttype === "startEvent") {
-                            startx = startx - 20;
-                            starty = starty;  
-                        }else if (starttype === "task") {
-                            startx = startx - 2;
-                            starty = starty + 40;
-                        }else if (starttype === "gateway") {
-                            startx = startx - 30;
-                            starty = starty + 30;
-                        }
-                        endx = coords.x + 26;
-                        endy = coords.y;
-                    }
+        //             if (coords.x > startx) {
+        //                 if (starttype === "startEvent") {
+        //                     startx = startx + 20;
+        //                     starty = starty;  
+        //                 }else if (starttype === "task") {
+        //                     startx = startx + 120;
+        //                     starty = starty + 40;
+        //                 }else if (starttype === "gateway") {
+        //                     startx = startx + 30;
+        //                     starty = starty + 30;
+        //                 }
+        //                 endx = coords.x - 26;
+        //                 endy = coords.y;
+        //             }else if (coords.x < startx) {
+        //                 if (starttype === "startEvent") {
+        //                     startx = startx - 20;
+        //                     starty = starty;  
+        //                 }else if (starttype === "task") {
+        //                     startx = startx - 2;
+        //                     starty = starty + 40;
+        //                 }else if (starttype === "gateway") {
+        //                     startx = startx - 30;
+        //                     starty = starty + 30;
+        //                 }
+        //                 endx = coords.x + 26;
+        //                 endy = coords.y;
+        //             }
                     
 
-                    midx = startx + ((endx - startx) / 2);
+        //             midx = startx + ((endx - startx) / 2);
 
 
-                    sampleSVG.append("marker")
-                        .attr("id", "triangle"+(++idflow))
-                        .attr("viewBox", "0 0 10 10")
-                        .attr("refX", "0")
-                        .attr("refY", "5")
-                        .attr("markerUnits", "strokeWidth")
-                        .attr("markerWidth", "5")
-                        .attr("markerHeight", "4")
-                        .attr("orient", "auto")
-                        .append('svg:path')
-                        .attr('d', 'M 0 0 L 10 5 L 0 10 z');
+        //             sampleSVG.append("marker")
+        //                 .attr("id", "triangle"+(++idflow))
+        //                 .attr("viewBox", "0 0 10 10")
+        //                 .attr("refX", "0")
+        //                 .attr("refY", "5")
+        //                 .attr("markerUnits", "strokeWidth")
+        //                 .attr("markerWidth", "5")
+        //                 .attr("markerHeight", "4")
+        //                 .attr("orient", "auto")
+        //                 .append('svg:path')
+        //                 .attr('d', 'M 0 0 L 10 5 L 0 10 z');
 
 
-                    sampleSVG.append("polyline")      // attach a polyline
-                        .attr("id", "flow"+idflow)
-                        .attr("marker-end", "url(#triangle"+idflow+")")
-                        .style("stroke", "black")  // colour the line
-                        .style("fill", "none")     // remove any fill colour
-                        .style("stroke-width", "2")
-                        .attr("points", startx + "," + starty + "," + midx + "," + starty + "," + midx + "," + endy + "," + endx + "," + endy)
-                        .on("mouseup", function () {
-                            //d3.select(this).style("fill", "aliceblue");
-                            var t = d3.select(this).attr("id");
+        //             sampleSVG.append("polyline")      // attach a polyline
+        //                 .attr("id", "flow"+idflow)
+        //                 .attr("marker-end", "url(#triangle"+idflow+")")
+        //                 .style("stroke", "black")  // colour the line
+        //                 .style("fill", "none")     // remove any fill colour
+        //                 .style("stroke-width", "2")
+        //                 .attr("points", startx + "," + starty + "," + midx + "," + starty + "," + midx + "," + endy + "," + endx + "," + endy)
+        //                 .on("mouseup", function () {
+        //                     //d3.select(this).style("fill", "aliceblue");
+        //                     var t = d3.select(this).attr("id");
 
-                            function getScreenCoords(x, y, ctm) {
-                                var xn = ctm.e + x * ctm.a + y * ctm.c;
-                                var yn = ctm.f + x * ctm.b + y * ctm.d;
-                                return {x: xn, y: yn};
-                            }
+        //                     function getScreenCoords(x, y, ctm) {
+        //                         var xn = ctm.e + x * ctm.a + y * ctm.c;
+        //                         var yn = ctm.f + x * ctm.b + y * ctm.d;
+        //                         return {x: xn, y: yn};
+        //                     }
 
-                            var circle = document.getElementById(t),
-                                cx = +circle.getAttribute('cx'),
-                                cy = +circle.getAttribute('cy'),
-                                ctm = circle.getCTM(),
-                                coords = getScreenCoords(cx, cy, ctm);
-                            console.log(coords.x, coords.y);
+        //                     var circle = document.getElementById(t),
+        //                         cx = +circle.getAttribute('cx'),
+        //                         cy = +circle.getAttribute('cy'),
+        //                         ctm = circle.getCTM(),
+        //                         coords = getScreenCoords(cx, cy, ctm);
+        //                     console.log(coords.x, coords.y);
 
-                            tooltipDiv.transition()
-                                .duration(200)
-                                .style("opacity", 1.9);
+        //                     tooltipDiv.transition()
+        //                         .duration(200)
+        //                         .style("opacity", 1.9);
 
-                            tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
-                                .style("left", coords.x + 20 + "px")
-                                .style("top", (coords.y - 20) + "px");
+        //                     tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
+        //                         .style("left", coords.x + 20 + "px")
+        //                         .style("top", (coords.y - 20) + "px");
 
 
-                            tooltipDiv.select("#trash-button").on("click", function () {
-                                deleteElement(t);
-                                t=0;
-                                // semodal.style.display = "block";
-                            });
+        //                     tooltipDiv.select("#trash-button").on("click", function () {
+        //                         deleteElement(t);
+        //                         t=0;
+        //                         // semodal.style.display = "block";
+        //                     });
 
-                            tooltipDiv.select("#property-button").on("click", function () {
-                                tooltipDiv.style("opacity", 0);
-                                console.log("end evnt button clicked ")
-                                eemodal.style.display = "block";
-                            });
-                        });
+        //                     tooltipDiv.select("#property-button").on("click", function () {
+        //                         tooltipDiv.style("opacity", 0);
+        //                         console.log("end evnt button clicked ")
+        //                         eemodal.style.display = "block";
+        //                     });
+        //                 });
 
-                    FlowBPMNJsonCreator('flow'+idflow, startid, t, startx, starty,endx,endy,midx,starttype,endtype);    
-                    starttype= "";
-                    endtype = "";
-                    startx = 0;
-                    starty = 0;
-                    endx = 0;
-                    endy = 0;
-                    startid =0;
-                }
-            })
-            .call(drag);
-            EventBPMNJsonCreator('endEvent'+idstartelement, d3.event.pageX, d3.event.pageY, 20, 20,"endEvent");
+        //             FlowBPMNJsonCreator('flow'+idflow, startid, t, startx, starty,endx,endy,midx,starttype,endtype);    
+        //             starttype= "";
+        //             endtype = "";
+        //             startx = 0;
+        //             starty = 0;
+        //             endx = 0;
+        //             endy = 0;
+        //             startid =0;
+        //         }
+        //     })
+         //   .call(drag);
+            // EventBPMNJsonCreator('endEvent'+idstartelement, d3.event.pageX, d3.event.pageY, 20, 20,"endEvent");
 
     } else if (bpmnElement === "task") {
         window.bpmnElement = null;
@@ -202,293 +203,6 @@ var bpmnEventDivider = function (bpmnElement,subElement,svg) {
         taskdevider(subElement,svg);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-  //       var distance = function (p1, p2) {
-  //       return Math.pow(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2), 0.5);
-  //           };
-
-  //       var resize2 = d3.behavior.drag()
-  //           .on('drag', function () {
-  //               var c = g2.selectAll('.resizingSquare');
-  //               var s = g2.selectAll('.square');
-
-  //               var e = d3.event;
-  //               var x = Number(this.attributes.x.value);
-  //               var y = Number(this.attributes.y.value);
-  //               var w = Number(this.attributes.width.value);
-  //               var h = Number(this.attributes.height.value);
-  //               var c1 = { x: x, y: y };
-  //               var c2 = { x: x + w, y: y };
-  //               var c3 = { x: x + w, y: y + h };
-  //               var c4 = { x: x, y: y + h };
-
-  //               // figure out which corner this is closest to
-  //               var d = [];
-  //               var m1 = distance(e, c1);
-  //               var m2 = distance(e, c2);
-  //               var m3 = distance(e, c3);
-  //               var m4 = distance(e, c4);
-  //               switch (Math.min(m1, m2, m3, m4)) {
-  //                   case m3:
-  //                       c
-  //                           .attr('width', function () { return w + (e.x - c3.x) + 12; })
-  //                           .attr('height', function () { return h + (e.y - c3.y) + 12; });
-  //                       s
-  //                           .attr('width', function () { return w + (e.x - c3.x); })
-  //                           .attr('height', function () { return h + (e.y - c3.y); });
-  //                       break;
-  //               }
-  //           });
-
-
-
-  //           g2 =  svg
-  //       .selectAll('.draggableSquare')
-  //       .data([{
-  //           x: 65,
-  //           y: 155,
-  //           width: 120,
-  //           height: 80
-  //       }])
-  //       .enter()
-  //        .append('g')
-  //       .attr('class', 'draggableSquare');
-
-
-  //        g2.append('svg:rect')
-  //     //  sampleSVG.append('svg:rect')
-        
-  //       //.append('g')
-  //      // .attr('class', 'draggableSquare')
-
-  //           .attr('class', 'resizingSquare')
-  //           .attr('id', 'resizetask' + (++idtaskelement))
-  //           .attr("width", function (d) {
-  //              // return d.width + 7;
-  //              return 120 + 7;
-  //           })
-  //           .attr("height", function (d) {
-  //              // return d.height + 7;
-  //              return 80 + 7;
-  //           })
-  //         //  .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
-  //           .attr("x", function (d) {
-  //               return d3.event.pageX - 3;
-  //           })
-  //           .attr("y", function (d) {
-  //               return d3.event.pageY - 3;
-  //           })
-  //           .attr("rx", 6)
-  //           .attr("ry", 6)
-  //           .style("fill", '#808080')
-  //           .call(resize2);
-
-
-
-
-
-
-
-
-
-
-  //  // sampleSVG.append('svg:rect')
-  //    g2.append('svg:rect')
-
-  //    //   .append('g')
-  // // .attr('class', 'draggableSquare')
-
-  //          .attr('class', 'square')
-  //          .attr("marker-end", "url(#resizetask"+idtaskelement+")")
-  //           .attr('id', 'task' + idtaskelement)
-  //           .style("stroke", "black")
-  //           .style("stroke-width", "2")
-  //           .style("fill", "white")
-  //           .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
-  //           .attr("rx", 10)
-  //           .attr("ry", 10)
-  //           // .attr("width", 120)
-  //           // .attr("height", 80)
-  //           .attr("width", function (d) {
-  //               return 120;
-  //           })
-  //           .attr("height", function (d) {
-  //               //return d.height;
-  //               return 80;
-  //           })
-  //           .on("dragend", function () { 
-  //               console.log("drag start event")
-  //            })
-  //           .on("mouseover", function () {
-  //               d3.select(this).style("fill", "aliceblue");
-  //               var point = d3.mouse(this)
-  //                   , p = {mx: point[0], my: point[1]};
-
-  //               console.log(p.mx + "and " + p.my);
-
-
-  //           })
-  //           .on("mouseup", function () {
-  //               d3.select(this).style("fill", "aliceblue");
-  //               var t = d3.select(this).attr("id");
-
-  //               function getScreenCoords(x, y, ctm) {
-  //                   var xn = ctm.e + x * ctm.a + y * ctm.c;
-  //                   var yn = ctm.f + x * ctm.b + y * ctm.d;
-  //                   return {x: xn, y: yn};
-  //               }
-
-  //               var circle = document.getElementById(t),
-  //                   cx = +circle.getAttribute('cx'),
-  //                   cy = +circle.getAttribute('cy'),
-  //                   ctm = circle.getCTM(),
-  //                   coords = getScreenCoords(cx, cy, ctm);
-  //               console.log(coords.x, coords.y);
-
-  //               tooltipDiv.transition()
-  //                   .duration(200)
-  //                   .style("opacity", 1.9);
-
-  //               tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >" +"&nbsp"+"<input id=" + "arrow-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/arrow.png" + " alt=" + "arrow" + " style=" + "width:25px;" + " >"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+"<input id=" + "text-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/review.png" + " alt=" + "Text" + " style=" + "width:25px;" + " >")
-  //                   .style("left", coords.x + 130 + "px")
-  //                   .style("top", (coords.y + 15) + "px");
-
-
-  //               tooltipDiv.select("#trash-button").on("click", function () {
-  //                   deleteElement(t);
-  //                   // semodal.style.display = "block";
-  //               });
-
-  //               tooltipDiv.select("#property-button").on("click", function () {
-  //                   tooltipDiv.style("opacity", 0);
-  //                   console.log("end evnt button clicked ")
-  //                   tmodal.style.display = "block";
-  //               });
-  //               tooltipDiv.select("#arrow-button").on("click", function () {
-  //                   tooltipDiv.style("opacity", 0);
-  //                   console.log("end arrow button clicked ")
-  //                   starttype = "task";
-  //                   startid =t;
-  //                   startx = coords.x;
-  //                   starty = coords.y;
-  //                   window.bpmnElement = "flowselect";
-  //                   document.body.style.cursor = "e-resize";
-  //               });
-  //           })
-  //           .on("mouseout", function () {
-  //               d3.select(this).style("fill", "white");
-  //               tooltipDiv.transition()
-  //                   .duration(3200)
-  //                   .style("opacity", 0);
-  //           })
-  //           .on("click", function () {
-  //               //tmodal.style.display = "block";
-  //               d3.select(this).style("fill", "white");
-  //               var t = d3.select(this).attr("id");
-  //               function getScreenCoords(x, y, ctm) {
-  //                   var xn = ctm.e + x * ctm.a + y * ctm.c;
-  //                   var yn = ctm.f + x * ctm.b + y * ctm.d;
-  //                   return {x: xn, y: yn};
-  //               }
-
-  //               var circle = document.getElementById(t),
-  //                   cx = +circle.getAttribute('cx'),
-  //                   cy = +circle.getAttribute('cy'),
-  //                   ctm = circle.getCTM(),
-  //                   coords = getScreenCoords(cx, cy, ctm);
-
-  //               if (window.bpmnElement === "flow") {
-  //                   starttype = "task";
-  //                   startid =t;
-  //                   startx = coords.x;
-  //                   starty = coords.y;
-  //                   window.bpmnElement = "flowselect";
-  //                   document.body.style.cursor = "e-resize";
-  //                   console.log("ok1")
-  //                   console.log(startx)
-  //                   console.log(starty)
-  //               } else if (window.bpmnElement === "flowselect") {
-  //                   endtype = "task"
-  //                   window.bpmnElement = null
-  //                   if (coords.x > startx) {
-  //                       if (starttype === "startEvent") {
-  //                           startx = startx + 20;
-  //                           starty = starty;  
-  //                       }else if (starttype === "task") {
-  //                           startx = startx + 120;
-  //                           starty = starty + 40;
-  //                       }else if (starttype === "gateway") {
-  //                           startx = startx + 30;
-  //                           starty = starty + 30;
-  //                       }
-  //                       endx = coords.x - 7;
-  //                       endy = coords.y + 40;
-  //                   }else if (coords.x < startx) {
-  //                       if (starttype === "startEvent") {
-  //                           startx = startx - 20;
-  //                           starty = starty;  
-  //                       }else if (starttype === "task") {
-  //                           startx = startx - 2;
-  //                           starty = starty + 40;
-  //                       }else if (starttype === "gateway") {
-  //                           startx = startx - 30;
-  //                           starty = starty + 30;
-  //                       }
-  //                       endx = coords.x + 127;
-  //                       endy = coords.y + 40;
-  //                   }
-                    
-
-  //                   midx = startx + ((endx - startx) / 2);
-
-
-  //                   sampleSVG.append("marker")
-  //                       .attr("id", "triangle"+(++idflow))
-  //                       .attr("viewBox", "0 0 10 10")
-  //                       .attr("refX", "0")
-  //                       .attr("refY", "5")
-  //                       .attr("markerUnits", "strokeWidth")
-  //                       .attr("markerWidth", "5")
-  //                       .attr("markerHeight", "4")
-  //                       .attr("orient", "auto")
-  //                       .append('svg:path')
-  //                       .attr('d', 'M 0 0 L 10 5 L 0 10 z');
-
-
-  //                   sampleSVG.append("polyline")      // attach a polyline
-  //                       .attr("id", "flow"+idflow)
-  //                       .attr("marker-end", "url(#triangle"+idflow+")")
-  //                       .style("stroke", "black")  // colour the line
-  //                       .style("fill", "none")     // remove any fill colour
-  //                       .style("stroke-width", "2")
-  //                       .attr("points", startx + "," + starty + "," + midx + "," + starty + "," + midx + "," + endy + "," + endx + "," + endy);
-
-  //                  FlowBPMNJsonCreator('flow'+idflow, startid, t, startx, starty,endx,endy,midx,starttype,endtype);    
-  //                //   starttype= "";
-  //                //   endtype = "";
-  //                   startx = 0;
-  //                   starty = 0;
-  //                   endx = 0;
-  //                   endy = 0;
-  //               }
-
-  //           })
-  //           .call(drag);
-  //           TaskBPMNJsonCreator('task'+idstartelement, d3.event.pageX, d3.event.pageY, 120, 80,"task");
-  //       //  dragmove('task'+idtaskelement);
-  //       // console.log(d3.select(this).attr("id")+"okkk")
-  //       // pushBPMNArray('task'+idtaskelement,d3.event.pageX,d3.event.pageY,120,80);
     } else if (bpmnElement === "gateway") {
         window.bpmnElement = null;
         gatewaydevider(subElement,svg);

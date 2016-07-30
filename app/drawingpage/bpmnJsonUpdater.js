@@ -1,5 +1,5 @@
 "use strict";
-function EventBPMNJsonCreator(id, x, y, width, height,type) {
+function EventBPMNJsonCreator(id, x, y, width, height,type,subtype) {
 
             // console.log(id+x+y+width+height)
             window.bpmnjson.push({
@@ -8,11 +8,12 @@ function EventBPMNJsonCreator(id, x, y, width, height,type) {
                 "y": y,
                 "width": width,
                 "height": height,
-                "type": type
+                "type": type,
+                "subtype" : subtype
             })
             console.log(bpmnjson);
 }
-function TaskBPMNJsonCreator(id, x, y, width, height,type) {
+function TaskBPMNJsonCreator(id, x, y, width, height,type,subtype) {
 
             // console.log(id+x+y+width+height)
             window.bpmnjson.push({
@@ -22,7 +23,8 @@ function TaskBPMNJsonCreator(id, x, y, width, height,type) {
                 "width": width,
                 "height": height,
                 "text":"sample",
-                "type":type
+                "type":type,
+                "subtype" : subtype
             })
             console.log(bpmnjson);
 

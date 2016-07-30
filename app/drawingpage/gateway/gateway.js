@@ -6,6 +6,63 @@ var g2 = svg.append('g')
       //  
                     //.attr("transform", "matrix(0.7,0.7,-0.7,0.7," + d3.event.pageX + "," + d3.event.pageY + ")")
 
+        if (subElement === "exclusive") {
+                subElement = null;
+                  g2.append('path')
+        .attr("d","m 12.8,12 5.942857142857143,7.771428571428571 -5.942857142857143,7.771428571428571,2.742857142857143,0 4.571428571428571,-5.971382857142857 4.571428571428571,5.971382857142857,2.742857142857143,0 -5.942857142857143,-7.771428571428571 5.942857142857143,-7.771428571428571,-2.742857142857143,0 -4.571428571428571,5.971382857142857 -4.571428571428571,-5.971382857142857,-2.742857142857143,0 z")   
+        .attr("transform","matrix(1.4375,0,0,1.4375,-28.9375,1.9375)")
+     //.attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
+          // .call(drag) ;
+
+           }else if (subElement === "parallel") {
+                subElement = null;
+
+                g2.append('path')
+        .attr("d","M11.25,20.5L30.25,20.5M20.5,11.25L20.5,30.25")   
+        .attr("stroke-width", "4")
+        .attr("fill", "none")
+        .attr("stroke", "#808080")   
+        .attr("transform","matrix(1,0,0,1,-21,9)")
+
+                
+           }else if (subElement === "inclusive") {
+            subElement = null;
+              g2.append('circle')
+        .attr("r","12.428571428571429")   
+        .attr("stroke-width", "4")
+        .attr("fill", "none")
+        .attr("stroke", "#808080")   
+        .attr("cx", "0")
+        .attr("cy", "30")   
+        // .attr("transform","matrix(1,0,0,1,-21,9)")
+     
+           }else if (subElement === "event") {
+            subElement = null;
+            g2.append('circle')
+        .attr("r","14.428571428571429")   
+        .attr("stroke-width", "1")
+        .attr("fill", "none")
+        .attr("stroke", "#808080")   
+        .attr("cx", "0")
+        .attr("cy", "30"); 
+
+        g2.append('circle')
+        .attr("r","12.428571428571429")   
+        .attr("stroke-width", "1")
+        .attr("fill", "none")
+        .attr("stroke", "#808080")   
+        .attr("cx", "0")
+        .attr("cy", "30"); 
+
+        g2.append('path')
+        .attr("d","M24.827514,26.844972L15.759248000000001,26.844216L12.957720300000002,18.219549L20.294545,12.889969L27.630481000000003,18.220774L24.827514,26.844972Z")   
+        .attr("stroke-width", "1.5")
+        .attr("fill", "none")
+        .attr("stroke", "#808080")   
+        .attr("transform","matrix(1,0,0,1,-20,9)")
+
+           }
+
          g2.append('rect')
             .attr('id', 'gateway' + (++idgatewayelement))
             .style("stroke", "black")
@@ -14,7 +71,8 @@ var g2 = svg.append('g')
             .style("stroke-linejoin", "miter")
             .style("stroke-miterlimit", "2")
             .style("stroke-dashoffset", "0")
-            .style("fill", "white")
+            .style("fill-opacity", "0")
+          //  .style("fill", "white")
             .attr("ry", 0)
             .attr("width", 42.8)
             .attr("height", 42.8)
@@ -214,25 +272,7 @@ var g2 = svg.append('g')
           
           
 
-           if (subElement === "exclusive") {
-           		subElement = null;
-                  g2.append('path')
-        .attr("d","m 12.8,12 5.942857142857143,7.771428571428571 -5.942857142857143,7.771428571428571,2.742857142857143,0 4.571428571428571,-5.971382857142857 4.571428571428571,5.971382857142857,2.742857142857143,0 -5.942857142857143,-7.771428571428571 5.942857142857143,-7.771428571428571,-2.742857142857143,0 -4.571428571428571,5.971382857142857 -4.571428571428571,-5.971382857142857,-2.742857142857143,0 z")   
-        .attr("transform","matrix(1.4375,0,0,1.4375,-28.9375,1.9375)")
-     //.attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
-          // .call(drag) ;
-
-           }else if (subElement === "parallel") {
-            	subElement = null;
-            	
-           }else if (subElement === "inclusive") {
-           	subElement = null;
-           	  
-     
-           }else if (subElement === "event") {
-           	subElement = null;
-
-           }
+           
         //     group.append('path')
         // .attr("d","m 12.8,12 5.942857142857143,7.771428571428571 -5.942857142857143,7.771428571428571,2.742857142857143,0 4.571428571428571,-5.971382857142857 4.571428571428571,5.971382857142857,2.742857142857143,0 -5.942857142857143,-7.771428571428571 5.942857142857143,-7.771428571428571,-2.742857142857143,0 -4.571428571428571,5.971382857142857 -4.571428571428571,-5.971382857142857,-2.742857142857143,0 z")   
      
