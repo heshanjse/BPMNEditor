@@ -2,6 +2,7 @@
 var starteventdevider = function (subElement,svg){  
 var group = svg.append('g')
         .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
+        .attr('id', 'startEvnet' + (++idstartelement))
         .call(drag)
 // var sampleSVG = svg;
          if (subElement === "startEvent") {
@@ -69,7 +70,7 @@ var group = svg.append('g')
 
 
         group.append('circle')
-            .attr('id', 'startEvnet' + (++idstartelement))
+            .attr('id', 'startEvnet' + idstartelement)
             .style("stroke", "black")
             .style("stroke-width", "2")
             .style("fill-opacity", "0")

@@ -15,7 +15,293 @@ var width = 120,
 
 var drag = d3.behavior.drag()
     .origin(Object)
-    .on("drag", dragmove);
+    .on("drag", dragmove)
+    .on("dragstart", function () { 
+        console.log("ondragstart")
+        var elementid = d3.select(this).attr("id");
+        for (var i = 0; i < bpmnjson.length; i++) {
+            var bpmnobject = bpmnjson[i];
+
+        if (bpmnobject.start_id === elementid &&  bpmnobject.id != 0) {
+            console.log("")
+            dragFlows.push({
+                "id": bpmnobject.id,
+                "start_id":bpmnobject.start_id,
+                "end_id":bpmnobject.end_id,
+                "start_x": bpmnobject.start_x,
+                "start_y": bpmnobject.start_y,
+                "end_x": bpmnobject.end_x,
+                "end_y": bpmnobject.end_y,
+                "mid_x":bpmnobject.mid_x,
+                "start_type":bpmnobject.start_type,
+                "end_type":bpmnobject.end_type,
+                "connection" : "start"
+            })
+            console.log(bpmnobject.id+" removed")
+            console.log(dragFlows)
+            d3.select(document.getElementById(bpmnobject.id)).remove(); 
+            bpmnobject.id=0;
+
+        }else if (bpmnobject.end_id ===elementid &&  bpmnobject.id != 0) {
+            dragFlows.push({
+                "id": bpmnobject.id,
+                "start_id":bpmnobject.start_id,
+                "end_id":bpmnobject.end_id,
+                "start_x": bpmnobject.start_x,
+                "start_y": bpmnobject.start_y,
+                "end_x": bpmnobject.end_x,
+                "end_y": bpmnobject.end_y,
+                "mid_x":bpmnobject.mid_x,
+                "start_type":bpmnobject.start_type,
+                "end_type":bpmnobject.end_type,
+                "connection" : "end"
+            })
+            console.log(bpmnobject.id+" removed")
+            console.log(dragFlows)
+            d3.select(document.getElementById(bpmnobject.id)).remove(); 
+            bpmnobject.id=0;
+        }
+        }
+    })
+    .on("dragend", function () { 
+        
+
+        for (var i = 0; i < dragFlows.length; i++) {
+            var flow = dragFlows[i];
+            if (flow.connection === "start") {
+                var circle = document.getElementById(flow.start_id),
+                    cx = circle.getAttribute('x'),
+                    cy = circle.getAttribute('y'),
+                    ctm = circle.getCTM(),
+                    coords = getScreenCoords(cx, cy, ctm);
+                    if (flow.start_x < flow.end_x) {
+                        if (flow.end_type === "endEvent") {
+                            flow.end_x = flow.end_x +26;
+                            if (coords.x < flow.end_x) {
+                                flow.end_x = flow.end_x -26; 
+                            }else if (coords.x > flow.end_x) {
+                                flow.end_x = flow.end_x +26; 
+                            }    
+                        }else if (flow.end_type === "task") {
+                            flow.end_x = flow.end_x +67;
+                            if (coords.x < flow.end_x) {
+                                flow.end_x = flow.end_x -67; 
+                            }else if (coords.x > flow.end_x) {
+                                flow.end_x = flow.end_x +67; 
+                            } 
+                        }else if (flow.end_type === "gateway") {
+                            flow.end_x = flow.end_x +35;
+                            if (coords.x < flow.end_x) {
+                                flow.end_x = flow.end_x -35; 
+                            }else if (coords.x > flow.end_x) {
+                                flow.end_x = flow.end_x +35; 
+                            }
+                        }
+                    }else if (flow.start_x > flow.end_x) {
+                        if (flow.end_type === "endEvent") {
+                            flow.end_x = flow.end_x -26;
+                            if (coords.x < flow.end_x) {
+                                flow.end_x = flow.end_x -26; 
+                            }else if (coords.x > flow.end_x) {
+                                flow.end_x = flow.end_x +26; 
+                            }   
+                        }else if (flow.end_type === "task") {
+                            flow.end_x = flow.end_x -67;
+                            if (coords.x < flow.end_x) {
+                                flow.end_x = flow.end_x -67; 
+                            }else if (coords.x > flow.end_x) {
+                                flow.end_x = flow.end_x +67; 
+                            } 
+                        }else if (flow.end_type === "gateway") {
+                            flow.end_x = flow.end_x -35;
+                            if (coords.x < flow.end_x) {
+                                flow.end_x = flow.end_x -35; 
+                            }else if (coords.x > flow.end_x) {
+                                flow.end_x = flow.end_x +35; 
+                            }
+                        }
+                    }
+
+                    if (coords.x < flow.end_x) {
+                        // if (flow.start_type === "startEvent") {
+                        //     startx = coords.x + 20;
+                        //     starty = coords.y; 
+                        // }else if (flow.start_type === "task") {
+                            startx = coords.x + 120;
+                            starty = coords.y + 40;
+                        // }else if (flow.start_type === "gateway") {
+                        //     startx = coords.x + 30;
+                        //     starty = coords.y + 30; 
+                        // }
+                    }else if (coords.x > flow.end_x) {
+                        // if (flow.start_type === "startEvent") {
+                        //     startx = coords.x - 20;
+                        //     starty = coords.y;     
+                        // }else if (flow.start_type === "task") {
+                            startx = coords.x - 2;
+                            starty = coords.y + 40;
+                        // }else if (flow.start_type === "gateway") {
+                        //     startx = coords.x - 30;
+                        //     starty = coords.y + 30;
+                        // }
+                    }
+
+
+                    midx = startx + ((flow.end_x - startx) / 2);
+                    sampleSVG.append("marker")
+                        .attr("id", "triangle"+(++idflow))
+                        .attr("viewBox", "0 0 10 10")
+                        .attr("refX", "0")
+                        .attr("refY", "5")
+                        .attr("markerUnits", "strokeWidth")
+                        .attr("markerWidth", "5")
+                        .attr("markerHeight", "4")
+                        .attr("orient", "auto")
+                        .append('svg:path')
+                        .attr('d', 'M 0 0 L 10 5 L 0 10 z');
+
+
+                    sampleSVG.append("polyline")      // attach a polyline
+                        .attr("id", "flow"+idflow)
+                        .attr("marker-end", "url(#triangle"+idflow+")")
+                        .style("stroke", "black")  // colour the line
+                        .style("fill", "none")     // remove any fill colour
+                        .style("stroke-width", "2")
+                        .attr("points", startx + "," + starty + "," + midx + "," + starty + "," + midx + "," + flow.end_y+ "," + flow.end_x + "," + flow.end_y);        
+                    
+                    FlowBPMNJsonCreator('flow'+ idflow, flow.start_id, flow.end_id, startx, starty,flow.end_x,flow.end_y,midx,flow.start_type,flow.end_type);    
+                    starttype= "";
+                    endtype = "";
+                    startx = 0;
+                    starty = 0;
+                    endx = 0;
+                    endy = 0;
+
+            }else if (flow.connection === "end") {
+
+                var circle = document.getElementById(flow.end_id),
+                    cx = circle.getAttribute('x'),
+                    cy = circle.getAttribute('y'),
+                    ctm = circle.getCTM(),
+                    coords = getScreenCoords(cx, cy, ctm);
+                    if (flow.start_x > flow.end_x) {
+                        console.log("in sx > ex")
+                        console.log(flow.start_type)
+                        console.log("circle value"+circle.getAttribute('x'))
+                        if (flow.start_type === "startEvent") {
+                            flow.start_x = flow.start_x +21;
+                            console.log("value : "+coords.x)
+                            if (coords.x <= flow.start_x) {
+                                console.log("in sx > cx")
+                                flow.start_x = flow.start_x -21; 
+                            }else if (coords.x > flow.start_x) {
+                                console.log("in cx > sx")
+                                flow.start_x = flow.start_x +21; 
+                            }    
+                        }else if (flow.start_type === "task") {
+                            flow.start_x = flow.start_x +67;
+                            if (coords.x < flow.start_x) {
+                                flow.start_x = flow.start_x -67; 
+                            }else if (coords.x > flow.start_x) {
+                                flow.start_x = flow.start_x +67; 
+                            } 
+                        }else if (flow.start_type === "gateway") {
+                            flow.start_x = flow.start_x +35;
+                            if (coords.x < flow.start_x) {
+                                flow.start_x = flow.start_x -35; 
+                            }else if (coords.x > flow.start_x) {
+                                flow.start_x = flow.start_x +35; 
+                            }
+                        }
+                    }else if (flow.start_x < flow.end_x) {
+                        console.log("in ex > sx")
+                        if (flow.start_type === "startEvent") {
+                            flow.start_x = flow.start_x -21;
+                            if (coords.x <= flow.start_x) {
+                                flow.start_x = flow.start_x -21; 
+                            }else if (coords.x > flow.start_x) {
+                                flow.start_x = flow.start_x +21; 
+                            }   
+                        }else if (flow.start_type === "task") {
+                            flow.start_x = flow.start_x -67;
+                            if (coords.x < flow.start_x) {
+                                flow.start_x = flow.start_x -67; 
+                            }else if (coords.x > flow.start_x) {
+                                flow.start_x = flow.start_x +67; 
+                            } 
+                        }else if (flow.start_type === "gateway") {
+                            flow.start_x = flow.start_x -35;
+                            if (coords.x < flow.start_x) {
+                                flow.start_x = flow.start_x -35; 
+                            }else if (coords.x > flow.start_x) {
+                                flow.start_x = flow.start_x +35; 
+                            }
+                        }
+                    }
+
+
+
+                if (coords.x < flow.start_x) {
+                        // if (flow.end_type === "endEvent") {
+                        //     endx = coords.x - 25;
+                        //     endy = coords.y;  
+                        // }else if (flow.end_type === "task") {
+                            endx = coords.x + 127;
+                            endy = coords.y + 40;
+                        // }else if (flow.end_type === "gateway") {
+                        //     endx = coords.x - 35;
+                        //     endy = coords.y + 30;
+                        // }
+                        
+                    }else if (coords.x > flow.start_x) {
+                        // if (flow.end_type === "endEvent") {
+                        //     endx = coords.x + 25;
+                        //     endy = coords.y;  
+                        // }else if (flow.end_type === "task") {
+                            endx = coords.x - 7;
+                            endy = coords.y + 40;
+                        // }else if (flow.end_type === "gateway") {
+                        //     endx = coords.x + 35;
+                        //     endy = coords.y + 30;
+                        // }
+                       
+                    }
+                    midx = flow.start_x + ((endx - flow.start_x) / 2);
+                    sampleSVG.append("marker")
+                        .attr("id", "triangle"+(++idflow))
+                        .attr("viewBox", "0 0 10 10")
+                        .attr("refX", "0")
+                        .attr("refY", "5")
+                        .attr("markerUnits", "strokeWidth")
+                        .attr("markerWidth", "5")
+                        .attr("markerHeight", "4")
+                        .attr("orient", "auto")
+                        .append('svg:path')
+                        .attr('d', 'M 0 0 L 10 5 L 0 10 z');
+
+
+                    sampleSVG.append("polyline")      // attach a polyline
+                        .attr("id", "flow"+idflow)
+                        .attr("marker-end", "url(#triangle"+idflow+")")
+                        .style("stroke", "black")  // colour the line
+                        .style("fill", "none")     // remove any fill colour
+                        .style("stroke-width", "2")
+                        .attr("points", flow.start_x + "," + flow.start_y + "," + midx + "," + flow.start_y + "," + midx + "," + endy+ "," + endx + "," + endy);        
+                    
+                    FlowBPMNJsonCreator('flow'+ idflow, flow.start_id, flow.end_id, flow.start_x, flow.start_y,endx,endy,midx,flow.start_type,flow.end_type);    
+                    starttype= "";
+                    endtype = "";
+                    startx = 0;
+                    starty = 0;
+                    endx = 0;
+                    endy = 0;
+
+            }
+        }
+
+
+      dragFlows =[];
+    });
 
 var dragright = d3.behavior.drag()
     .origin(Object)
@@ -43,10 +329,11 @@ var newg = svg.append("g")
 
 var group = newg.append('g')
          .attr("transform","matrix(1,0,0,1,"+d3.event.pageX+","+d3.event.pageY+")")
+         .attr('id', 'icontask' + idtaskelement)
          .call(drag);
          
 if (subElement === "UserTask") {
-                subElement = null;
+                
 
 
 var dragtext = group.append('foreignObject')
@@ -76,7 +363,7 @@ var dragpic3 =group.append('path')
         .attr("stroke","#000000")
        // .call(drag);
            }else if (subElement === "ScriptTask") {
-                subElement = null;
+               
                 console.log("script task")
 
 
@@ -96,7 +383,7 @@ var dragpic1 =  group.append('path')
         
       
            }else if (subElement === "MailTask") {
-            subElement = null;
+            
 
 
 
@@ -117,7 +404,7 @@ var dragpic1 =  group.append('path')
 
      
            }else if (subElement === "ManualTask") {
-            subElement = null;
+           
           var dragtext = group.append('foreignObject')
       .attr("x", function(d) { return 20 ; })
       .attr("y", function(d) { return 30; })
@@ -168,8 +455,8 @@ var dragrect = newg.append("rect")
             .on("mouseup", function () {
                 d3.select(this).style("fill", "aliceblue");
                 var t = d3.select(this).attr("id");
-                console.log("++++++id++++++")
-                console.log(t)
+//                 console.log("++++++id++++++")
+//                 console.log(t)
 
                 function getScreenCoords(x, y, ctm) {
                     var xn = ctm.e + x * ctm.a + y * ctm.c;
@@ -196,6 +483,9 @@ var dragrect = newg.append("rect")
 
                 tooltipDiv.select("#trash-button").on("click", function () {
                     deleteElement(t);
+                   // console.log("---------")
+                   // console.log("icon"+t)
+                    d3.select(document.getElementById("icon"+t)).remove(); 
                     // semodal.style.display = "block";
                 });
 
@@ -260,6 +550,7 @@ var dragrect = newg.append("rect")
                     console.log(starty)
                 } else if (window.bpmnElement === "flowselect") {
                     endtype = "task"
+                    endid =t;
                     window.bpmnElement = null
                     if (coords.x > startx) {
                         if (starttype === "startEvent") {
@@ -292,42 +583,42 @@ var dragrect = newg.append("rect")
 
                     midx = startx + ((endx - startx) / 2);
 
+                    flowcreator(t);
+                 //    sampleSVG.append("marker")
+                 //        .attr("id", "triangle"+(++idflow))
+                 //        .attr("viewBox", "0 0 10 10")
+                 //        .attr("refX", "0")
+                 //        .attr("refY", "5")
+                 //        .attr("markerUnits", "strokeWidth")
+                 //        .attr("markerWidth", "5")
+                 //        .attr("markerHeight", "4")
+                 //        .attr("orient", "auto")
+                 //        .append('svg:path')
+                 //        .attr('d', 'M 0 0 L 10 5 L 0 10 z');
 
-                    sampleSVG.append("marker")
-                        .attr("id", "triangle"+(++idflow))
-                        .attr("viewBox", "0 0 10 10")
-                        .attr("refX", "0")
-                        .attr("refY", "5")
-                        .attr("markerUnits", "strokeWidth")
-                        .attr("markerWidth", "5")
-                        .attr("markerHeight", "4")
-                        .attr("orient", "auto")
-                        .append('svg:path')
-                        .attr('d', 'M 0 0 L 10 5 L 0 10 z');
 
+                 //    sampleSVG.append("polyline")      // attach a polyline
+                 //        .attr("id", "flow"+idflow)
+                 //        .attr("marker-end", "url(#triangle"+idflow+")")
+                 //        .style("stroke", "black")  // colour the line
+                 //        .style("fill", "none")     // remove any fill colour
+                 //        .style("stroke-width", "2")
+                 //        .attr("points", startx + "," + starty + "," + midx + "," + starty + "," + midx + "," + endy + "," + endx + "," + endy);
 
-                    sampleSVG.append("polyline")      // attach a polyline
-                        .attr("id", "flow"+idflow)
-                        .attr("marker-end", "url(#triangle"+idflow+")")
-                        .style("stroke", "black")  // colour the line
-                        .style("fill", "none")     // remove any fill colour
-                        .style("stroke-width", "2")
-                        .attr("points", startx + "," + starty + "," + midx + "," + starty + "," + midx + "," + endy + "," + endx + "," + endy);
-
-                   FlowBPMNJsonCreator('flow'+idflow, startid, t, startx, starty,endx,endy,midx,starttype,endtype);    
-                 //   starttype= "";
-                 //   endtype = "";
-                    startx = 0;
-                    starty = 0;
-                    endx = 0;
-                    endy = 0;
+                 //   FlowBPMNJsonCreator('flow'+idflow, startid, t, startx, starty,endx,endy,midx,starttype,endtype);    
+                 // //   starttype= "";
+                 // //   endtype = "";
+                 //    startx = 0;
+                 //    starty = 0;
+                 //    endx = 0;
+                 //    endy = 0;
                 }
 
             })
             .call(drag);
 
             TaskBPMNJsonCreator('task'+idstartelement, d3.event.pageX, d3.event.pageY, 120, 80,"task",subElement);
-
+             subElement = null;
 
 
     //   .attr("x", function(d) { return d3.event.pageX - (dragbarw/2); })
@@ -389,82 +680,7 @@ var dragbarbottom = newg.append("rect")
       .attr("cursor", "ns-resize")
       .call(dragbottom);
 
-// var group = newg.append('g')
-//          .attr("transform","matrix(1,0,0,1,"+d3.event.pageX+","+d3.event.pageY+")")
-//          .call(drag);
 
-// if (subElement === "UserTask") {
-//                 subElement = null;
-
-
-// var dragtext = group.append('foreignObject')
-//       .attr("x", function(d) { return 20 ; })
-//       .attr("y", function(d) { return 30; })
-//      .attr('width', 80)
-//       .attr('height', 50)
-//       .append("xhtml:body")
-//     //  .append('html','<div style="width: 70px; height:45px ; background-color: transparent;">User Task</div>')
-//      .html("<div id=\"textid"+idtaskelement+"\"; style=\"width: 70px; height:45px ; background-color: transparent;\" >User Task</div>");
-
-// // var dragtext = group.append('textarea')
-// // .style("width", 80)
-// // .style("height", 50)
-// // .style("text-align", "center")
-// // .style("stroke-width", "2")
-      
-
-// var dragpic1 =  group.append('path')
-//          .attr("d","m 15,12 c 0.909,-0.845 1.594,-2.049 1.594,-3.385 0,-2.554 -1.805,-4.62199999 -4.357,-4.62199999 -2.55199998,0 -4.28799998,2.06799999 -4.28799998,4.62199999 0,1.348 0.974,2.562 1.89599998,3.405 -0.52899998,0.187 -5.669,2.097 -5.794,4.7560005 v 6.718 h 17 v -6.718 c 0,-2.2980005 -5.5279996,-4.5950005 -6.0509996,-4.7760005 zm -8,6 l 0,5.5 m 11,0 l 0,-5")   
-//         .attr("fill","none")
-//         .attr("stroke","#000000")
-        
-
-// var dragpic2 =group.append('path')
-//         .attr("d","m 15,12 m 2.162,1.009 c 0,2.4470005 -2.158,4.4310005 -4.821,4.4310005 -2.66499998,0 -4.822,-1.981 -4.822,-4.4310005")   
-//         .attr("fill","none")
-//         .attr("stroke","#000000")
-//      //   .call(drag);
-
-// var dragpic3 =group.append('path')
-//         .attr("d","m 15,12 m -6.9,-3.80 c 0,0 2.25099998,-2.358 4.27399998,-1.177 2.024,1.181 4.221,1.537 4.124,0.965 -0.098,-0.57 -0.117,-3.79099999 -4.191,-4.13599999 -3.57499998,0.001 -4.20799998,3.36699999 -4.20699998,4.34799999 z")   
-//         .attr("fill","#000000")
-//         .attr("stroke","#000000")
-//        // .call(drag);
-//            }else if (subElement === "ScriptTask") {
-//                 subElement = null;
-//                 var group = newg.append('g')
-//          .attr("transform","matrix(1,0,0,1,"+d3.event.pageX+","+d3.event.pageY+")")
-//          .call(drag);
-
-//           var dragpic1 = group.append('path')
-//         .attr("d","m 15,20 c 9.966553,-6.27276 -8.000926,-7.91932 2.968968,-14.938 l -8.802728,0 c -10.969894,7.01868 6.997585,8.66524 -2.968967,14.938 z m -7,-12 l 5,0 m -4.5,3 l 4.5,0 m -3,3 l 5,0m -4,3 l 5,0")   
-//         .attr("fill","none")
-//         .attr("stroke","#000000");
-      
-//            }else if (subElement === "MailTask") {
-//             subElement = null;
-//          //    var group = newg.append('g')
-//          // .attr("transform","matrix(1,0,0,1,"+d3.event.pageX+","+d3.event.pageY+")")
-//          // .call(drag);
-
-//           var dragpic1 = group.append('path')
-//         .attr("d","m 5.984999999999999,4.997999999999999 l 0,14 l 21,0 l 0,-14 z l 10.5,6 l 10.5,-6")   
-//         .attr("fill","#000000")
-//         .attr("stroke","#ffffff");
-        
-     
-//            }else if (subElement === "ManualTask") {
-//             subElement = null;
-//          //    var group = newg.append('g')
-//          // .attr("transform","matrix(1,0,0,1,"+d3.event.pageX+","+d3.event.pageY+")")
-//          // .call(drag);
-
-//           var dragpic1 = group.append('path')
-//         .attr("d","m 17,15 c 0.234,-0.01 5.604,0.008 8.029,0.004 0.808,0 1.271,-0.172 1.417,-0.752 0.227,-0.898 -0.334,-1.314 -1.338,-1.316 -2.467,-0.01 -7.886,-0.004 -8.108,-0.004 -0.014,-0.079 0.016,-0.533 0,-0.61 0.195,-0.042 8.507,0.006 9.616,0.002 0.877,-0.007 1.35,-0.438 1.353,-1.208 0.003,-0.768 -0.479,-1.09 -1.35,-1.091 -2.968,-0.002 -9.619,-0.013 -9.619,-0.013 v -0.591 c 0,0 5.052,-0.016 7.225,-0.016 0.888,-0.002 1.354,-0.416 1.351,-1.193 -0.006,-0.761 -0.492,-1.196 -1.361,-1.196 -3.473,-0.005 -10.86,-0.003 -11.0829995,-0.003 -0.022,-0.047 -0.045,-0.094 -0.069,-0.139 0.3939995,-0.319 2.0409995,-1.626 2.4149995,-2.017 0.469,-0.4870005 0.519,-1.1650005 0.162,-1.6040005 -0.414,-0.511 -0.973,-0.5 -1.48,-0.236 -1.4609995,0.764 -6.5999995,3.6430005 -7.7329995,4.2710005 -0.9,0.499 -1.516,1.253 -1.882,2.19 -0.37000002,0.95 -0.17,2.01 -0.166,2.979 0.004,0.718 -0.27300002,1.345 -0.055,2.063 0.629,2.087 2.425,3.312 4.859,3.318 4.6179995,0.014 9.2379995,-0.139 13.8569995,-0.158 0.755,-0.004 1.171,-0.301 1.182,-1.033 0.012,-0.754 -0.423,-0.969 -1.183,-0.973 -1.778,-0.01 -5.824,-0.004 -6.04,-0.004 10e-4,-0.084 0.003,-0.586 10e-4,-0.67 z")   
-//         .attr("fill","none")
-//         .attr("stroke","#000000");
-
-//            }
 
       function dragmove(d) {
  // if (isXChecked) {

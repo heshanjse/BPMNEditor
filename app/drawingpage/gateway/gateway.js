@@ -2,12 +2,13 @@
 var gatewaydevider = function (subElement,svg){  
 var g2 = svg.append('g')
         .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
+        .attr('id', 'gateway' + (++idgatewayelement))
         .call(drag);
       //  
                     //.attr("transform", "matrix(0.7,0.7,-0.7,0.7," + d3.event.pageX + "," + d3.event.pageY + ")")
 
         if (subElement === "exclusive") {
-                subElement = null;
+                
                   g2.append('path')
         .attr("d","m 12.8,12 5.942857142857143,7.771428571428571 -5.942857142857143,7.771428571428571,2.742857142857143,0 4.571428571428571,-5.971382857142857 4.571428571428571,5.971382857142857,2.742857142857143,0 -5.942857142857143,-7.771428571428571 5.942857142857143,-7.771428571428571,-2.742857142857143,0 -4.571428571428571,5.971382857142857 -4.571428571428571,-5.971382857142857,-2.742857142857143,0 z")   
         .attr("transform","matrix(1.4375,0,0,1.4375,-28.9375,1.9375)")
@@ -15,7 +16,7 @@ var g2 = svg.append('g')
           // .call(drag) ;
 
            }else if (subElement === "parallel") {
-                subElement = null;
+
 
                 g2.append('path')
         .attr("d","M11.25,20.5L30.25,20.5M20.5,11.25L20.5,30.25")   
@@ -26,7 +27,7 @@ var g2 = svg.append('g')
 
                 
            }else if (subElement === "inclusive") {
-            subElement = null;
+
               g2.append('circle')
         .attr("r","12.428571428571429")   
         .attr("stroke-width", "4")
@@ -37,7 +38,7 @@ var g2 = svg.append('g')
         // .attr("transform","matrix(1,0,0,1,-21,9)")
      
            }else if (subElement === "event") {
-            subElement = null;
+
             g2.append('circle')
         .attr("r","14.428571428571429")   
         .attr("stroke-width", "1")
@@ -64,7 +65,7 @@ var g2 = svg.append('g')
            }
 
          g2.append('rect')
-            .attr('id', 'gateway' + (++idgatewayelement))
+            .attr('id', 'gateway' + idgatewayelement)
             .style("stroke", "black")
             .style("stroke-width", "2")
             .style("stroke-linecap", "butt")
@@ -165,6 +166,7 @@ var g2 = svg.append('g')
                     console.log(starty)
                 } else if (window.bpmnElement === "flowselect") {
                     endtype = "gateway"
+                    endid =t;
                     window.bpmnElement = null
                     if (coords.x > startx) {
                         if (starttype === "startEvent") {
@@ -196,30 +198,30 @@ var g2 = svg.append('g')
                     
 
                     midx = startx + ((endx - startx) / 2);
+                    flowcreator(t);
+
+                    // sampleSVG.append("marker")
+                    //     .attr("id", "triangle"+(++idflow))
+                    //     .attr("viewBox", "0 0 10 10")
+                    //     .attr("refX", "0")
+                    //     .attr("refY", "5")
+                    //     .attr("markerUnits", "strokeWidth")
+                    //     .attr("markerWidth", "5")
+                    //     .attr("markerHeight", "4")
+                    //     .attr("orient", "auto")
+                    //     .append('svg:path')
+                    //     .attr('d', 'M 0 0 L 10 5 L 0 10 z');
 
 
-                    sampleSVG.append("marker")
-                        .attr("id", "triangle"+(++idflow))
-                        .attr("viewBox", "0 0 10 10")
-                        .attr("refX", "0")
-                        .attr("refY", "5")
-                        .attr("markerUnits", "strokeWidth")
-                        .attr("markerWidth", "5")
-                        .attr("markerHeight", "4")
-                        .attr("orient", "auto")
-                        .append('svg:path')
-                        .attr('d', 'M 0 0 L 10 5 L 0 10 z');
-
-
-                    sampleSVG.append("polyline")      // attach a polyline
-                        .attr("id", "flow"+idflow)
-                        .attr("marker-end", "url(#triangle"+idflow+")")
-                        .style("stroke", "black")  // colour the line
-                        .style("fill", "none")     // remove any fill colour
-                        .style("stroke-width", "2")
-                        .attr("points", startx + "," + starty + "," + midx + "," + starty + "," + midx + "," + endy + "," + endx + "," + endy)
-                        .on("mouseover", function (d) {
-                            console.log("flow mouse over")
+                    // sampleSVG.append("polyline")      // attach a polyline
+                    //     .attr("id", "flow"+idflow)
+                    //     .attr("marker-end", "url(#triangle"+idflow+")")
+                    //     .style("stroke", "black")  // colour the line
+                    //     .style("fill", "none")     // remove any fill colour
+                    //     .style("stroke-width", "2")
+                    //     .attr("points", startx + "," + starty + "," + midx + "," + starty + "," + midx + "," + endy + "," + endx + "," + endy)
+                    //     .on("mouseover", function (d) {
+                    //         console.log("flow mouse over")
 
                    
                 
@@ -257,14 +259,14 @@ var g2 = svg.append('g')
                 //     console.log("end evnt button clicked ")
                 //     semodal.style.display = "block";
                 // });
-                    });
-                    FlowBPMNJsonCreator('flow'+idflow, startid, t, startx, starty,endx,endy,midx,starttype,endtype);    
-                    starttype= "";
-                    endtype = "";
-                    startx = 0;
-                    starty = 0;
-                    endx = 0;
-                    endy = 0;
+                    // });
+                    // FlowBPMNJsonCreator('flow'+idflow, startid, t, startx, starty,endx,endy,midx,starttype,endtype);    
+                    // starttype= "";
+                    // endtype = "";
+                    // startx = 0;
+                    // starty = 0;
+                    // endx = 0;
+                    // endy = 0;
                 }
             })
          //   .call(drags)
@@ -277,7 +279,8 @@ var g2 = svg.append('g')
         // .attr("d","m 12.8,12 5.942857142857143,7.771428571428571 -5.942857142857143,7.771428571428571,2.742857142857143,0 4.571428571428571,-5.971382857142857 4.571428571428571,5.971382857142857,2.742857142857143,0 -5.942857142857143,-7.771428571428571 5.942857142857143,-7.771428571428571,-2.742857142857143,0 -4.571428571428571,5.971382857142857 -4.571428571428571,-5.971382857142857,-2.742857142857143,0 z")   
      
 
-              EventBPMNJsonCreator('gateway'+idstartelement, d3.event.pageX, d3.event.pageY, 120, 80,"gateway");
+              EventBPMNJsonCreator('gateway'+idstartelement, d3.event.pageX, d3.event.pageY, 120, 80,"gateway",subElement);
+              subElement = null;
 
  }
 

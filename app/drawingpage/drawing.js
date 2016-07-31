@@ -9,6 +9,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
     window.idflow = 0;
    // var arrowbuttonclick = 0;
     var taskbuttonclick = 0;
+    window.endid =0;
     window.startid =0;
     window.starttype = "";
     window.endtype = "";
@@ -22,6 +23,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
     window.subElement = null;
     window.selectedId =0;
     window.selectedtextid =null;
+    window.dragFlows =[];
 //     window.sampleSVG ;
 
    
