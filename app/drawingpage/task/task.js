@@ -123,27 +123,11 @@ var drag = d3.behavior.drag()
                     }
 
                     if (coords.x < flow.end_x) {
-                        // if (flow.start_type === "startEvent") {
-                        //     startx = coords.x + 20;
-                        //     starty = coords.y; 
-                        // }else if (flow.start_type === "task") {
                             startx = coords.x + 120;
                             starty = coords.y + 40;
-                        // }else if (flow.start_type === "gateway") {
-                        //     startx = coords.x + 30;
-                        //     starty = coords.y + 30; 
-                        // }
                     }else if (coords.x > flow.end_x) {
-                        // if (flow.start_type === "startEvent") {
-                        //     startx = coords.x - 20;
-                        //     starty = coords.y;     
-                        // }else if (flow.start_type === "task") {
                             startx = coords.x - 2;
                             starty = coords.y + 40;
-                        // }else if (flow.start_type === "gateway") {
-                        //     startx = coords.x - 30;
-                        //     starty = coords.y + 30;
-                        // }
                     }
 
 
@@ -242,29 +226,11 @@ var drag = d3.behavior.drag()
 
 
                 if (coords.x < flow.start_x) {
-                        // if (flow.end_type === "endEvent") {
-                        //     endx = coords.x - 25;
-                        //     endy = coords.y;  
-                        // }else if (flow.end_type === "task") {
                             endx = coords.x + 127;
-                            endy = coords.y + 40;
-                        // }else if (flow.end_type === "gateway") {
-                        //     endx = coords.x - 35;
-                        //     endy = coords.y + 30;
-                        // }
-                        
+                            endy = coords.y + 40;              
                     }else if (coords.x > flow.start_x) {
-                        // if (flow.end_type === "endEvent") {
-                        //     endx = coords.x + 25;
-                        //     endy = coords.y;  
-                        // }else if (flow.end_type === "task") {
                             endx = coords.x - 7;
                             endy = coords.y + 40;
-                        // }else if (flow.end_type === "gateway") {
-                        //     endx = coords.x + 35;
-                        //     endy = coords.y + 30;
-                        // }
-                       
                     }
                     midx = flow.start_x + ((endx - flow.start_x) / 2);
                     sampleSVG.append("marker")
@@ -330,20 +296,24 @@ var newg = svg.append("g")
 var group = newg.append('g')
          .attr("transform","matrix(1,0,0,1,"+d3.event.pageX+","+d3.event.pageY+")")
          .attr('id', 'icontask' + idtaskelement)
+         .attr("width", 120)
+         .attr("height", 80)
          .call(drag);
          
 if (subElement === "UserTask") {
                 
 
 
+//var dragtext = group.append('foreignObject')
 var dragtext = group.append('foreignObject')
+      .attr('id', 'fobject' + idtaskelement)
       .attr("x", function(d) { return 20 ; })
       .attr("y", function(d) { return 30; })
      .attr('width', 80)
       .attr('height', 50)
       .append("xhtml:body")
     //  .append('html','<div style="width: 70px; height:45px ; background-color: transparent;">User Task</div>')
-     .html("<div id=\"textid"+idtaskelement+"\"; style=\"width: 70px; height:45px ; background-color: transparent;\" >User Task</div>");
+     .html("<div id=\"textid"+idtaskelement+"\"; style=\"width: 80%; height:45px ; background-color: transparent;\" >User Task</div>");
 
 var dragpic1 =  group.append('path')
          .attr("d","m 15,12 c 0.909,-0.845 1.594,-2.049 1.594,-3.385 0,-2.554 -1.805,-4.62199999 -4.357,-4.62199999 -2.55199998,0 -4.28799998,2.06799999 -4.28799998,4.62199999 0,1.348 0.974,2.562 1.89599998,3.405 -0.52899998,0.187 -5.669,2.097 -5.794,4.7560005 v 6.718 h 17 v -6.718 c 0,-2.2980005 -5.5279996,-4.5950005 -6.0509996,-4.7760005 zm -8,6 l 0,5.5 m 11,0 l 0,-5")   
@@ -367,7 +337,7 @@ var dragpic3 =group.append('path')
                 console.log("script task")
 
 
-                var dragtext = group.append('foreignObject')
+      var dragtext = group.append('foreignObject')
       .attr("x", function(d) { return 20 ; })
       .attr("y", function(d) { return 30; })
      .attr('width', 80)
@@ -387,7 +357,7 @@ var dragpic1 =  group.append('path')
 
 
 
-                var dragtext = group.append('foreignObject')
+      var dragtext = group.append('foreignObject')
       .attr("x", function(d) { return 20 ; })
       .attr("y", function(d) { return 30; })
      .attr('width', 80)
@@ -477,7 +447,7 @@ var dragrect = newg.append("rect")
                     .style("opacity", 1.9);
 
                 tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >" +"&nbsp"+"<input id=" + "arrow-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/arrow.png" + " alt=" + "arrow" + " style=" + "width:25px;" + " >"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+"<input id=" + "text-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/review.png" + " alt=" + "Text" + " style=" + "width:25px;" + " >")
-                    .style("left", coords.x + 130 + "px")
+                    .style("left", coords.x + width+ 10 + "px")
                     .style("top", (coords.y + 15) + "px");
 
 
@@ -730,6 +700,15 @@ function ldragresize(d) {
         .attr("x", function(d) { return d.x; })
         .attr("width", width);
 
+      dragtext
+    //  .attr("x", function(d) { return d.x; })
+        .attr("width", width);//foreignobject
+
+        d3.select("fobject1")
+//         var texts = document.getElementById("textid1")
+ .style("width", height)
+//        texts.style("width", width);
+
      dragbartop 
         .attr("x", function(d) { return d.x + (dragbarw/2); })
         .attr("width", width - dragbarw)
@@ -756,6 +735,15 @@ function rdragresize(d) {
      //as we are only resizing from the right, the x coordinate does not need to change
      dragrect
         .attr("width", width);
+
+     dragtext
+        .attr("width", width);//foreignobject
+
+
+        d3.select("fobject1")
+//         var texts = document.getElementById("textid1")
+ .style("width", height)
+
      dragbartop 
         .attr("width", width - dragbarw)
      dragbarbottom 
