@@ -24,6 +24,8 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
     window.selectedId =0;
     window.selectedtextid =null;
     window.dragFlows =[];
+    window.dragging = false;
+    window.drawing = false;
 //     window.sampleSVG ;
 
    

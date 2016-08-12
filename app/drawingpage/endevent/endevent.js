@@ -161,10 +161,10 @@ var group = svg.append('g')
                         endx = coords.x + 26;
                         endy = coords.y;
                     }
-                    
+                    endid =t;
 
                     midx = startx + ((endx - startx) / 2);
-                    flowcreator(t);
+                    flowcreator();
 
                     // sampleSVG.append("marker")
                     //     .attr("id", "triangle"+(++idflow))

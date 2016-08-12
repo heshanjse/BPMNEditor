@@ -111,6 +111,7 @@ var g2 = svg.append('g')
 
 
                 tooltipDiv.select("#trash-button").on("click", function () {
+                    tooltipDiv.style("opacity", 0);
                     deleteElement(t);
                     // semodal.style.display = "block";
                 });
@@ -196,9 +197,9 @@ var g2 = svg.append('g')
                         endy = coords.y + 30;
                     }
                     
-
+                    endid =t;
                     midx = startx + ((endx - startx) / 2);
-                    flowcreator(t);
+                    flowcreator();
 
                     // sampleSVG.append("marker")
                     //     .attr("id", "triangle"+(++idflow))

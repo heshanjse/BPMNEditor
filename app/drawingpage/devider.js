@@ -3,6 +3,8 @@
 //var dragFlows =[];
 
 var g2;
+var points = [], g;
+
 
 var bpmnEventDivider = function (bpmnElement,subElement,svg) {
     if (bpmnElement === "startEvent") {
@@ -225,7 +227,8 @@ var bpmnEventDivider = function (bpmnElement,subElement,svg) {
                           //  delete bpmnjson[i];
                         }else if (bpmnobject.start_id ===id || bpmnobject.end_id ===id ) {
                             var flow_id =bpmnobject.id;
-                            d3.select(document.getElementById(flow_id)).remove(); 
+                          //  d3.select(document.getElementById(flow_id)).remove(); 
+                            sampleSVG.select("#group"+flow_id).remove(); 
                             bpmnobject.id=0;
                           //  delete bpmnjson[i];
                         }
@@ -298,8 +301,9 @@ function dragMove(me) {
                 "connection" : "start"
             })
             console.log(bpmnobject.id+" removed")
-            console.log(dragFlows)
-            d3.select(document.getElementById(bpmnobject.id)).remove(); 
+            console.log("#group"+bpmnobject.id)
+            sampleSVG.select("#group"+bpmnobject.id).remove(); 
+           // sampleSVG.select("#groupflow0").remove(); 
             bpmnobject.id=0;
 
         }else if (bpmnobject.end_id ===elementid &&  bpmnobject.id != 0) {
@@ -318,7 +322,8 @@ function dragMove(me) {
             })
             console.log(bpmnobject.id+" removed")
             console.log(dragFlows)
-            d3.select(document.getElementById(bpmnobject.id)).remove(); 
+            sampleSVG.select("#group"+bpmnobject.id).remove(); 
+            //d3.select(document.getElementById(bpmnobject.id)).remove(); 
             bpmnobject.id=0;
         }
         }
@@ -408,34 +413,41 @@ function dragMove(me) {
 
 
                     midx = startx + ((flow.end_x - startx) / 2);
-                    sampleSVG.append("marker")
-                        .attr("id", "triangle"+(++idflow))
-                        .attr("viewBox", "0 0 10 10")
-                        .attr("refX", "0")
-                        .attr("refY", "5")
-                        .attr("markerUnits", "strokeWidth")
-                        .attr("markerWidth", "5")
-                        .attr("markerHeight", "4")
-                        .attr("orient", "auto")
-                        .append('svg:path')
-                        .attr('d', 'M 0 0 L 10 5 L 0 10 z');
+                    starttype= flow.start_type;
+                    endtype = flow.end_type;
+                    endx = flow.end_x;
+                    endy = flow.end_y;
+                    startid =flow.start_id;
+                    endid =flow.end_id;
+                    flowcreator();
+                    // sampleSVG.append("marker")
+                    //     .attr("id", "triangle"+(++idflow))
+                    //     .attr("viewBox", "0 0 10 10")
+                    //     .attr("refX", "0")
+                    //     .attr("refY", "5")
+                    //     .attr("markerUnits", "strokeWidth")
+                    //     .attr("markerWidth", "5")
+                    //     .attr("markerHeight", "4")
+                    //     .attr("orient", "auto")
+                    //     .append('svg:path')
+                    //     .attr('d', 'M 0 0 L 10 5 L 0 10 z');
 
 
-                    sampleSVG.append("polyline")      // attach a polyline
-                        .attr("id", "flow"+idflow)
-                        .attr("marker-end", "url(#triangle"+idflow+")")
-                        .style("stroke", "black")  // colour the line
-                        .style("fill", "none")     // remove any fill colour
-                        .style("stroke-width", "2")
-                        .attr("points", startx + "," + starty + "," + midx + "," + starty + "," + midx + "," + flow.end_y+ "," + flow.end_x + "," + flow.end_y);        
+                    // sampleSVG.append("polyline")      // attach a polyline
+                    //     .attr("id", "flow"+idflow)
+                    //     .attr("marker-end", "url(#triangle"+idflow+")")
+                    //     .style("stroke", "black")  // colour the line
+                    //     .style("fill", "none")     // remove any fill colour
+                    //     .style("stroke-width", "2")
+                    //     .attr("points", startx + "," + starty + "," + midx + "," + starty + "," + midx + "," + flow.end_y+ "," + flow.end_x + "," + flow.end_y);        
                     
-                    FlowBPMNJsonCreator('flow'+ idflow, flow.start_id, flow.end_id, startx, starty,flow.end_x,flow.end_y,midx,flow.start_type,flow.end_type);    
-                    starttype= "";
-                    endtype = "";
-                    startx = 0;
-                    starty = 0;
-                    endx = 0;
-                    endy = 0;
+                    // FlowBPMNJsonCreator('flow'+ idflow, flow.start_id, flow.end_id, startx, starty,flow.end_x,flow.end_y,midx,flow.start_type,flow.end_type);    
+                    // starttype= "";
+                    // endtype = "";
+                    // startx = 0;
+                    // starty = 0;
+                    // endx = 0;
+                    // endy = 0;
 
             }else if (flow.connection === "end") {
 
@@ -529,34 +541,41 @@ function dragMove(me) {
                         // endy = coords.y + 30;
                     }
                     midx = flow.start_x + ((endx - flow.start_x) / 2);
-                    sampleSVG.append("marker")
-                        .attr("id", "triangle"+(++idflow))
-                        .attr("viewBox", "0 0 10 10")
-                        .attr("refX", "0")
-                        .attr("refY", "5")
-                        .attr("markerUnits", "strokeWidth")
-                        .attr("markerWidth", "5")
-                        .attr("markerHeight", "4")
-                        .attr("orient", "auto")
-                        .append('svg:path')
-                        .attr('d', 'M 0 0 L 10 5 L 0 10 z');
+                    starttype= flow.start_type;
+                    endtype = flow.end_type;
+                    startx = flow.start_x;
+                    starty = flow.start_y;
+                    startid =flow.start_id;
+                    endid =flow.end_id;
+                    flowcreator();
+                    // sampleSVG.append("marker")
+                    //     .attr("id", "triangle"+(++idflow))
+                    //     .attr("viewBox", "0 0 10 10")
+                    //     .attr("refX", "0")
+                    //     .attr("refY", "5")
+                    //     .attr("markerUnits", "strokeWidth")
+                    //     .attr("markerWidth", "5")
+                    //     .attr("markerHeight", "4")
+                    //     .attr("orient", "auto")
+                    //     .append('svg:path')
+                    //     .attr('d', 'M 0 0 L 10 5 L 0 10 z');
 
 
-                    sampleSVG.append("polyline")      // attach a polyline
-                        .attr("id", "flow"+idflow)
-                        .attr("marker-end", "url(#triangle"+idflow+")")
-                        .style("stroke", "black")  // colour the line
-                        .style("fill", "none")     // remove any fill colour
-                        .style("stroke-width", "2")
-                        .attr("points", flow.start_x + "," + flow.start_y + "," + midx + "," + flow.start_y + "," + midx + "," + endy+ "," + endx + "," + endy);        
+                    // sampleSVG.append("polyline")      // attach a polyline
+                    //     .attr("id", "flow"+idflow)
+                    //     .attr("marker-end", "url(#triangle"+idflow+")")
+                    //     .style("stroke", "black")  // colour the line
+                    //     .style("fill", "none")     // remove any fill colour
+                    //     .style("stroke-width", "2")
+                    //     .attr("points", flow.start_x + "," + flow.start_y + "," + midx + "," + flow.start_y + "," + midx + "," + endy+ "," + endx + "," + endy);        
                     
-                    FlowBPMNJsonCreator('flow'+ idflow, flow.start_id, flow.end_id, flow.start_x, flow.start_y,endx,endy,midx,flow.start_type,flow.end_type);    
-                    starttype= "";
-                    endtype = "";
-                    startx = 0;
-                    starty = 0;
-                    endx = 0;
-                    endy = 0;
+                    // FlowBPMNJsonCreator('flow'+ idflow, flow.start_id, flow.end_id, flow.start_x, flow.start_y,endx,endy,midx,flow.start_type,flow.end_type);    
+                    // starttype= "";
+                    // endtype = "";
+                    // startx = 0;
+                    // starty = 0;
+                    // endx = 0;
+                    // endy = 0;
 
             }
         }
