@@ -110,6 +110,6 @@ input.trash-button {
     border-radius: 10px;
 }
 .resizingContainer, .resizingSquare {
-    cursor: nesw-resize;
+    cursor: nwse-resize;
 }
 

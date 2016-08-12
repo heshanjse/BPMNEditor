@@ -2,41 +2,271 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="public/css/toolbox.css" />
-    <link rel="stylesheet" type="text/css" href="public/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="public/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="public/css/app.css" />
     <script type="text/javascript" src="public/js/d3.js" charset="utf-8"></script>
     <script type="text/javascript" src="public/js/jquery.min.js" charset="utf-8"></script>     
+    <script type="text/javascript" src="public/js/angular.min.js" charset="utf-8"></script>  
     <script type="text/javascript" src="public/js/bootstrap.js" charset="utf-8"></script>
     <script type="text/javascript" src="drawingpage/devider.js" charset="utf-8"></script>
     <script type="text/javascript" src="drawingpage/bpmnJsonUpdater.js" charset="utf-8"></script>
-    
+    <script type="text/javascript" src="drawingpage/startevent/startevent.js" charset="utf-8"></script>
+    <script type="text/javascript" src="drawingpage/gateway/gateway.js" charset="utf-8"></script>
+    <script type="text/javascript" src="drawingpage/task/task.js" charset="utf-8"></script>
+    <script type="text/javascript" src="drawingpage/flow/flow.js" charset="utf-8"></script>
+    <script type="text/javascript" src="drawingpage/endevent/endevent.js" charset="utf-8"></script>
   </head>
 
   <body >
 
  <div id="mySvg"></div>
-    
+    <textarea id="edittext" title="Press SHIFT+Enter for line feed" style="width: 120px; height: 80px; left: 608px; top: 180px; position: absolute; text-align: center; box-sizing: border-box; margin: 0px; display: none;"></textarea>
 
     <div id="toolbox">
      <!--  <input type="file" id="hidden-file-upload"> -->
-      <input id="end-button" type="image" title="End Event" src="img/black-circle.png" alt="End Event"><br>
-      <input id="start-button" type="image" title="Start Event" src="img/circle.png" alt="Start Event"><br>
-      <input id="task-button" type="image" title="Activity" src="img/rec.png" alt="Activity"><br>
-      <input id="gateway-button" type="image" title="Gateway" src="img/diamond_.png" alt="Gateway"><br>
-      <input id="arrow-button" type="image" title="Connections" src="img/arrow.png" alt="Connections"><br>
+    <!--  <span><b>Start Event</b></span><br> -->
+     <input id="start-button" type="image" title="Start Event" src="img/startevent.png" alt="Start Event" style="width: 30px;height: 30px">
+     <input id="start-time-button" type="image" title="Time Event" src="img/timestartevent.png" alt="Time Event" style="width: 30px;height: 30px"><br>
+     <input id="start-message-button" type="image" title="Message Start Event" src="img/messagestartevent.png" alt="Message Start Event" style="width: 30px;height: 30px">
+     <input id="start-error-button" type="image" title="Error Start Event" src="img/errorstartevent.png" alt="Error Start Event" style="width: 30px;height: 30px"><br>
+     <hr>
+    <!--  <span><b>End Event</b></span><br> -->
+     <input id="end-button" type="image" title="End Event" src="img/black-circle.png" alt="End Event" style="width: 30px;height: 30px">
+      <input id="error-end-button" type="image" title="Error End Event" src="img/errorend.png" alt="Error End Event" style="width: 30px;height: 30px"><br>
+      <input id="terminate-end-button" type="image" title="Terminate End Event" src="img/terminateend.png" alt="Terminate End Event" style="width: 30px;height: 30px">
+      <input id="cancel-end-button" type="image" title="Cancel End Event" src="img/cancelend.png" alt="Cancel End Event" style="width: 30px;height: 30px"><br>
+      <hr>
+     <!--  <span><b>Task</b></span><br> -->
+      <input id="user-task-button" type="image" title="User Task" src="img/user.svg" alt="User Task" style="width: 30px;height: 30px">
+      <input id="script-task-button" type="image" title="Script Task" src="img/script.svg" alt="Script Task" style="width: 30px;height: 30px"><br>
+      <input id="mail-task-button" type="image" title="Mail Task" src="img/message.svg" alt="Mail Task" style="width: 30px;height: 30px">
+      <input id="manual-task-button" type="image" title="Manual Task" src="img/manual.svg" alt="Manual Task" style="width: 30px;height: 30px"><br>
+      <hr>
+    <!--   <span><b>Boundary Event</b></span><br> -->
+    <!--  <input id="start-button" type="image" title="Time Boundary Event" src="img/timeboundary.png" alt="Time Boundary Event" style="width: 30px;height: 30px">
+     <input id="start-button" type="image" title="Error Boundary Event" src="img/errorboundary.png" alt="Error Boundary Event" style="width: 30px;height: 30px"><br>
+     <input id="start-button" type="image" title="Message Boundary Event" src="img/messageboundary.png" alt="Message Boundary Event" style="width: 30px;height: 30px">
+     <input id="start-button" type="image" title="Signal Boundary Event" src="img/signalboundary.png" alt="Signal Boundary Event" style="width: 30px;height: 30px"><br>
+     <hr> -->
+    <!--  <span><b>Gateway</b></span><br> -->
+     <input id="parallel-gateway-button" type="image" title="Parallel Gateway" src="img/parallelgateway.png" alt="Parallel Gateway" style="width: 30px;height: 30px">
+      <input id="exclusive-gateway-button" type="image" title="Exclusive Gateway" src="img/Exclusivegateway.png" alt="Exclusive Gateway" style="width: 30px;height: 30px"><br>
+      <input id="inclusive-gateway-button" type="image" title="Inclusive Gateway" src="img/inclusivedateway.png" alt="Inclusive Gateway" style="width: 30px;height: 30px">
+      <input id="event-gateway-button" type="image" title="Event Gateway" src="img/Eventgateway.png" alt="Event Gateway" style="width: 30px;height: 30px"><br>
+      <hr>
+  <!--     <span><b>Connections</b></span><br> -->
+      <input id="arrow-button" type="image" title="Sequence Flow" src="img/arrow.png" alt="Sequence Flow" style="width: 30px;height: 30px"><br>
     </div>
 
     <!-- The Modal -->
     <div id="SEModal" class="modal"> 
 
       <!-- Modal content -->
-       <div class="modal-content">
+      <div class="modal-content" style="width:1000px">
         <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="SEClose" aria-hidden="true">&times;</span></button>
-         
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="SEClose" aria-hidden="true">&times;</span></button>
+
           <center><h4>Start Event</h4></center>
         </div>
         <div class="modal-body">
+
+          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    General
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label>id</label>
+                    <input type="text" class="form-control"></input>
+                  </div>
+                  <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control"></input>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="headingTwo">
+                <h4 class="panel-title">
+                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Main Config
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label>Initiator</label>
+                    <input type="text" class="form-control"></input>
+                  </div>
+                  <div class="form-group">
+                    <label>Form Key</label>
+                    <input type="text" class="form-control"></input>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="headingThree">
+                <h4 class="panel-title">
+                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Form
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <!-- <label>Id</label> -->
+                      <input type="text" class="form-control" id="idvalue" placeholder="Id"><br>
+                      <!--  <label>Type</label> -->
+                      <input type="text" class="form-control" id="idvalue" placeholder="Type"><br>
+                      <!--  <label>Variable</label> -->
+                      <input type="text" class="form-control" id="idvalue" placeholder="Variable"><br>
+                      <!-- <label>Data Pattern</label> -->
+                      <input type="text" class="form-control" id="idvalue" placeholder="Data Pattern"><br>
+                      <!-- <label>Readable</label> -->
+                      <input type="text" class="form-control" id="idvalue" placeholder="Readable"><br>
+                      <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Add Form Value
+                      </a>
+
+                    </div>
+                    <div class="col-md-6">
+                     <!--  <label>Name</label> -->
+                     <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
+                     <!--   <label>Expression</label> -->
+                     <input type="text" class="form-control" id="namevalue" placeholder="Expression"><br>
+                     <!-- <label>Default</label> -->
+                     <input type="text" class="form-control" id="namevalue" placeholder="Default"><br>
+                     <!-- <label>Required</label> -->
+                     <input type="text" class="form-control" id="namevalue" placeholder="Required"><br>
+                     <!-- <label>Writeable</label> -->
+                     <input type="text" class="form-control" id="namevalue" placeholder="Writeable"><br>
+
+
+
+
+                   </div>
+                 </div>
+                 <div class="row">
+
+                  <div class="collapse" id="collapseExample">
+                    <div class="well">
+                      <label>Form value</label>
+                      <input type="text" class="form-control" id="namevalue" placeholder="ID"><br>
+                      <!-- <label>Writeable</label> -->
+                      <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
+                      <button type="button" class="btn btn-default">Add Form value</button>
+                      <table class="table">
+                        <tr>
+                          <th>Id</th>
+                          <th>Name</th>
+                        </tr>
+            <!-- <tr>
+              <td>ss<td>
+              <td>sssn sanss<td>
+              </tr> -->
+            </table>
+
+            <br>
+            
+          </div>
+        </div>
+      </div>
+      <br>
+      <button type="button" class="btn btn-default">Add Value</button>
+      <br>
+      <br>
+      <table class="table">
+        <tr>
+          <th>
+            Id
+          </th>
+          <th>
+            Name
+          </th>
+          <th>
+            Type
+          </th>
+          <th>
+            Expression
+          </th>
+          <th>
+            Variable
+          </th>
+          <th>
+            Default
+          </th>
+          <th>
+            Pattern
+          </th>
+          <th>
+            Required
+          </th>
+          <th>
+            Readable
+          </th>
+          <th>
+            Writeable
+          </th>
+          <th>
+            Form Value
+          </th>
+        </tr>
+        <tr>
+          <td>awww</td>
+          <td>bwwwww</td>
+          <td>csss</td>
+          <td>dsss</td>
+          <td>ass</td>
+          <td>bsss</td>
+          <td>css</td>
+          <td>daaa</td>
+          <td>asss</td>
+          <td>baaaa</td>
+          <td>csss</td>
+        </tr>
+        <tr>
+          <td>awww</td>
+          <td>bwwwww</td>
+          <td>csss</td>
+          <td>dsss</td>
+          <td>ass</td>
+          <td>bsss</td>
+          <td>css</td>
+          <td>daaa</td>
+          <td>asss</td>
+          <td>baaaa</td>
+          <td>csss</td>
+        </tr>
+        <tr>
+          <td>awww</td>
+          <td>bwwwww</td>
+          <td>csss</td>
+          <td>dsss</td>
+          <td>ass</td>
+          <td>bsss</td>
+          <td>css</td>
+          <td>daaa</td>
+          <td>asss</td>
+          <td>baaaa</td>
+          <td>csss</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+       <!--  <h5>General</h5>
           <div class="form-group">
             <label>id</label>
             <input type="text" class="form-control"></input>
@@ -45,6 +275,8 @@
             <label>Name</label>
             <input type="text" class="form-control"></input>
           </div>
+          <h5>Main config</h5>
+          <hr>
           <div class="form-group">
             <label>Initiator</label>
             <input type="text" class="form-control"></input>
@@ -53,25 +285,730 @@
             <label>Form Key</label>
             <input type="text" class="form-control"></input>
           </div>
+          <div class="form-group">
+          <table class="table">
+          <thead class="thead-inverse">
+            <tr>
+              <td>Id</td>
+              <td>Name</td>
+              <td>Type</td>
+              <td>Expression</td>
+              <td>Variable</td>
+              <td>Default</td>
+              <td>Pattern</td>
+              <td>Required</td>
+              <td>Readable</td>
+              <td>Writeable</td>
+              <td>form values</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>100</td>
+              <td>sjjs</td>
+              <td>djdj</td>
+              <td>djdjdjd</td>
+              <td>ssnsn</td>
+              <td>snsns</td>
+              <td>ssksks</td>
+              <td>wjwjw</td>
+              <td>djjdd</td>
+              <td>kka</td>
+              <td>form wiw</td>
+            </tr> 
+            </tbody>
+          </table>
+        </div>-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default">Save changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Modal -->
+    <div id="TSEModal" class="modal"> 
+
+      <!-- Modal content -->
+      <div class="modal-content" style="width:1000px">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="TSEClose" aria-hidden="true">&times;</span></button>
+
+          <center><h4>Time Start Event</h4></center>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-default">Save changes</button>
+        <div class="modal-body">
+
+          <div class="panel-group" id="tseaccordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                  <a role="button" data-toggle="collapse" data-parent="#tseaccordion" href="#tsecollapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    General
+                  </a>
+                </h4>
+              </div>
+              <div id="tsecollapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label>id</label>
+                    <input type="text" class="form-control"></input>
+                  </div>
+                  <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control"></input>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="tseheadingTwo">
+                <h4 class="panel-title">
+                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#tseaccordion" href="#tsecollapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Main Config
+                  </a>
+                </h4>
+              </div>
+              <div id="tsecollapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label>Time Duration</label>
+                    <input type="text" class="form-control"></input>
+                  </div>
+                  <div class="form-group">
+                    <label>Time Date</label>
+                    <input type="text" class="form-control"></input>
+                  </div>
+                  <div class="form-group">
+                    <label>Time Cycle</label>
+                    <input type="text" class="form-control"></input>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="tseheadingThree">
+                <h4 class="panel-title">
+                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#tseaccordion" href="#tsecollapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Form
+                  </a>
+                </h4>
+              </div>
+              <div id="tsecollapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <!-- <label>Id</label> -->
+                      <input type="text" class="form-control" id="idvalue" placeholder="Id"><br>
+                      <!--  <label>Type</label> -->
+                      <input type="text" class="form-control" id="idvalue" placeholder="Type"><br>
+                      <!--  <label>Variable</label> -->
+                      <input type="text" class="form-control" id="idvalue" placeholder="Variable"><br>
+                      <!-- <label>Data Pattern</label> -->
+                      <input type="text" class="form-control" id="idvalue" placeholder="Data Pattern"><br>
+                      <!-- <label>Readable</label> -->
+                      <input type="text" class="form-control" id="idvalue" placeholder="Readable"><br>
+                      <a class="btn btn-primary" role="button" data-toggle="collapse" href="#tsecollapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Add Form Value
+                      </a>
+
+                    </div>
+                    <div class="col-md-6">
+                     <!--  <label>Name</label> -->
+                     <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
+                     <!--   <label>Expression</label> -->
+                     <input type="text" class="form-control" id="namevalue" placeholder="Expression"><br>
+                     <!-- <label>Default</label> -->
+                     <input type="text" class="form-control" id="namevalue" placeholder="Default"><br>
+                     <!-- <label>Required</label> -->
+                     <input type="text" class="form-control" id="namevalue" placeholder="Required"><br>
+                     <!-- <label>Writeable</label> -->
+                     <input type="text" class="form-control" id="namevalue" placeholder="Writeable"><br>
+
+
+
+
+                   </div>
+                 </div>
+                 <div class="row">
+
+                  <div class="collapse" id="tsecollapseExample">
+                    <div class="well">
+                      <label>Form value</label>
+                      <input type="text" class="form-control" id="namevalue" placeholder="ID"><br>
+                      <!-- <label>Writeable</label> -->
+                      <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
+                      <button type="button" class="btn btn-default">Add Form value</button>
+                      <table class="table">
+                        <tr>
+                          <th>Id</th>
+                          <th>Name</th>
+                        </tr>
+            <!-- <tr>
+              <td>ss<td>
+              <td>sssn sanss<td>
+              </tr> -->
+            </table>
+
+            <br>
+            
+          </div>
         </div>
       </div>
-     </div>
+      <br>
+      <button type="button" class="btn btn-default">Add Value</button>
+      <br>
+      <br>
+      <table class="table">
+        <tr>
+          <th>
+            Id
+          </th>
+          <th>
+            Name
+          </th>
+          <th>
+            Type
+          </th>
+          <th>
+            Expression
+          </th>
+          <th>
+            Variable
+          </th>
+          <th>
+            Default
+          </th>
+          <th>
+            Pattern
+          </th>
+          <th>
+            Required
+          </th>
+          <th>
+            Readable
+          </th>
+          <th>
+            Writeable
+          </th>
+          <th>
+            Form Value
+          </th>
+        </tr>
+        <tr>
+          <td>awww</td>
+          <td>bwwwww</td>
+          <td>csss</td>
+          <td>dsss</td>
+          <td>ass</td>
+          <td>bsss</td>
+          <td>css</td>
+          <td>daaa</td>
+          <td>asss</td>
+          <td>baaaa</td>
+          <td>csss</td>
+        </tr>
+        <tr>
+          <td>awww</td>
+          <td>bwwwww</td>
+          <td>csss</td>
+          <td>dsss</td>
+          <td>ass</td>
+          <td>bsss</td>
+          <td>css</td>
+          <td>daaa</td>
+          <td>asss</td>
+          <td>baaaa</td>
+          <td>csss</td>
+        </tr>
+        <tr>
+          <td>awww</td>
+          <td>bwwwww</td>
+          <td>csss</td>
+          <td>dsss</td>
+          <td>ass</td>
+          <td>bsss</td>
+          <td>css</td>
+          <td>daaa</td>
+          <td>asss</td>
+          <td>baaaa</td>
+          <td>csss</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default">Save changes</button>
+      </div>
+    </div>
+  </div>
 
+<div id="ESEModal" class="modal"> 
+
+      <!-- Modal content -->
+      <div class="modal-content" style="width:1000px">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="ESEClose" aria-hidden="true">&times;</span></button>
+
+          <center><h4>Error Start Event</h4></center>
+        </div>
+        <div class="modal-body">
+
+          <div class="panel-group" id="eseaccordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                  <a role="button" data-toggle="collapse" data-parent="#eseaccordion" href="#esecollapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    General
+                  </a>
+                </h4>
+              </div>
+              <div id="esecollapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label>id</label>
+                    <input type="text" class="form-control"></input>
+                  </div>
+                  <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control"></input>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="eseheadingTwo">
+                <h4 class="panel-title">
+                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#eseaccordion" href="#esecollapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Main Config
+                  </a>
+                </h4>
+              </div>
+              <div id="esecollapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label>Time Duration</label>
+                    <input type="text" class="form-control"></input>
+                  </div>
+                  <div class="form-group">
+                    <label>Time Date</label>
+                    <input type="text" class="form-control"></input>
+                  </div>
+                  <div class="form-group">
+                    <label>Time Cycle</label>
+                    <input type="text" class="form-control"></input>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="eseheadingThree">  
+                <h4 class="panel-title">
+                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#eseaccordion" href="#esecollapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Form
+                  </a>
+                </h4>
+              </div>
+              <div id="esecollapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <!-- <label>Id</label> -->
+                      <input type="text" class="form-control" id="idvalue" placeholder="Id"><br>
+                      <!--  <label>Type</label> -->
+                      <input type="text" class="form-control" id="idvalue" placeholder="Type"><br>
+                      <!--  <label>Variable</label> -->
+                      <input type="text" class="form-control" id="idvalue" placeholder="Variable"><br>
+                      <!-- <label>Data Pattern</label> -->
+                      <input type="text" class="form-control" id="idvalue" placeholder="Data Pattern"><br>
+                      <!-- <label>Readable</label> -->
+                      <input type="text" class="form-control" id="idvalue" placeholder="Readable"><br>
+                      <a class="btn btn-primary" role="button" data-toggle="collapse" href="#esecollapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Add Form Value
+                      </a>
+
+                    </div>
+                    <div class="col-md-6">
+                     <!--  <label>Name</label> -->
+                     <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
+                     <!--   <label>Expression</label> -->
+                     <input type="text" class="form-control" id="namevalue" placeholder="Expression"><br>
+                     <!-- <label>Default</label> -->
+                     <input type="text" class="form-control" id="namevalue" placeholder="Default"><br>
+                     <!-- <label>Required</label> -->
+                     <input type="text" class="form-control" id="namevalue" placeholder="Required"><br>
+                     <!-- <label>Writeable</label> -->
+                     <input type="text" class="form-control" id="namevalue" placeholder="Writeable"><br>
+
+
+
+
+                   </div>
+                 </div>
+                 <div class="row">
+
+                  <div class="collapse" id="esecollapseExample">
+                    <div class="well">
+                      <label>Form value</label>
+                      <input type="text" class="form-control" id="namevalue" placeholder="ID"><br>
+                      <!-- <label>Writeable</label> -->
+                      <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
+                      <button type="button" class="btn btn-default">Add Form value</button>
+                      <table class="table">
+                        <tr>
+                          <th>Id</th>
+                          <th>Name</th>
+                        </tr>
+            <!-- <tr>
+              <td>ss<td>
+              <td>sssn sanss<td>
+              </tr> -->
+            </table>
+
+            <br>
+            
+          </div>
+        </div>
+      </div>
+      <br>
+      <button type="button" class="btn btn-default">Add Value</button>
+      <br>
+      <br>
+      <table class="table">
+        <tr>
+          <th>
+            Id
+          </th>
+          <th>
+            Name
+          </th>
+          <th>
+            Type
+          </th>
+          <th>
+            Expression
+          </th>
+          <th>
+            Variable
+          </th>
+          <th>
+            Default
+          </th>
+          <th>
+            Pattern
+          </th>
+          <th>
+            Required
+          </th>
+          <th>
+            Readable
+          </th>
+          <th>
+            Writeable
+          </th>
+          <th>
+            Form Value
+          </th>
+        </tr>
+        <tr>
+          <td>awww</td>
+          <td>bwwwww</td>
+          <td>csss</td>
+          <td>dsss</td>
+          <td>ass</td>
+          <td>bsss</td>
+          <td>css</td>
+          <td>daaa</td>
+          <td>asss</td>
+          <td>baaaa</td>
+          <td>csss</td>
+        </tr>
+        <tr>
+          <td>awww</td>
+          <td>bwwwww</td>
+          <td>csss</td>
+          <td>dsss</td>
+          <td>ass</td>
+          <td>bsss</td>
+          <td>css</td>
+          <td>daaa</td>
+          <td>asss</td>
+          <td>baaaa</td>
+          <td>csss</td>
+        </tr>
+        <tr>
+          <td>awww</td>
+          <td>bwwwww</td>
+          <td>csss</td>
+          <td>dsss</td>
+          <td>ass</td>
+          <td>bsss</td>
+          <td>css</td>
+          <td>daaa</td>
+          <td>asss</td>
+          <td>baaaa</td>
+          <td>csss</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default">Save changes</button>
+      </div>
+    </div>
+  </div>
+  <div id="MSEModal" class="modal"> 
+
+      <!-- Modal content -->
+      <div class="modal-content" style="width:1000px">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="MSEClose" aria-hidden="true">&times;</span></button>
+
+          <center><h4>Message Start Event</h4></center>
+        </div>
+        <div class="modal-body">
+
+          <div class="panel-group" id="mseaccordion" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                  <a role="button" data-toggle="collapse" data-parent="#mseaccordion" href="#msecollapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    General
+                  </a>
+                </h4>
+              </div>
+              <div id="msecollapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label>id</label>
+                    <input type="text" class="form-control"></input>
+                  </div>
+                  <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control"></input>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="mseheadingTwo">
+                <h4 class="panel-title">
+                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#mseaccordion" href="#msecollapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Main Config
+                  </a>
+                </h4>
+              </div>
+              <div id="msecollapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label>Message ref</label>
+                    <input type="text" class="form-control"></input>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading" role="tab" id="mseheadingThree">
+                <h4 class="panel-title">
+                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#mseaccordion" href="#msecollapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Listeners
+                  </a>
+                </h4>
+              </div>
+              <div id="msecollapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-md-3">
+                      
+                      <a class="btn btn-primary" role="button" data-parent="#drpaccordion" data-toggle="collapse" href="#jccollapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Java Class
+                      </a>
+
+                    </div>
+                    <div class="col-md-3">
+                     <a class="btn btn-primary" role="button"  data-parent="#drpaccordion" data-toggle="collapse" href="#ecollapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Expression
+                      </a>
+
+
+
+
+                   </div>
+                   <div class="col-md-3">
+                     
+                      <a class="btn btn-primary" role="button"  data-parent="#drpaccordion"  data-toggle="collapse" href="#decollapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Delegate Expression
+                      </a>
+
+
+
+                   </div>
+                   <div class="col-md-3">
+                     
+                      <a class="btn btn-primary" role="button"  data-parent="#drpaccordion" data-toggle="collapse" href="#aescollapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Alfresco Execution Script
+                      </a>
+
+
+
+                   </div>
+                 </div>
+                 <div class="row">
+
+                  <div class="collapse panel-group" id="jccollapseExample">
+                    <div class="well">
+                      <label>Form value</label>
+                      <input type="text" class="form-control" id="namevalue" placeholder="ID"><br>
+                      <!-- <label>Writeable</label> -->
+                      <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
+                      <button type="button" class="btn btn-default">Add Form value</button>
+                      <table class="table">
+                        <tr>
+                          <th>Id</th>
+                          <th>Name</th>
+                        </tr>
+                      </table>
+                      <br>
+                    </div>
+                  </div>
+                  <div class="collapse panel-group" id="ecollapseExample">
+                    <div class="well">
+                      <label>Form value</label>
+                      <input type="text" class="form-control" id="namevalue" placeholder="ID"><br>
+                      <!-- <label>Writeable</label> -->
+                      <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
+                      <button type="button" class="btn btn-default">Add Form value</button>
+                      <table class="table">
+                        <tr>
+                          <th>Id</th>
+                          <th>Name</th>
+                        </tr>
+                      </table>
+                      <br>
+                    </div>
+                  </div>
+                  <div class="collapse panel-group" id="decollapseExample">
+                    <div class="well">
+                      <label>Form value</label>
+                      <input type="text" class="form-control" id="namevalue" placeholder="ID"><br>
+                      <!-- <label>Writeable</label> -->
+                      <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
+                      <button type="button" class="btn btn-default">Add Form value</button>
+                      <table class="table">
+                        <tr>
+                          <th>Id</th>
+                          <th>Name</th>
+                        </tr>
+                      </table>
+                      <br>
+                    </div>
+                  </div>
+                  <div class="collapse panel-group" id="aescollapseExample">
+                    <div class="well">
+                      <label>Form value</label>
+                      <input type="text" class="form-control" id="namevalue" placeholder="ID"><br>
+                      <!-- <label>Writeable</label> -->
+                      <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
+                      <button type="button" class="btn btn-default">Add Form value</button>
+                      <table class="table">
+                        <tr>
+                          <th>Id</th>
+                          <th>Name</th>
+                        </tr>
+                      </table>
+                      <br>
+                    </div>
+                  </div>
+      </div>
+      <br>
+      <button type="button" class="btn btn-default">Add Value</button>
+      <br>
+      <br>
+      <table class="table">
+        <tr>
+          <th>
+            Listener implementation
+          </th>
+          <th>
+            Type
+          </th>
+          <th>
+            Event
+          </th>
+          <th>
+            Fields
+          </th>
+          
+        </tr>
+        <tr>
+          <td>awww</td>
+          <td>bwwwww</td>
+          <td>csss</td>
+          <td>dsss</td>
+          
+        </tr>
+        <tr>
+          <td>awww</td>
+          <td>bwwwww</td>
+          <td>csss</td>
+          <td>dsss</td>
+          
+        </tr>
+        <tr>
+          <td>awww</td>
+          <td>bwwwww</td>
+          <td>csss</td>
+          <td>dsss</td>
+          
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default">Save changes</button>
+      </div>
+    </div>
+  </div>
        <div id="EEModal" class="modal">
  
       <!-- Modal content -->
-      <div class="modal-content">
+      <!-- Modal content -->
+       <div class="modal-content" style="width:1000px">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="EEClose" aria-hidden="true">&times;</span></button>
-          
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="EEClose" aria-hidden="true">&times;</span></button>
+         
           <center><h4>End Event</h4></center>
         </div>
         <div class="modal-body">
-          <div class="form-group">
+
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          General
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        <div class="form-group">
             <label>id</label>
             <input type="text" class="form-control"></input>
           </div>
@@ -79,13 +1016,133 @@
             <label>Name</label>
             <input type="text" class="form-control"></input>
           </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingThree">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Listeners
+        </a>
+      </h4>
+    </div>
+    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="panel-body">
+      <div class="row">
+        <div class="col-md-6">
+            <!-- <label>Id</label> -->
+            <input type="text" class="form-control" id="idvalue" placeholder="Id"><br>
+           <!--  <label>Type</label> -->
+            <input type="text" class="form-control" id="idvalue" placeholder="Type"><br>
+            <!--  <label>Variable</label> -->
+            <input type="text" class="form-control" id="idvalue" placeholder="Variable"><br>
+            <!-- <label>Data Pattern</label> -->
+            <input type="text" class="form-control" id="idvalue" placeholder="Data Pattern"><br>
+            <!-- <label>Readable</label> -->
+            <input type="text" class="form-control" id="idvalue" placeholder="Readable"><br>
+            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+  Add Form Value
+</a>
+            
+          </div>
+          <div class="col-md-6">
+           <!--  <label>Name</label> -->
+            <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
+          <!--   <label>Expression</label> -->
+            <input type="text" class="form-control" id="namevalue" placeholder="Expression"><br>
+             <!-- <label>Default</label> -->
+            <input type="text" class="form-control" id="namevalue" placeholder="Default"><br>
+            <!-- <label>Required</label> -->
+            <input type="text" class="form-control" id="namevalue" placeholder="Required"><br>
+             <!-- <label>Writeable</label> -->
+            <input type="text" class="form-control" id="namevalue" placeholder="Writeable"><br>
+            
+              
+             
+              
+          </div>
+          </div>
+          <div class="row">
+          
+            <div class="collapse" id="collapseExample">
+  <div class="well">
+  <label>Form value</label>
+  <input type="text" class="form-control" id="namevalue" placeholder="ID"><br>
+             <!-- <label>Writeable</label> -->
+            <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
+            <button type="button" class="btn btn-default">Add Form value</button>
+    <table class="table">
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+            </tr>
+            <!-- <tr>
+              <td>ss<td>
+              <td>sssn sanss<td>
+            </tr> -->
+            </table>
+
+            <br>
+            
+  </div>
+</div>
+          </div>
+          <br>
+          <button type="button" class="btn btn-default">Add Value</button>
+          <br>
+          <br>
+        <table class="table">
+        <tr>
+          <th>
+            Listener implementation
+          </th>
+          <th>
+            Type
+          </th>
+          <th>
+            Event
+          </th>
+          <th>
+            Fields
+          </th>
+          
+        </tr>
+        <tr>
+          <td>awww</td>
+          <td>bwwwww</td>
+          <td>csss</td>
+          <td>dsss</td>
+          
+        </tr>
+        <tr>
+          <td>awww</td>
+          <td>bwwwww</td>
+          <td>csss</td>
+          <td>dsss</td>
+          
+        </tr>
+        <tr>
+          <td>awww</td>
+          <td>bwwwww</td>
+          <td>csss</td>
+          <td>dsss</td>
+          
+        </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+   
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-default">Save changes</button>
         </div>
       </div>
-    </div>
+     </div>
 
     <div id="TModal" class="modal"> 
 
@@ -145,6 +1202,28 @@
       </div>
     </div>
 
+    <!-- <div id="TextModal" class="modal"> 
+
+      
+       <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="TextClose" aria-hidden="true">&times;</span></button>
+          
+          <center><h4>Text</h4></center>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Text</label>
+            <input type="text" class="form-control"></input>
+          </div>
+        </div>
+          
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default">Save changes</button>
+        </div>
+      </div>
+    </div> -->
 
     <div id="GModal" class="modal"> 
 

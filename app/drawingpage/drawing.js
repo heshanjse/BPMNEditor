@@ -9,8 +9,10 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
     window.idflow = 0;
    // var arrowbuttonclick = 0;
     var taskbuttonclick = 0;
+    window.endid =0;
     window.startid =0;
     window.starttype = "";
+    window.endtype = "";
     window.startx = 0;
     window.starty = 0;
     window.endx = 0;
@@ -18,7 +20,12 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
     window.midx = 0;
     window.bpmnjson = [];
     window.bpmnElement = null;
+    window.subElement = null;
     window.selectedId =0;
+    window.selectedtextid =null;
+    window.dragFlows =[];
+    window.dragging = false;
+    window.drawing = false;
 //     window.sampleSVG ;
 
    
@@ -41,7 +48,21 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
     sepropertyclose.onclick = function () {
         semodal.style.display = "none";
     }
-
+    window.tsemodal = document.getElementById('TSEModal');
+    var tsepropertyclose = document.getElementById('TSEClose');
+    tsepropertyclose.onclick = function () {
+        tsemodal.style.display = "none";
+    }
+    window.msemodal = document.getElementById('MSEModal');
+    var msepropertyclose = document.getElementById('MSEClose');
+    msepropertyclose.onclick = function () {
+        msemodal.style.display = "none";
+    }
+    window.esemodal = document.getElementById('ESEModal');
+    var esepropertyclose = document.getElementById('ESEClose');
+    esepropertyclose.onclick = function () {
+        esemodal.style.display = "none";
+    }
     window.eemodal = document.getElementById('EEModal');
     var eepropertyclose = document.getElementById('EEClose');
     eepropertyclose.onclick = function () {
@@ -305,6 +326,30 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             document.body.style.cursor = "copy";
             console.log("ok circle");
             bpmnElement = "startEvent";
+            subElement = "StartEvent";
+
+        });
+        d3.select("#start-time-button").on("click", function () {
+            document.body.style.cursor = "copy";
+            console.log("ok circle");
+            bpmnElement = "startEvent";
+            subElement = "TimeStartEvent";
+
+
+        });
+        d3.select("#start-message-button").on("click", function () {
+            document.body.style.cursor = "copy";
+            console.log("ok circle");
+            bpmnElement = "startEvent";
+            subElement = "MessageStartEvent";
+
+
+        });
+        d3.select("#start-error-button").on("click", function () {
+            document.body.style.cursor = "copy";
+            console.log("ok circle");
+            bpmnElement = "startEvent";
+            subElement = "ErrorStartEvent";
 
 
         });
@@ -313,22 +358,97 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
             // console.log("ok circle");
             document.body.style.cursor = "copy";
             bpmnElement = "endEvent";
+            subElement = "EndEvent";
+            
 
+        });
+        d3.select("#error-end-button").on("click", function () {
+            // console.log("ok error");
+            document.body.style.cursor = "copy";
+            bpmnElement = "endEvent";
+            subElement = "ErrorEndEvent";
+
+        });
+        d3.select("#cancel-end-button").on("click", function () {
+            // console.log("ok circle");
+            document.body.style.cursor = "copy";
+            bpmnElement = "endEvent";
+            subElement = "CancelEndEvent";
+
+        });
+        d3.select("#terminate-end-button").on("click", function () {
+            // console.log("ok circle");
+            document.body.style.cursor = "copy";
+            bpmnElement = "endEvent";
+            subElement = "TerminateEndEvent";
 
         });
 
-        d3.select("#task-button").on("click", function () {
+        d3.select("#user-task-button").on("click", function () {
             document.body.style.cursor = "copy";
             bpmnElement = "task";
             console.log("ok task");
+            subElement = "UserTask";
             // Extract the click location\
 
 
         });
-        d3.select("#gateway-button").on("click", function () {
+        d3.select("#script-task-button").on("click", function () {
+            document.body.style.cursor = "copy";
+            bpmnElement = "task";
+            console.log("ok task");
+            subElement = "ScriptTask";
+            // Extract the click location\
+
+
+        });
+        d3.select("#mail-task-button").on("click", function () {
+            document.body.style.cursor = "copy";
+            bpmnElement = "task";
+            console.log("ok task");
+            subElement = "MailTask";
+            // Extract the click location\
+
+
+        });
+        d3.select("#manual-task-button").on("click", function () {
+            document.body.style.cursor = "copy";
+            bpmnElement = "task";
+            console.log("ok task");
+            subElement = "ManualTask";
+            // Extract the click location\
+
+
+        });
+        d3.select("#parallel-gateway-button").on("click", function () {
             console.log("ok gatway");
             document.body.style.cursor = "copy";
             bpmnElement = "gateway";
+            subElement = "parallel";
+
+
+        });
+        d3.select("#exclusive-gateway-button").on("click", function () {
+            console.log("ok gatway");
+            document.body.style.cursor = "copy";
+            bpmnElement = "gateway";
+            subElement = "exclusive";
+
+
+        });
+        d3.select("#inclusive-gateway-button").on("click", function () {
+            console.log("ok gatway");
+            document.body.style.cursor = "copy";
+            bpmnElement = "gateway";
+            subElement = "inclusive";
+
+
+        });
+        d3.select("#event-gateway-button").on("click", function () {
+            console.log("ok gatway");
+            document.body.style.cursor = "copy";
+            bpmnElement = "gateway";
+            subElement = "event";
 
 
         });
@@ -829,31 +949,18 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
 
     svg.on("click", function () {
         console.log("svg onclick")
-        bpmnEventDivider(bpmnElement,svg);
-        //       var sampleSVG = svg;
-        // sampleSVG.append('rect')
-        // .attr('id', 'task'+(++idtaskelement))
-        // .style("stroke", "black")
-        // .style("stroke-width", "2")
-        // .style("fill", "white")
-        // .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY+ ')')
-        // .attr("rx", 10)
-        // .attr("ry", 10)
-        // .attr("width", 120)
-        // .attr("height", 80)
-        // .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");
-        //   var point = d3.mouse(this)
-        //   , p = {mx: point[0], my: point[1] };
+        bpmnEventDivider(bpmnElement,subElement,svg);
 
-        //   console.log(p.mx +"and "+ p.my);
-
-
-        // })
-        // .on("mouseout", function(){d3.select(this).style("fill", "white");})
-        // .on("click", function(){
-        //   tmodal.style.display = "block";
-        // });
-        //  .call(drag);
+        var element = document.getElementById('edittext');
+        var textvalue = element.value;
+        element.value = "";
+        element.style.display = "none";
+        if (window.selectedtextid != null) {
+            console.log(window.selectedtextid)
+            document.getElementById(window.selectedtextid).innerHTML=textvalue; 
+            window.selectedtextid = null;
+        }
+        
     });
 
     window.sampleSVG = svg;
