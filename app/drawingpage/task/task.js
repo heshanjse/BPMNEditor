@@ -340,7 +340,7 @@ var dragtext = group.append('foreignObject')
       .attr("y", function(d) { return 30; })
      .attr('width', 80)
       .attr('height', 50)
-      .append("xhtml:body")
+    //  .append("xhtml:body")
     //  .append('html','<div style="width: 70px; height:45px ; background-color: transparent;">User Task</div>')
      .html("<div id=\"textid"+idtaskelement+"\"; style=\"width: 80%; height:45px ; background-color: transparent;\" >User Task</div>");
 
@@ -684,8 +684,8 @@ var dragbarbottom = newg.append("rect")
 
       function dragmove(d) {
  // if (isXChecked) {
-      dragtext
-            .attr("transform","matrix(1,0,0,1,"+d3.event.x+","+d3.event.y+")")
+      // dragtext
+      //       .attr("transform","matrix(1,0,0,1,"+d3.event.x+","+d3.event.y+")")
          // .attr("x", function(d) { return d3.event.x; })
         //  .attr("y", function(d) { return d3.event.y; });
       group
