@@ -10,23 +10,23 @@ var bpmnEventDivider = function (bpmnElement,subElement,svg) {
     if (bpmnElement === "startEvent") {
         window.bpmnElement = null;
 
-        starteventdevider(subElement,svg);
+        starteventdevider(subElement,svg,d3.event.pageX,d3.event.pageY);
         
     } else if (bpmnElement === "endEvent") {
         window.bpmnElement = null;
         
-        endeventdevider(subElement,svg);
+        endeventdevider(subElement,svg,d3.event.pageX,d3.event.pageY);
 
     } else if (bpmnElement === "task") {
         window.bpmnElement = null;
         var sampleSVG = svg;
 
-        taskdevider(subElement,svg);
+        taskdevider(subElement,svg,d3.event.pageX,d3.event.pageY);
 
 
     } else if (bpmnElement === "gateway") {
         window.bpmnElement = null;
-        gatewaydevider(subElement,svg);
+        gatewaydevider(subElement,svg,d3.event.pageX,d3.event.pageY);
        // var sampleSVG = svg;
         
     }
@@ -40,7 +40,7 @@ var bpmnEventDivider = function (bpmnElement,subElement,svg) {
                        var bpmnobject = bpmnjson[i];
                        console.log(bpmnobject.id);
                         if (bpmnobject.id === id) {
-                          //  bpmnjson.splice($index, 0);
+                          //  bpmnjson.splice(i, 1);
                             
                             bpmnobject.id=0;
 
@@ -49,7 +49,7 @@ var bpmnEventDivider = function (bpmnElement,subElement,svg) {
                             var flow_id =bpmnobject.id;
                           //  d3.select(document.getElementById(flow_id)).remove(); 
                             sampleSVG.select("#group"+flow_id).remove(); 
-                           // bpmnjson.splice(index, i);
+                          // bpmnjson.splice(i, 1);
                             bpmnobject.id=0;
                           //  delete bpmnjson[i];
                         }
@@ -117,6 +117,9 @@ function dragMove(me) {
             sampleSVG.select("#group"+bpmnobject.id).remove(); 
            // sampleSVG.select("#groupflow0").remove(); 
             bpmnobject.id=0;
+           // bpmnjson.splice(i, 1);
+            console.log("---slipse---")
+            console.log(bpmnjson)
 
         }else if (bpmnobject.end_id ===elementid &&  bpmnobject.id != 0) {
             dragFlows.push({
@@ -137,6 +140,9 @@ function dragMove(me) {
             sampleSVG.select("#group"+bpmnobject.id).remove(); 
             //d3.select(document.getElementById(bpmnobject.id)).remove(); 
             bpmnobject.id=0;
+          // bpmnjson.splice(i, 1);
+           console.log("---slipse---")
+            console.log(bpmnjson)
         }
         }
     })

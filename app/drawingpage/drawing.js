@@ -26,6 +26,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
     window.dragFlows =[];
     window.dragging = false;
     window.drawing = false;
+    
 //     window.sampleSVG ;
 
    
@@ -376,7 +377,8 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
                     // TODO better error handling
                     try {
                         var jsonObj = JSON.parse(txtRes);
-                        console.log(jsonObj)
+                      //  console.log(jsonObj)
+                        uploadgraphCreator(jsonObj)
                         // thisGraph.deleteGraph(true);
                         // thisGraph.nodes = jsonObj.nodes;
                         // thisGraph.setIdCt(jsonObj.nodes.length + 1);
@@ -771,6 +773,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
         .attr("width", cwidth)
         .attr("height", height);
      
+
     
 
 

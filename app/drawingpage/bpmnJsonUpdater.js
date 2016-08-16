@@ -29,11 +29,12 @@ function TaskBPMNJsonCreator(id, x, y, width, height,type,subtype) {
             console.log(bpmnjson);
 
 }
-function FlowBPMNJsonCreator(id, start_id, end_id, start_x, start_y,end_x,end_y,mid_x,start_type,end_type) {
+function FlowBPMNJsonCreator(id,type, start_id, end_id, start_x, start_y,end_x,end_y,mid_x,start_type,end_type) {
 
             // console.log(id+x+y+width+height)
             window.bpmnjson.push({
                 "id": id,
+                "type": type,
                 "start_id":start_id,
                 "end_id":end_id,
                 "start_x": start_x,

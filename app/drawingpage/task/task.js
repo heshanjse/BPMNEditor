@@ -1,5 +1,5 @@
 "use strict";
-var taskdevider = function (subElement,svg){  
+var taskdevider = function (subElement,svg,xvalue,yvalue){  
  console.log("commming")
 ++idtaskelement
 var w = window.innerWidth,
@@ -334,6 +334,8 @@ var dragright = d3.behavior.drag()
             sampleSVG.select("#group"+bpmnobject.id).remove(); 
            // d3.select(document.getElementById(bpmnobject.id)).remove(); 
             bpmnobject.id=0;
+           // bpmnjson.splice(i, 1);
+
 
         }else if (bpmnobject.end_id ===elementid &&  bpmnobject.id != 0) {
             dragFlows.push({
@@ -353,7 +355,8 @@ var dragright = d3.behavior.drag()
             console.log(dragFlows)
             sampleSVG.select("#group"+bpmnobject.id).remove(); 
            // d3.select(document.getElementById(bpmnobject.id)).remove(); 
-            bpmnobject.id=0;
+           bpmnobject.id=0;
+          //  bpmnjson.splice(i, 1);
         }
         }
     })
@@ -558,14 +561,16 @@ var dragbottom = d3.behavior.drag()
 //     .attr("height", h)
 
 var newg = svg.append("g")
-      .data([{x: d3.event.pageX, y: d3.event.pageY}]);
+      .data([{x: xvalue, y: yvalue}]);
       // .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
 
 var group = newg.append('g')
-         .attr("transform","matrix(1,0,0,1,"+d3.event.pageX+","+d3.event.pageY+")")
+         .attr("transform","matrix(1,0,0,1,"+xvalue+","+yvalue+")")
          .attr('id', 'icontask' + idtaskelement)
-         .attr("width", 120)
-         .attr("height", 80)
+         // .attr("width", 120)
+         // .attr("height", 80)
+         .attr("width", width)
+         .attr("height", height)
          .call(drag);
          
 if (subElement === "UserTask") {
@@ -577,8 +582,8 @@ var dragtext = group.append('foreignObject')
       .attr('id', 'fobject' + idtaskelement)
       .attr("x", function(d) { return 20 ; })
       .attr("y", function(d) { return 30; })
-     .attr('width', 80)
-      .attr('height', 50)
+     .attr('width', width - 40)
+      .attr('height', height - 30)
     //  .append("xhtml:body")
     //  .append('html','<div style="width: 70px; height:45px ; background-color: transparent;">User Task</div>')
      .html("<div id=\"textid"+idtaskelement+"\"; style=\"width: 80%; height:45px ; background-color: transparent;\" >User Task</div>");
@@ -669,8 +674,8 @@ var dragrect = newg.append("rect")
            .attr('class', 'square')
             .attr('id', 'task' + idtaskelement)
             .style("stroke", "black")
-            .attr("x", function(d) { return d3.event.pageX})
-            .attr("y", function(d) { return d3.event.pageY})
+            .attr("x", function(d) { return xvalue})
+            .attr("y", function(d) { return yvalue})
             .style("stroke-width", "2")
             .style("fill-opacity", "0")
             .attr("cursor", "move")
@@ -737,6 +742,7 @@ var dragrect = newg.append("rect")
                     tooltipDiv.style("opacity", 0);
                     console.log("end evnt button clicked ")
                     var element = document.getElementById('edittext');
+                 //   element.style.width = width;
                     element.style.display = "block";
                     element.style.left = coords.x+"px";
                     element.style.top = coords.y+"px";
@@ -829,7 +835,7 @@ var dragrect = newg.append("rect")
             })
             .call(drag);
 
-            TaskBPMNJsonCreator('task'+idstartelement, d3.event.pageX, d3.event.pageY, 120, 80,"task",subElement);
+            TaskBPMNJsonCreator('task'+idstartelement, xvalue, yvalue, 120, 80,"task",subElement);
              subElement = null;
 
 
@@ -845,8 +851,8 @@ var dragrect = newg.append("rect")
     //   .call(dragleft);
 
 var dragbarleft = newg.append("rect")
-      .attr("x", function(d) { return d3.event.pageX - (dragbarw/2); })
-      .attr("y", function(d) { return d3.event.pageY + (dragbarw/2); })
+      .attr("x", function(d) { return xvalue - (dragbarw/2); })
+      .attr("y", function(d) { return yvalue + (dragbarw/2); })
       .attr("height", height - dragbarw)
     //  .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
       .attr("id", "dragleft")
@@ -857,8 +863,8 @@ var dragbarleft = newg.append("rect")
       .call(dragleft);
 
 var dragbarright = newg.append("rect")
-      .attr("x", function(d) { return d3.event.pageX + width - (dragbarw/2); })
-      .attr("y", function(d) { return d3.event.pageY + (dragbarw/2); })
+      .attr("x", function(d) { return xvalue + width - (dragbarw/2); })
+      .attr("y", function(d) { return yvalue + (dragbarw/2); })
       .attr("id", "dragright")
       .attr("height", height - dragbarw)
    //   .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
@@ -869,8 +875,8 @@ var dragbarright = newg.append("rect")
       .call(dragright);
 
 var dragbartop = newg.append("rect")
-      .attr("x", function(d) { return d3.event.pageX + (dragbarw/2); })
-      .attr("y", function(d) { return d3.event.pageY - (dragbarw/2); })
+      .attr("x", function(d) { return xvalue + (dragbarw/2); })
+      .attr("y", function(d) { return yvalue - (dragbarw/2); })
       .attr("height", dragbarw)
       .attr("id", "dragleft")
       .attr("width", width - dragbarw)
@@ -881,8 +887,8 @@ var dragbartop = newg.append("rect")
       .call(dragtop);
 
 var dragbarbottom = newg.append("rect")
-      .attr("x", function(d) { return d3.event.pageX + (dragbarw/2); })
-      .attr("y", function(d) { return d3.event.pageY + height - (dragbarw/2); })
+      .attr("x", function(d) { return xvalue + (dragbarw/2); })
+      .attr("y", function(d) { return yvalue + height - (dragbarw/2); })
       .attr("id", "dragright")
       .attr("height", dragbarw)
       .attr("width", width - dragbarw)

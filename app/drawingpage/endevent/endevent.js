@@ -1,7 +1,7 @@
 "use strict";
-var endeventdevider = function (subElement,svg){  
+var endeventdevider = function (subElement,svg,xvalue,yvalue){  
 var group = svg.append('g')
-        .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
+        .attr('transform', 'translate(' + xvalue + ',' + yvalue + ')')
         .attr('id', 'endEvent' + (++idendelement))
         .call(drag)
 // var sampleSVG = svg;
@@ -176,7 +176,7 @@ var group = svg.append('g')
         // .attr("d","m 12.8,12 5.942857142857143,7.771428571428571 -5.942857142857143,7.771428571428571,2.742857142857143,0 4.571428571428571,-5.971382857142857 4.571428571428571,5.971382857142857,2.742857142857143,0 -5.942857142857143,-7.771428571428571 5.942857142857143,-7.771428571428571,-2.742857142857143,0 -4.571428571428571,5.971382857142857 -4.571428571428571,-5.971382857142857,-2.742857142857143,0 z")   
      
 
-            EventBPMNJsonCreator('endEvent'+idstartelement, d3.event.pageX, d3.event.pageY, 20, 20,"endEvent",subElement);
+            EventBPMNJsonCreator('endEvent'+idstartelement, xvalue, yvalue, 20, 20,"endEvent",subElement);
             subElement = null;
  }
 

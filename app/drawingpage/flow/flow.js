@@ -114,7 +114,7 @@ var flowcreator = function (){
                     .style('opacity',0)
                     .call(dragger);
 
-                    FlowBPMNJsonCreator('flow'+idflow, startid, endid, startx, starty,endx,endy,midx,starttype,endtype); 
+                    FlowBPMNJsonCreator('flow'+idflow,"flow", startid, endid, startx, starty,endx,endy,midx,starttype,endtype); 
 
                     starttype= "";
                     endtype = "";

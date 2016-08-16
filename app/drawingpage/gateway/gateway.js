@@ -1,7 +1,7 @@
 "use strict";
-var gatewaydevider = function (subElement,svg){  
+var gatewaydevider = function (subElement,svg,xvalue,yvalue){  
 var g2 = svg.append('g')
-        .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
+        .attr('transform', 'translate(' + xvalue + ',' + yvalue + ')')
         .attr('id', 'gateway' + (++idgatewayelement))
         .call(drag);
       //  
@@ -208,7 +208,7 @@ var g2 = svg.append('g')
           
           
 
-              EventBPMNJsonCreator('gateway'+idstartelement, d3.event.pageX, d3.event.pageY, 120, 80,"gateway",subElement);
+              EventBPMNJsonCreator('gateway'+idstartelement, xvalue, yvalue, 120, 80,"gateway",subElement);
               subElement = null;
 
  }
