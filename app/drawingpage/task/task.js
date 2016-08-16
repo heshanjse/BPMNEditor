@@ -742,7 +742,8 @@ var dragrect = newg.append("rect")
                     tooltipDiv.style("opacity", 0);
                     console.log("end evnt button clicked ")
                     var element = document.getElementById('edittext');
-                 //   element.style.width = width;
+                    element.style.width = width+"px";
+                    element.style.height = height+"px";
                     element.style.display = "block";
                     element.style.left = coords.x+"px";
                     element.style.top = coords.y+"px";
