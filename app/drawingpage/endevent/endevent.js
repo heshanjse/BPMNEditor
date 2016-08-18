@@ -129,17 +129,21 @@ var group = svg.append('g')
                     coords = getScreenCoords(cx, cy, ctm);
 
                 if (window.bpmnElement === "flowselect") {
-                    endtype = "endEvent"
-                    window.bpmnElement = null
+                    endtype = "endEvent";
+                    drawing = true;
+                    window.bpmnElement = null;
+                    // console.log("startid : "+ startid);
+                    // console.log("startx : "+ startx);
+                    // console.log("starty : "+ starty);
                     console.log("iddddd : "+t)
-                    endid =t;
+                    //endid =t;
                     
                     if (coords.x > startx) {
                         if (starttype === "startEvent") {
                             startx = startx + 20;
                             starty = starty;  
                         }else if (starttype === "task") {
-                            startx = startx + 120;
+                            startx = startx + taskwidth;
                             starty = starty + 40;
                         }else if (starttype === "gateway") {
                             startx = startx + 30;
@@ -161,9 +165,12 @@ var group = svg.append('g')
                         endx = coords.x + 26;
                         endy = coords.y;
                     }
-                    endid =t;
+                    endid = t;
 
                     midx = startx + ((endx - startx) / 2);
+                    console.log("startid : "+ startid);
+                    console.log("startx : "+ startx);
+                    console.log("starty : "+ starty);
                     flowcreator();
 
                       

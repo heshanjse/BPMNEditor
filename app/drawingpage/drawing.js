@@ -26,6 +26,7 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
     window.dragFlows =[];
     window.dragging = false;
     window.drawing = false;
+    window.taskwidth = 0;
     
 //     window.sampleSVG ;
 

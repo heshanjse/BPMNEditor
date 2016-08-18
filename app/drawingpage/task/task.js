@@ -758,6 +758,8 @@ var dragrect = newg.append("rect")
                     startid =t;
                     startx = coords.x;
                     starty = coords.y;
+                    taskwidth = width;
+                    console.log(taskwidth)
                     window.bpmnElement = "flowselect";
                     document.body.style.cursor = "e-resize";
                 });
@@ -785,25 +787,29 @@ var dragrect = newg.append("rect")
                     coords = getScreenCoords(cx, cy, ctm);
 
                 if (window.bpmnElement === "flow") {
+                    console.log(width)
                     starttype = "task";
                     startid =t;
                     startx = coords.x;
                     starty = coords.y;
+                    
                     window.bpmnElement = "flowselect";
                     document.body.style.cursor = "e-resize";
                     console.log("ok1")
                     console.log(startx)
                     console.log(starty)
+                    console.log(taskwidth)
                 } else if (window.bpmnElement === "flowselect") {
                     endtype = "task"
                     endid =t;
+                    console.log(taskwidth)
                     window.bpmnElement = null
                     if (coords.x > startx) {
                         if (starttype === "startEvent") {
                             startx = startx + 20;
                             starty = starty;  
                         }else if (starttype === "task") {
-                            startx = startx + 120;
+                            startx = startx + taskwidth ;
                             starty = starty + 40;
                         }else if (starttype === "gateway") {
                             startx = startx + 30;
@@ -822,7 +828,7 @@ var dragrect = newg.append("rect")
                             startx = startx - 30;
                             starty = starty + 30;
                         }
-                        endx = coords.x + 127;
+                        endx = coords.x + width+7;
                         endy = coords.y + 40;
                     }
                     
@@ -830,13 +836,13 @@ var dragrect = newg.append("rect")
                     midx = startx + ((endx - startx) / 2);
                     endid =t;
                     flowcreator();
-                
+                    taskwidth=0;
                 }
 
             })
             .call(drag);
 
-            TaskBPMNJsonCreator('task'+idstartelement, xvalue, yvalue, 120, 80,"task",subElement);
+            TaskBPMNJsonCreator('task'+idstartelement, xvalue, yvalue, width, height,"task",subElement);
              subElement = null;
 
 

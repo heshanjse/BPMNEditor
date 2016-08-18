@@ -1,5 +1,10 @@
 "use strict";
 var flowcreator = function (){  
+    console
+    console.log("startid : "+ startid);
+    console.log("startx : "+ startx);
+    console.log("starty : "+ starty);
+
     var dragger = d3.behavior.drag() //flow drag
     .on('drag', handleDrag)
     .on('dragend', function(d){
@@ -59,7 +64,7 @@ var flowcreator = function (){
 
                             tooltipDiv.select("#trash-button").on("click", function () {
                                 tooltipDiv.style("opacity", 0);
-                              //  deleteElement(t);
+                                deleteElement(t);
                                 sampleSVG.select("#group"+t).remove(); 
                                 t=0;
                                 // semodal.style.display = "block";
@@ -124,8 +129,10 @@ var flowcreator = function (){
                     endy = 0;
                     startid =0;
                     endid =0;
+                    midx =0;
                     points.splice(0);
                     drawing = false;
+
  }
 
  function handleDrag() {

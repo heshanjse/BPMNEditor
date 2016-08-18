@@ -95,7 +95,7 @@ var group = svg.append('g')
                     cy = +circle.getAttribute('cy'),
                     ctm = circle.getCTM(),
                     coords = getScreenCoords(cx, cy, ctm);
-                console.log(coords.x, coords.y);
+           //     console.log(coords.x, coords.y);
 
                 tooltipDiv.transition()
                     .duration(200)
@@ -149,6 +149,9 @@ var group = svg.append('g')
                     starty = coords.y;
                     window.bpmnElement = "flowselect";
                     document.body.style.cursor = "e-resize";
+                    console.log("startid : "+ startid)
+                    console.log("startx : "+ startx)
+                    console.log("starty : "+ starty)
 
                 });
 

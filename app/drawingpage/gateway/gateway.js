@@ -173,7 +173,8 @@ var g2 = svg.append('g')
                             startx = startx + 20;
                             starty = starty;  
                         }else if (starttype === "task") {
-                            startx = startx + 120;
+                          //  startx = startx + 120;
+                          startx = startx + taskwidth;
                             starty = starty + 40;
                         }else if (starttype === "gateway") {
                             startx = startx + 30;

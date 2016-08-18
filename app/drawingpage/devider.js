@@ -97,7 +97,34 @@ function dragMove(me) {
         for (var i = 0; i < bpmnjson.length; i++) {
             var bpmnobject = bpmnjson[i];
 
-        if (bpmnobject.start_id === elementid &&  bpmnobject.id != 0) {
+        // if (bpmnobject.start_id === elementid && bpmnobject.start_type ==="task" &&  bpmnobject.id != 0) {
+        //     console.log("")
+        //     dragFlows.push({
+        //         "id": bpmnobject.id,
+        //         "start_id":bpmnobject.start_id,
+        //         "end_id":bpmnobject.end_id,
+        //         "start_x": bpmnobject.start_x,
+        //         "start_y": bpmnobject.start_y,
+        //         "end_x": bpmnobject.end_x,
+        //         "end_y": bpmnobject.end_y,
+        //         "mid_x":bpmnobject.mid_x,
+        //         "width":bpmnobject.width,
+        //         "start_type":bpmnobject.start_type,
+        //         "end_type":bpmnobject.end_type,
+        //         "connection" : "start"
+        //     })
+        //     console.log(bpmnobject.width)
+        //     console.log(bpmnobject.id+" removed")
+        //     console.log("#group"+bpmnobject.id)
+        //     sampleSVG.select("#group"+bpmnobject.id).remove(); 
+        //    // sampleSVG.select("#groupflow0").remove(); 
+        //     bpmnobject.id=0;
+        //    // bpmnjson.splice(i, 1);
+        //     console.log("---slipse---")
+        //     console.log(bpmnjson)
+
+        // }else
+         if (bpmnobject.start_id === elementid &&  bpmnobject.id != 0) {
             console.log("")
             dragFlows.push({
                 "id": bpmnobject.id,
@@ -325,7 +352,8 @@ function dragMove(me) {
                             endx = coords.x - 2;
                             endy = coords.y + 40;
                         }else if (flow.end_type === "gateway") {
-                            endx = coords.x + 35;
+                          //  endx = coords.x + 35;
+                          endx = coords.x + 35;
                             endy = coords.y + 30;
                         }
                         // endx = coords.x + 35;
