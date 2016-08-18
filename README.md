@@ -13,4 +13,4 @@ User can implement BPMN diagrams using task,gateway,start event and end events.
 
 This Editor has the capability to build complete Business process diagrams,download Business process diagram in Json format file and upload json format file and generate Business process diagram.
 
-<a href="http://tinypic.com?ref=2gw5ag5" target="_blank"><img src="http://i65.tinypic.com/2gw5ag5.png" border="0" alt="Image and video hosting by TinyPic"></a>
+<a href="http://tinypic.com?ref=2gw5ag5" target="_blank"><img src="http://i65.tinypic.com/2gw5ag5.png" border="0" alt="Image and video hosting by TinyPic"  height="490" width="500"></a>
