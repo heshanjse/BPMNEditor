@@ -83,6 +83,11 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
         gmodal.style.display = "none";
     }
 
+    window.fmodal = document.getElementById('FModal');
+    var fpropertycloses = document.getElementById('FClose');
+    fpropertycloses.onclick = function () {
+        fmodal.style.display = "none";
+    }
 
 
    
