@@ -73,7 +73,7 @@ var flowcreator = function (){
                             tooltipDiv.select("#property-button").on("click", function () {
                                 tooltipDiv.style("opacity", 0);
                                 console.log("end evnt button clicked ")
-                                eemodal.style.display = "block";
+                                fmodal.style.display = "block";
                             });
                         });
 
