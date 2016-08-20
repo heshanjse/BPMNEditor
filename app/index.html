@@ -6,8 +6,10 @@
     <link rel="stylesheet" type="text/css" href="public/css/app.css" />
     <script type="text/javascript" src="public/js/d3.js" charset="utf-8"></script>
     <script type="text/javascript" src="public/js/jquery.min.js" charset="utf-8"></script>     
-    <script type="text/javascript" src="public/js/angular.min.js" charset="utf-8"></script>  
+    <script type="text/javascript" src="public/js/angular.min.js" charset="utf-8"></script> 
     <script type="text/javascript" src="public/js/bootstrap.js" charset="utf-8"></script>
+    <script type="text/javascript" src="public/js/FileSaver.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="drawingpage/bpmnuploader.js" charset="utf-8"></script>
     <script type="text/javascript" src="drawingpage/devider.js" charset="utf-8"></script>
     <script type="text/javascript" src="drawingpage/bpmnJsonUpdater.js" charset="utf-8"></script>
     <script type="text/javascript" src="drawingpage/startevent/startevent.js" charset="utf-8"></script>
@@ -20,6 +22,10 @@
   <body >
 
  <div id="mySvg"></div>
+    <div id="toolbox_other">
+      <input type="file" id="hidden-file-upload"><input id="upload-input" type="image" title="upload graph" src="img/upload-icon.png" alt="upload graph"> <input type="image" id="download-input" title="download graph" src="img/download-icon.png" alt="download graph">
+       <!-- <input type="image" id="delete-graph" title="delete graph" src="img/trash-icon.png" alt="delete graph">  -->
+    </div>
     <textarea id="edittext" title="Press SHIFT+Enter for line feed" style="width: 120px; height: 80px; left: 608px; top: 180px; position: absolute; text-align: center; box-sizing: border-box; margin: 0px; display: none;"></textarea>
 
     <div id="toolbox">
@@ -42,13 +48,7 @@
       <input id="mail-task-button" type="image" title="Mail Task" src="img/message.svg" alt="Mail Task" style="width: 30px;height: 30px">
       <input id="manual-task-button" type="image" title="Manual Task" src="img/manual.svg" alt="Manual Task" style="width: 30px;height: 30px"><br>
       <hr>
-    <!--   <span><b>Boundary Event</b></span><br> -->
-    <!--  <input id="start-button" type="image" title="Time Boundary Event" src="img/timeboundary.png" alt="Time Boundary Event" style="width: 30px;height: 30px">
-     <input id="start-button" type="image" title="Error Boundary Event" src="img/errorboundary.png" alt="Error Boundary Event" style="width: 30px;height: 30px"><br>
-     <input id="start-button" type="image" title="Message Boundary Event" src="img/messageboundary.png" alt="Message Boundary Event" style="width: 30px;height: 30px">
-     <input id="start-button" type="image" title="Signal Boundary Event" src="img/signalboundary.png" alt="Signal Boundary Event" style="width: 30px;height: 30px"><br>
-     <hr> -->
-    <!--  <span><b>Gateway</b></span><br> -->
+    
      <input id="parallel-gateway-button" type="image" title="Parallel Gateway" src="img/parallelgateway.png" alt="Parallel Gateway" style="width: 30px;height: 30px">
       <input id="exclusive-gateway-button" type="image" title="Exclusive Gateway" src="img/Exclusivegateway.png" alt="Exclusive Gateway" style="width: 30px;height: 30px"><br>
       <input id="inclusive-gateway-button" type="image" title="Inclusive Gateway" src="img/inclusivedateway.png" alt="Inclusive Gateway" style="width: 30px;height: 30px">
@@ -64,7 +64,7 @@
       <!-- Modal content -->
       <div class="modal-content" style="width:1000px">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="SEClose" aria-hidden="true">&times;</span></button>
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="SEClose" aria-hidden="true">&times;</span></button> -->
 
           <center><h4>Start Event</h4></center>
         </div>
@@ -222,7 +222,7 @@
             Form Value
           </th>
         </tr>
-        <tr>
+        <!-- <tr>
           <td>awww</td>
           <td>bwwwww</td>
           <td>csss</td>
@@ -260,69 +260,17 @@
           <td>asss</td>
           <td>baaaa</td>
           <td>csss</td>
-        </tr>
+        </tr> -->
       </table>
     </div>
   </div>
 </div>
 </div>
-       <!--  <h5>General</h5>
-          <div class="form-group">
-            <label>id</label>
-            <input type="text" class="form-control"></input>
-          </div>
-          <div class="form-group">
-            <label>Name</label>
-            <input type="text" class="form-control"></input>
-          </div>
-          <h5>Main config</h5>
-          <hr>
-          <div class="form-group">
-            <label>Initiator</label>
-            <input type="text" class="form-control"></input>
-          </div>
-          <div class="form-group">
-            <label>Form Key</label>
-            <input type="text" class="form-control"></input>
-          </div>
-          <div class="form-group">
-          <table class="table">
-          <thead class="thead-inverse">
-            <tr>
-              <td>Id</td>
-              <td>Name</td>
-              <td>Type</td>
-              <td>Expression</td>
-              <td>Variable</td>
-              <td>Default</td>
-              <td>Pattern</td>
-              <td>Required</td>
-              <td>Readable</td>
-              <td>Writeable</td>
-              <td>form values</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>100</td>
-              <td>sjjs</td>
-              <td>djdj</td>
-              <td>djdjdjd</td>
-              <td>ssnsn</td>
-              <td>snsns</td>
-              <td>ssksks</td>
-              <td>wjwjw</td>
-              <td>djjdd</td>
-              <td>kka</td>
-              <td>form wiw</td>
-            </tr> 
-            </tbody>
-          </table>
-        </div>-->
+       
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-default">Save changes</button>
+        <button id="SEClose" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-default">Save</button>
       </div>
     </div>
   </div>
@@ -333,7 +281,7 @@
       <!-- Modal content -->
       <div class="modal-content" style="width:1000px">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="TSEClose" aria-hidden="true">&times;</span></button>
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="TSEClose" aria-hidden="true">&times;</span></button> -->
 
           <center><h4>Time Start Event</h4></center>
         </div>
@@ -495,7 +443,7 @@
             Form Value
           </th>
         </tr>
-        <tr>
+        <!-- <tr>
           <td>awww</td>
           <td>bwwwww</td>
           <td>csss</td>
@@ -533,7 +481,7 @@
           <td>asss</td>
           <td>baaaa</td>
           <td>csss</td>
-        </tr>
+        </tr> -->
       </table>
     </div>
   </div>
@@ -542,8 +490,8 @@
       
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-default">Save changes</button>
+        <button type="button" id="TSEClose" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-default">Save</button>
       </div>
     </div>
   </div>
@@ -553,7 +501,7 @@
       <!-- Modal content -->
       <div class="modal-content" style="width:1000px">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="ESEClose" aria-hidden="true">&times;</span></button>
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="ESEClose" aria-hidden="true">&times;</span></button> -->
 
           <center><h4>Error Start Event</h4></center>
         </div>
@@ -715,7 +663,7 @@
             Form Value
           </th>
         </tr>
-        <tr>
+       <!--  <tr>
           <td>awww</td>
           <td>bwwwww</td>
           <td>csss</td>
@@ -753,7 +701,7 @@
           <td>asss</td>
           <td>baaaa</td>
           <td>csss</td>
-        </tr>
+        </tr> -->
       </table>
     </div>
   </div>
@@ -762,8 +710,8 @@
       
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-default">Save changes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" id="ESEClose">Cancel</button>
+        <button type="button" class="btn btn-default">Save</button>
       </div>
     </div>
   </div>
@@ -772,7 +720,7 @@
       <!-- Modal content -->
       <div class="modal-content" style="width:1000px">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="MSEClose" aria-hidden="true">&times;</span></button>
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="MSEClose" aria-hidden="true">&times;</span></button> -->
 
           <center><h4>Message Start Event</h4></center>
         </div>
@@ -951,7 +899,7 @@
           </th>
           
         </tr>
-        <tr>
+       <!--  <tr>
           <td>awww</td>
           <td>bwwwww</td>
           <td>csss</td>
@@ -971,7 +919,7 @@
           <td>csss</td>
           <td>dsss</td>
           
-        </tr>
+        </tr> -->
       </table>
     </div>
   </div>
@@ -980,8 +928,8 @@
       
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-default">Save changes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" id="MSEClose">Cancel</button>
+        <button type="button" class="btn btn-default">Save</button>
       </div>
     </div>
   </div>
@@ -991,7 +939,7 @@
       <!-- Modal content -->
        <div class="modal-content" style="width:1000px">
         <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="EEClose" aria-hidden="true">&times;</span></button>
+       <!--  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="EEClose" aria-hidden="true">&times;</span></button> -->
          
           <center><h4>End Event</h4></center>
         </div>
@@ -1138,8 +1086,8 @@
    
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-default">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" id="EEClose">Cancel</button>
+          <button type="button" class="btn btn-default">Save</button>
         </div>
       </div>
      </div>
@@ -1149,7 +1097,7 @@
       <!-- Modal content -->
        <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="TClose" aria-hidden="true">&times;</span></button>
+         <!--  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="TClose" aria-hidden="true">&times;</span></button> -->
           
           <center><h4>Task</h4></center>
         </div>
@@ -1196,8 +1144,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-default">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" id="TClose">Cancel</button>
+          <button type="button" class="btn btn-default">Save</button>
         </div>
       </div>
     </div>
@@ -1224,13 +1172,38 @@
         </div>
       </div>
     </div> -->
+    <div id="FModal" class="modal"> 
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="GClose" aria-hidden="true">&times;</span></button> -->
+          
+          <center><h4>Flow</h4></center>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>id</label>
+            <input type="text" class="form-control"></input>
+          </div>
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control"></input>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" id="FClose">Cancel</button>
+          <button type="button" class="btn btn-default">Save</button>
+        </div>
+      </div>
+    </div> 
 
     <div id="GModal" class="modal"> 
 
       <!-- Modal content -->
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="GClose" aria-hidden="true">&times;</span></button>
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="GClose" aria-hidden="true">&times;</span></button> -->
           
           <center><h4>Gateway</h4></center>
         </div>
@@ -1245,8 +1218,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-default">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" id="GClose">Cancel</button>
+          <button type="button" class="btn btn-default">Save</button>
         </div>
       </div>
     </div> 
@@ -1255,4 +1228,7 @@
     <!-- <script src="//cdn.jsdelivr.net/filesaver.js/0.1/FileSaver.min.js"></script> -->
   </body>
 
+  
+    
+    
 </html>

@@ -1,7 +1,7 @@
 "use strict";
-var gatewaydevider = function (subElement,svg){  
+var gatewaydevider = function (subElement,svg,xvalue,yvalue){  
 var g2 = svg.append('g')
-        .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
+        .attr('transform', 'translate(' + xvalue + ',' + yvalue + ')')
         .attr('id', 'gateway' + (++idgatewayelement))
         .call(drag);
       //  
@@ -12,7 +12,6 @@ var g2 = svg.append('g')
                   g2.append('path')
         .attr("d","m 12.8,12 5.942857142857143,7.771428571428571 -5.942857142857143,7.771428571428571,2.742857142857143,0 4.571428571428571,-5.971382857142857 4.571428571428571,5.971382857142857,2.742857142857143,0 -5.942857142857143,-7.771428571428571 5.942857142857143,-7.771428571428571,-2.742857142857143,0 -4.571428571428571,5.971382857142857 -4.571428571428571,-5.971382857142857,-2.742857142857143,0 z")   
         .attr("transform","matrix(1.4375,0,0,1.4375,-28.9375,1.9375)")
-     //.attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
           // .call(drag) ;
 
            }else if (subElement === "parallel") {
@@ -174,7 +173,8 @@ var g2 = svg.append('g')
                             startx = startx + 20;
                             starty = starty;  
                         }else if (starttype === "task") {
-                            startx = startx + 120;
+                          //  startx = startx + 120;
+                          startx = startx + taskwidth;
                             starty = starty + 40;
                         }else if (starttype === "gateway") {
                             startx = startx + 30;
@@ -201,73 +201,7 @@ var g2 = svg.append('g')
                     midx = startx + ((endx - startx) / 2);
                     flowcreator();
 
-                    // sampleSVG.append("marker")
-                    //     .attr("id", "triangle"+(++idflow))
-                    //     .attr("viewBox", "0 0 10 10")
-                    //     .attr("refX", "0")
-                    //     .attr("refY", "5")
-                    //     .attr("markerUnits", "strokeWidth")
-                    //     .attr("markerWidth", "5")
-                    //     .attr("markerHeight", "4")
-                    //     .attr("orient", "auto")
-                    //     .append('svg:path')
-                    //     .attr('d', 'M 0 0 L 10 5 L 0 10 z');
-
-
-                    // sampleSVG.append("polyline")      // attach a polyline
-                    //     .attr("id", "flow"+idflow)
-                    //     .attr("marker-end", "url(#triangle"+idflow+")")
-                    //     .style("stroke", "black")  // colour the line
-                    //     .style("fill", "none")     // remove any fill colour
-                    //     .style("stroke-width", "2")
-                    //     .attr("points", startx + "," + starty + "," + midx + "," + starty + "," + midx + "," + endy + "," + endx + "," + endy)
-                    //     .on("mouseover", function (d) {
-                    //         console.log("flow mouse over")
-
-                   
-                
-                // var t = d3.select(this).attr("id");
-
-                // function getScreenCoords(x, y, ctm) {
-                //     var xn = ctm.e + x * ctm.a + y * ctm.c;
-                //     var yn = ctm.f + x * ctm.b + y * ctm.d;
-                //     return {x: xn, y: yn};
-                // }
-
-                // var circle = document.getElementById(t),
-                //     cx = +circle.getAttribute('cx'),
-                //     cy = +circle.getAttribute('cy'),
-                //     ctm = circle.getCTM(),
-                //     coords = getScreenCoords(cx, cy, ctm);
-                // console.log(coords.x, coords.y);
-
-                // tooltipDiv.transition()
-                //     .duration(200)
-                //     .style("opacity", 1.9);
-
-                // tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >" + "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
-                //     .style("left", coords.x + 20 + "px")
-                //     .style("top", (coords.y - 20) + "px");
-
-
-                // tooltipDiv.select("#trash-button").on("click", function () {
-                //     tooltipDiv.style("opacity", 0);
-                //     // semodal.style.display = "block";
-                // });
-
-                // tooltipDiv.select("#property-button").on("click", function () {
-                //     tooltipDiv.style("opacity", 0);
-                //     console.log("end evnt button clicked ")
-                //     semodal.style.display = "block";
-                // });
-                    // });
-                    // FlowBPMNJsonCreator('flow'+idflow, startid, t, startx, starty,endx,endy,midx,starttype,endtype);    
-                    // starttype= "";
-                    // endtype = "";
-                    // startx = 0;
-                    // starty = 0;
-                    // endx = 0;
-                    // endy = 0;
+                  
                 }
             })
          //   .call(drags)
@@ -275,12 +209,7 @@ var g2 = svg.append('g')
           
           
 
-           
-        //     group.append('path')
-        // .attr("d","m 12.8,12 5.942857142857143,7.771428571428571 -5.942857142857143,7.771428571428571,2.742857142857143,0 4.571428571428571,-5.971382857142857 4.571428571428571,5.971382857142857,2.742857142857143,0 -5.942857142857143,-7.771428571428571 5.942857142857143,-7.771428571428571,-2.742857142857143,0 -4.571428571428571,5.971382857142857 -4.571428571428571,-5.971382857142857,-2.742857142857143,0 z")   
-     
-
-              EventBPMNJsonCreator('gateway'+idstartelement, d3.event.pageX, d3.event.pageY, 120, 80,"gateway",subElement);
+              EventBPMNJsonCreator('gateway'+idstartelement, xvalue, yvalue, 120, 80,"gateway",subElement);
               subElement = null;
 
  }

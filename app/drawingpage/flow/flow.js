@@ -1,5 +1,10 @@
 "use strict";
 var flowcreator = function (){  
+    console
+    console.log("startid : "+ startid);
+    console.log("startx : "+ startx);
+    console.log("starty : "+ starty);
+
     var dragger = d3.behavior.drag() //flow drag
     .on('drag', handleDrag)
     .on('dragend', function(d){
@@ -59,7 +64,7 @@ var flowcreator = function (){
 
                             tooltipDiv.select("#trash-button").on("click", function () {
                                 tooltipDiv.style("opacity", 0);
-                              //  deleteElement(t);
+                                deleteElement(t);
                                 sampleSVG.select("#group"+t).remove(); 
                                 t=0;
                                 // semodal.style.display = "block";
@@ -68,7 +73,7 @@ var flowcreator = function (){
                             tooltipDiv.select("#property-button").on("click", function () {
                                 tooltipDiv.style("opacity", 0);
                                 console.log("end evnt button clicked ")
-                                eemodal.style.display = "block";
+                                fmodal.style.display = "block";
                             });
                         });
 
@@ -114,7 +119,7 @@ var flowcreator = function (){
                     .style('opacity',0)
                     .call(dragger);
 
-                    FlowBPMNJsonCreator('flow'+idflow, startid, endid, startx, starty,endx,endy,midx,starttype,endtype); 
+                    FlowBPMNJsonCreator('flow'+idflow,"flow", startid, endid, startx, starty,endx,endy,midx,starttype,endtype); 
 
                     starttype= "";
                     endtype = "";
@@ -124,8 +129,10 @@ var flowcreator = function (){
                     endy = 0;
                     startid =0;
                     endid =0;
+                    midx =0;
                     points.splice(0);
                     drawing = false;
+
  }
 
  function handleDrag() {
