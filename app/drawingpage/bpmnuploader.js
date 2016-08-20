@@ -2,22 +2,20 @@
 function uploadgraphCreator(data) {
     console.log(data)
        // console.log(data.bpmnjson.length)
-            for (var i = 0; i < data.bpmnjson.length ; i++) {
-                var bpmnelement = data.bpmnjson[i]
-                console.log(bpmnelement.type)
-                console.log(bpmnelement.x)
-                    console.log(bpmnelement.y)
+            for (var i = 0; i < data.bpmn.length ; i++) {
+                var bpmnelement = data.bpmn[i]
+                
                 if (bpmnelement.type === "startEvnet") {
                     console.log("oki se")
                     console.log(bpmnelement.subtype)
-                    starteventdevider(bpmnelement.subtype,sampleSVG,bpmnelement.x,bpmnelement.y)
+                    starteventdevider(bpmnelement.id,bpmnelement.subtype,sampleSVG,bpmnelement.x,bpmnelement.y)
                 }else if (bpmnelement.type === "endEvent") {
-                    endeventdevider(bpmnelement.subtype,sampleSVG,bpmnelement.x,bpmnelement.y)
+                    endeventdevider(bpmnelement.id,bpmnelement.subtype,sampleSVG,bpmnelement.x,bpmnelement.y)
                 } else if (bpmnelement.type === "gateway") {
-                    gatewaydevider(bpmnelement.subtype,sampleSVG,bpmnelement.x,bpmnelement.y)
+                    gatewaydevider(bpmnelement.id,bpmnelement.subtype,sampleSVG,bpmnelement.x,bpmnelement.y)
                 } 
                 else if (bpmnelement.type === "task") {
-                    taskdevider(bpmnelement.subtype,sampleSVG,bpmnelement.x,bpmnelement.y)
+                    taskdevider(bpmnelement.id,bpmnelement.subtype,sampleSVG,bpmnelement.x,bpmnelement.y)
                 }else if (bpmnelement.type === "flow") {
                     starttype= bpmnelement.start_type;
                     endtype = bpmnelement.end_type;
@@ -28,10 +26,19 @@ function uploadgraphCreator(data) {
                     startid =bpmnelement.start_id;
                     endid =bpmnelement.end_id;
                     midx = startx + ((endx - startx) / 2);
-                    flowcreator()
+                    flowcreator(bpmnelement.id)
                 }
+                if (bpmnelement.id === "data") {
+            idstartelement = bpmnelement.idstartelement;
+            idendelement = bpmnelement.idendelement;
+            idtaskelement = bpmnelement.idstartelement;
+            idgatewayelement = bpmnelement.idgatewayelement;
+            idflow = bpmnelement.idflow;
+             delete array[i];
+                }
+
             }
             bpmnjson = [];
-            bpmnjson = data.bpmnjson;
+            bpmnjson = data.bpmn;
            
 }

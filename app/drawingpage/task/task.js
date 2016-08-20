@@ -1,5 +1,5 @@
 "use strict";
-var taskdevider = function (subElement,svg,xvalue,yvalue){  
+var taskdevider = function (eid,subElement,svg,xvalue,yvalue){  
  console.log("commming")
 ++idtaskelement
 var w = window.innerWidth,
@@ -19,6 +19,7 @@ var drag = d3.behavior.drag()
     .on("dragstart", function () { 
         console.log("ondragstart")
         var elementid = d3.select(this).attr("id");
+        idelement = elementid;
         console.log(elementid)
         for (var i = 0; i < bpmnjson.length; i++) {
             var bpmnobject = bpmnjson[i];
@@ -67,7 +68,34 @@ var drag = d3.behavior.drag()
         }
         }
     })
-    .on("dragend", function () { 
+    .on("dragend", function () {
+        console.log("try"); 
+        function getScreenCoords(x, y, ctm) {
+                    var xn = ctm.e + x * ctm.a + y * ctm.c;
+                    var yn = ctm.f + x * ctm.b + y * ctm.d;
+                    return {x: xn, y: yn};
+                }
+
+                var circle = document.getElementById(idelement),
+                    cx = circle.getAttribute('x'),
+                    cy = circle.getAttribute('y'),
+                    ctm = circle.getCTM(),
+                    coords = getScreenCoords(cx, cy, ctm);
+                    console.log("========cordeinate=======")
+                console.log(coords.x, coords.y);
+
+    for (var i = 0; i < bpmnjson.length; i++) {
+        console.log("to")
+        console.log(idelement)
+            if (bpmnjson[i].id === idelement) {
+                console.log("try to fixed")
+                bpmnjson[i].x = coords.x;
+                bpmnjson[i].y = coords.y;
+                break;
+            }
+        } 
+        idelement= 0;
+
         
 
         for (var i = 0; i < dragFlows.length; i++) {
@@ -150,7 +178,7 @@ var drag = d3.behavior.drag()
                     endy = flow.end_y;
                     startid =flow.start_id;
                     endid =flow.end_id;
-                    flowcreator();
+                    flowcreator(null);
                     // sampleSVG.append("marker")
                     //     .attr("id", "triangle"+(++idflow))
                     //     .attr("viewBox", "0 0 10 10")
@@ -267,7 +295,7 @@ var drag = d3.behavior.drag()
                     // endy = flow.end_y;
                     startid =flow.start_id;
                     endid =flow.end_id;
-                    flowcreator();
+                    flowcreator(null);
                   
                     // sampleSVG.append("marker")
                     //     .attr("id", "triangle"+(++idflow))
@@ -361,7 +389,7 @@ var dragright = d3.behavior.drag()
         }
     })
     .on("dragend", function () { 
-        
+       
 
         for (var i = 0; i < dragFlows.length; i++) {
             var flow = dragFlows[i];
@@ -443,7 +471,7 @@ var dragright = d3.behavior.drag()
                     endy = flow.end_y;
                     startid =flow.start_id;
                     endid =flow.end_id;
-                    flowcreator();
+                    flowcreator(null);
 
 
             }else if (flow.connection === "end") {
@@ -533,7 +561,7 @@ var dragright = d3.behavior.drag()
                     // endy = flow.end_y;
                     startid =flow.start_id;
                     endid =flow.end_id;
-                    flowcreator();
+                    flowcreator(null);
                   
 
             }
@@ -714,6 +742,7 @@ var dragrect = newg.append("rect")
                     coords = getScreenCoords(cx, cy, ctm);
                     console.log("========cordeinate=======")
                 console.log(coords.x, coords.y);
+                console.log(bpmnjson)
 
                 tooltipDiv.transition()
                     .duration(200)
@@ -835,14 +864,17 @@ var dragrect = newg.append("rect")
 
                     midx = startx + ((endx - startx) / 2);
                     endid =t;
-                    flowcreator();
+                    flowcreator(null);
                     taskwidth=0;
                 }
 
             })
             .call(drag);
+            if (eid === null) {
+                eid ='task'+idtaskelement;
+            }
 
-            TaskBPMNJsonCreator('task'+idstartelement, xvalue, yvalue, width, height,"task",subElement);
+            TaskBPMNJsonCreator(eid, xvalue, yvalue, width, height,"task",subElement);
              subElement = null;
 
 
@@ -938,6 +970,11 @@ var dragbarbottom = newg.append("rect")
           .attr("y", function(d) { return d.y - (dragbarw/2); });
       dragbarbottom 
           .attr("y", function(d) { return d.y + height - (dragbarw/2); });
+
+          // console.log(d)
+       //   console.log(bpmnjson)
+
+       
 //  }
 }
 
