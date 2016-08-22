@@ -5,7 +5,7 @@ var flowcreator = function (eid){
     console.log("startx : "+ startx);
     console.log("starty : "+ starty);
 
-    if (eid === null) {
+    if (eid === null || eid == undefined) {
 
                         eid = 'flow'+(++idflow);
      }
