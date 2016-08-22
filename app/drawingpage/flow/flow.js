@@ -1,9 +1,14 @@
 "use strict";
-var flowcreator = function (){  
+var flowcreator = function (eid){  
     console
     console.log("startid : "+ startid);
     console.log("startx : "+ startx);
     console.log("starty : "+ starty);
+
+    if (eid === null) {
+
+                        eid = 'flow'+(++idflow);
+     }
 
     var dragger = d3.behavior.drag() //flow drag
     .on('drag', handleDrag)
@@ -11,7 +16,7 @@ var flowcreator = function (){
         dragging = false;
     });
     var sampleSVGflow = sampleSVG.append('g')
-                        .attr("id", "groupflow"+(++idflow));
+                        .attr("id", "group"+eid);
     
         sampleSVG.append("marker")
                         .attr("id", "triangle"+idflow)
@@ -27,7 +32,7 @@ var flowcreator = function (){
 
 
                     sampleSVGflow.append("polyline")      // attach a polyline
-                       .attr("id", "flow"+idflow)
+                       .attr("id", eid)
                        .attr("marker-end", "url(#triangle"+idflow+")")
                        .attr("x",midx )
                         .attr("y", starty+((endy-starty)/2))
@@ -78,7 +83,7 @@ var flowcreator = function (){
                         });
 
                     sampleSVGflow.append('circle')
-                    .attr("id", "flow"+idflow)
+                    .attr("id", eid)
                     .attr('cx', startx)
                     .attr('cy', starty)
                     .attr('r', 4)
@@ -89,7 +94,7 @@ var flowcreator = function (){
                     .call(dragger);
 
                     sampleSVGflow.append('circle')
-                    .attr("id", "flow"+idflow)
+                    .attr("id", eid)
                     .attr('cx', midx)
                     .attr('cy', starty)
                     .attr('r', 4)
@@ -99,7 +104,7 @@ var flowcreator = function (){
                     .call(dragger);
 
                     sampleSVGflow.append('circle')
-                    .attr("id", "flow"+idflow)
+                    .attr("id", eid)
                     .attr('cx', midx)
                     .attr('cy', endy)
                     .attr('r', 4)
@@ -109,7 +114,7 @@ var flowcreator = function (){
                     .call(dragger);
 
                     sampleSVGflow.append('circle')
-                    .attr("id", "flow"+idflow)
+                    .attr("id", eid)
                     .attr('cx', endx)
                     .attr('cy', endy)
                     .attr('r', 4)
@@ -119,7 +124,8 @@ var flowcreator = function (){
                     .style('opacity',0)
                     .call(dragger);
 
-                    FlowBPMNJsonCreator('flow'+idflow,"flow", startid, endid, startx, starty,endx,endy,midx,starttype,endtype); 
+                    
+                    FlowBPMNJsonCreator(eid,"flow", startid, endid, startx, starty,endx,endy,midx,starttype,endtype); 
 
                     starttype= "";
                     endtype = "";

@@ -1,5 +1,5 @@
 "use strict";
-var starteventdevider = function (subElement,svg,xvalue,yvalue){  
+var starteventdevider = function (eid,subElement,svg,xvalue,yvalue){  
 var group = svg.append('g')
         .attr('transform', 'translate(' + xvalue + ',' + yvalue + ')')
         .attr('id', 'startEvnet' + (++idstartelement))
@@ -199,9 +199,11 @@ var group = svg.append('g')
           
         //     group.append('path')
         // .attr("d","m 12.8,12 5.942857142857143,7.771428571428571 -5.942857142857143,7.771428571428571,2.742857142857143,0 4.571428571428571,-5.971382857142857 4.571428571428571,5.971382857142857,2.742857142857143,0 -5.942857142857143,-7.771428571428571 5.942857142857143,-7.771428571428571,-2.742857142857143,0 -4.571428571428571,5.971382857142857 -4.571428571428571,-5.971382857142857,-2.742857142857143,0 z")   
-     
+            if (eid === null) {
+                eid ='startEvnet'+idstartelement;
+            }
 
-            EventBPMNJsonCreator('startEvnet'+idstartelement, xvalue, yvalue, 20, 20,"startEvnet",subElement);
+            EventBPMNJsonCreator(eid, xvalue, yvalue, 20, 20,"startEvnet",subElement);
             subElement = null;
 
  }
