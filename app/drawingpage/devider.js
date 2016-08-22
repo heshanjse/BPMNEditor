@@ -179,6 +179,8 @@ function dragMove(me) {
         for (var i = 0; i < dragFlows.length; i++) {
             var flow = dragFlows[i];
             if (flow.connection === "start") {
+            
+
                 var circle = document.getElementById(flow.start_id),
                     cx = +circle.getAttribute('cx'),
                     cy = +circle.getAttribute('cy'),
