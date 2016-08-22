@@ -1,5 +1,5 @@
 "use strict";
-var taskdevider = function (subElement,svg,xvalue,yvalue){  
+var taskdevider = function (eid,subElement,svg,xvalue,yvalue){  
  console.log("commming")
 ++idtaskelement
 var w = window.innerWidth,
@@ -19,6 +19,7 @@ var drag = d3.behavior.drag()
     .on("dragstart", function () { 
         console.log("ondragstart")
         var elementid = d3.select(this).attr("id");
+        idelement = elementid;
         console.log(elementid)
         for (var i = 0; i < bpmnjson.length; i++) {
             var bpmnobject = bpmnjson[i];
@@ -67,7 +68,34 @@ var drag = d3.behavior.drag()
         }
         }
     })
-    .on("dragend", function () { 
+    .on("dragend", function () {
+        console.log("try"); 
+        function getScreenCoords(x, y, ctm) {
+                    var xn = ctm.e + x * ctm.a + y * ctm.c;
+                    var yn = ctm.f + x * ctm.b + y * ctm.d;
+                    return {x: xn, y: yn};
+                }
+
+                var circle = document.getElementById(idelement),
+                    cx = circle.getAttribute('x'),
+                    cy = circle.getAttribute('y'),
+                    ctm = circle.getCTM(),
+                    coords = getScreenCoords(cx, cy, ctm);
+                    console.log("========cordeinate=======")
+                console.log(coords.x, coords.y);
+
+    for (var i = 0; i < bpmnjson.length; i++) {
+        console.log("to")
+        console.log(idelement)
+            if (bpmnjson[i].id === idelement) {
+                console.log("try to fixed")
+                bpmnjson[i].x = coords.x;
+                bpmnjson[i].y = coords.y;
+                break;
+            }
+        } 
+        idelement= 0;
+
         
 
         for (var i = 0; i < dragFlows.length; i++) {
@@ -150,7 +178,7 @@ var drag = d3.behavior.drag()
                     endy = flow.end_y;
                     startid =flow.start_id;
                     endid =flow.end_id;
-                    flowcreator();
+                    flowcreator(null);
                     // sampleSVG.append("marker")
                     //     .attr("id", "triangle"+(++idflow))
                     //     .attr("viewBox", "0 0 10 10")
@@ -267,7 +295,7 @@ var drag = d3.behavior.drag()
                     // endy = flow.end_y;
                     startid =flow.start_id;
                     endid =flow.end_id;
-                    flowcreator();
+                    flowcreator(null);
                   
                     // sampleSVG.append("marker")
                     //     .attr("id", "triangle"+(++idflow))
@@ -361,7 +389,7 @@ var dragright = d3.behavior.drag()
         }
     })
     .on("dragend", function () { 
-        
+       
 
         for (var i = 0; i < dragFlows.length; i++) {
             var flow = dragFlows[i];
@@ -443,7 +471,7 @@ var dragright = d3.behavior.drag()
                     endy = flow.end_y;
                     startid =flow.start_id;
                     endid =flow.end_id;
-                    flowcreator();
+                    flowcreator(null);
 
 
             }else if (flow.connection === "end") {
@@ -533,7 +561,7 @@ var dragright = d3.behavior.drag()
                     // endy = flow.end_y;
                     startid =flow.start_id;
                     endid =flow.end_id;
-                    flowcreator();
+                    flowcreator(null);
                   
 
             }
@@ -586,7 +614,7 @@ var dragtext = group.append('foreignObject')
       .attr('height', height - 30)
     //  .append("xhtml:body")
     //  .append('html','<div style="width: 70px; height:45px ; background-color: transparent;">User Task</div>')
-     .html("<div id=\"textid"+idtaskelement+"\"; style=\"width: 80%; height:45px ; background-color: transparent;\" >User Task</div>");
+     .html("<div id=\"textidtask"+idtaskelement+"\"; style=\"width: 80%; height:45px ; background-color: transparent;\" >User Task</div>");
 
 var dragpic1 =  group.append('path')
          .attr("d","m 15,12 c 0.909,-0.845 1.594,-2.049 1.594,-3.385 0,-2.554 -1.805,-4.62199999 -4.357,-4.62199999 -2.55199998,0 -4.28799998,2.06799999 -4.28799998,4.62199999 0,1.348 0.974,2.562 1.89599998,3.405 -0.52899998,0.187 -5.669,2.097 -5.794,4.7560005 v 6.718 h 17 v -6.718 c 0,-2.2980005 -5.5279996,-4.5950005 -6.0509996,-4.7760005 zm -8,6 l 0,5.5 m 11,0 l 0,-5")   
@@ -617,7 +645,7 @@ var dragpic3 =group.append('path')
       .attr('height', 50)
       .append("xhtml:body")
     //  .append('html','<div style="width: 70px; height:45px ; background-color: transparent;">User Task</div>')
-     .html("<div id=\"textid"+idtaskelement+"\"; style=\"width: 70px; height:45px ; background-color: transparent;\" >Script Task</div>");
+     .html("<div id=\"textidtask"+idtaskelement+"\"; style=\"width: 70px; height:45px ; background-color: transparent;\" >Script Task</div>");
 
 var dragpic1 =  group.append('path')
          .attr("d","m 15,20 c 9.966553,-6.27276 -8.000926,-7.91932 2.968968,-14.938 l -8.802728,0 c -10.969894,7.01868 6.997585,8.66524 -2.968967,14.938 z m -7,-12 l 5,0 m -4.5,3 l 4.5,0 m -3,3 l 5,0m -4,3 l 5,0")   
@@ -637,7 +665,7 @@ var dragpic1 =  group.append('path')
       .attr('height', 50)
       .append("xhtml:body")
     //  .append('html','<div style="width: 70px; height:45px ; background-color: transparent;">User Task</div>')
-     .html("<div id=\"textid"+idtaskelement+"\"; style=\"width: 70px; height:45px ; background-color: transparent;\" >Mail Task</div>");
+     .html("<div id=\"textidtask"+idtaskelement+"\"; style=\"width: 70px; height:45px ; background-color: transparent;\" >Mail Task</div>");
 
 var dragpic1 =  group.append('path')
          .attr("d","m 5.984999999999999,4.997999999999999 l 0,14 l 21,0 l 0,-14 z l 10.5,6 l 10.5,-6")   
@@ -655,7 +683,7 @@ var dragpic1 =  group.append('path')
       .attr('height', 50)
       .append("xhtml:body")
     //  .append('html','<div style="width: 70px; height:45px ; background-color: transparent;">User Task</div>')
-     .html("<div id=\"textid"+idtaskelement+"\"; style=\"width: 70px; height:45px ; background-color: transparent;\" >Manual Task</div>");
+     .html("<div id=\"textidtask"+idtaskelement+"\"; style=\"width: 70px; height:45px ; background-color: transparent;\" >Manual Task</div>");
 
 var dragpic1 =  group.append('path')
          .attr("d","m 17,15 c 0.234,-0.01 5.604,0.008 8.029,0.004 0.808,0 1.271,-0.172 1.417,-0.752 0.227,-0.898 -0.334,-1.314 -1.338,-1.316 -2.467,-0.01 -7.886,-0.004 -8.108,-0.004 -0.014,-0.079 0.016,-0.533 0,-0.61 0.195,-0.042 8.507,0.006 9.616,0.002 0.877,-0.007 1.35,-0.438 1.353,-1.208 0.003,-0.768 -0.479,-1.09 -1.35,-1.091 -2.968,-0.002 -9.619,-0.013 -9.619,-0.013 v -0.591 c 0,0 5.052,-0.016 7.225,-0.016 0.888,-0.002 1.354,-0.416 1.351,-1.193 -0.006,-0.761 -0.492,-1.196 -1.361,-1.196 -3.473,-0.005 -10.86,-0.003 -11.0829995,-0.003 -0.022,-0.047 -0.045,-0.094 -0.069,-0.139 0.3939995,-0.319 2.0409995,-1.626 2.4149995,-2.017 0.469,-0.4870005 0.519,-1.1650005 0.162,-1.6040005 -0.414,-0.511 -0.973,-0.5 -1.48,-0.236 -1.4609995,0.764 -6.5999995,3.6430005 -7.7329995,4.2710005 -0.9,0.499 -1.516,1.253 -1.882,2.19 -0.37000002,0.95 -0.17,2.01 -0.166,2.979 0.004,0.718 -0.27300002,1.345 -0.055,2.063 0.629,2.087 2.425,3.312 4.859,3.318 4.6179995,0.014 9.2379995,-0.139 13.8569995,-0.158 0.755,-0.004 1.171,-0.301 1.182,-1.033 0.012,-0.754 -0.423,-0.969 -1.183,-0.973 -1.778,-0.01 -5.824,-0.004 -6.04,-0.004 10e-4,-0.084 0.003,-0.586 10e-4,-0.67 z")   
@@ -714,6 +742,7 @@ var dragrect = newg.append("rect")
                     coords = getScreenCoords(cx, cy, ctm);
                     console.log("========cordeinate=======")
                 console.log(coords.x, coords.y);
+                console.log(bpmnjson)
 
                 tooltipDiv.transition()
                     .duration(200)
@@ -747,8 +776,9 @@ var dragrect = newg.append("rect")
                     element.style.display = "block";
                     element.style.left = coords.x+"px";
                     element.style.top = coords.y+"px";
-                    element.value = document.getElementById("textid"+idtaskelement).innerHTML;
-                    window.selectedtextid = "textid"+idtaskelement; 
+                    element.value = document.getElementById("textid"+t).innerHTML;
+                    window.selectedtextid = "textid"+t; 
+                    console.log("textid"+t)
                    // TextModal.style.display = "block";
                 });
                 tooltipDiv.select("#arrow-button").on("click", function () {
@@ -835,14 +865,17 @@ var dragrect = newg.append("rect")
 
                     midx = startx + ((endx - startx) / 2);
                     endid =t;
-                    flowcreator();
+                    flowcreator(null);
                     taskwidth=0;
                 }
 
             })
             .call(drag);
+            if (eid === null) {
+                eid ='task'+idtaskelement;
+            }
 
-            TaskBPMNJsonCreator('task'+idstartelement, xvalue, yvalue, width, height,"task",subElement);
+            TaskBPMNJsonCreator(eid, xvalue, yvalue, width, height,"task",subElement);
              subElement = null;
 
 
@@ -938,6 +971,11 @@ var dragbarbottom = newg.append("rect")
           .attr("y", function(d) { return d.y - (dragbarw/2); });
       dragbarbottom 
           .attr("y", function(d) { return d.y + height - (dragbarw/2); });
+
+          // console.log(d)
+       //   console.log(bpmnjson)
+
+       
 //  }
 }
 

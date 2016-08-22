@@ -10,23 +10,23 @@ var bpmnEventDivider = function (bpmnElement,subElement,svg) {
     if (bpmnElement === "startEvent") {
         window.bpmnElement = null;
 
-        starteventdevider(subElement,svg,d3.event.pageX,d3.event.pageY);
+        starteventdevider(null,subElement,svg,d3.event.pageX,d3.event.pageY);
         
     } else if (bpmnElement === "endEvent") {
         window.bpmnElement = null;
         
-        endeventdevider(subElement,svg,d3.event.pageX,d3.event.pageY);
+        endeventdevider(null,subElement,svg,d3.event.pageX,d3.event.pageY);
 
     } else if (bpmnElement === "task") {
         window.bpmnElement = null;
         var sampleSVG = svg;
 
-        taskdevider(subElement,svg,d3.event.pageX,d3.event.pageY);
+        taskdevider(null,subElement,svg,d3.event.pageX,d3.event.pageY);
 
 
     } else if (bpmnElement === "gateway") {
         window.bpmnElement = null;
-        gatewaydevider(subElement,svg,d3.event.pageX,d3.event.pageY);
+        gatewaydevider(null,subElement,svg,d3.event.pageX,d3.event.pageY);
        // var sampleSVG = svg;
         
     }
@@ -179,6 +179,8 @@ function dragMove(me) {
         for (var i = 0; i < dragFlows.length; i++) {
             var flow = dragFlows[i];
             if (flow.connection === "start") {
+            
+
                 var circle = document.getElementById(flow.start_id),
                     cx = +circle.getAttribute('cx'),
                     cy = +circle.getAttribute('cy'),
@@ -264,7 +266,7 @@ function dragMove(me) {
                     endy = flow.end_y;
                     startid =flow.start_id;
                     endid =flow.end_id;
-                    flowcreator();
+                    flowcreator(null);
   
 
             }else if (flow.connection === "end") {
@@ -366,7 +368,7 @@ function dragMove(me) {
                     starty = flow.start_y;
                     startid =flow.start_id;
                     endid =flow.end_id;
-                    flowcreator();
+                    flowcreator(null);
                    
 
             }

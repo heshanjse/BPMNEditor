@@ -38,7 +38,6 @@ function FlowBPMNJsonCreator(id,type, start_id, end_id, start_x, start_y,end_x,e
                  "id": id,
                 // "id": id,
                  "type": "flow",
-                
                  "start_x": start_x,
                  "start_y": start_y,
                  "end_x": end_x,
