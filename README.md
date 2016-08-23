@@ -50,7 +50,31 @@ Any BPMN graph drawn can be downloaded as a JSON file. The users can also recrea
 Runs like a typical Html/javaScript app:  
 ```
  - Clone the project from github
- - Open iindex.html using your browser 
+ - Open index.html using your browser 
+ ```
+ ```
+ BPMNEditor/  
+ |—app/  
+    |— drawingpage/  
+    |      |— endevent/  
+    |      |      |—endevent.js  —>  
+    |      |—flow/
+    |      |      |—flow.js  —>  
+    |      |—gateway/
+    |      |      |—gateway.js  —>  
+    |      |—startevent/
+    |      |      |—startevent.js  —>  
+    |      |—task/
+    |      |      |—task.js —>  
+    |      |—bpmnjsonUpdater.js —>  
+    |      |—bpmnuploader.js —>  
+    |      |—devider.js —>  
+    |      |—drawing.js —>  
+    |— img/ —>  
+    |—public/
+    |      |—css/ —>  
+    |      |— js/ —>  
+    |— index.js —>  
  ```
 <h3>Demo<h3>
 <a href="http://heshanjse.github.io/BPMNEditor/app/"><h5>http://heshanjse.github.io/BPMNEditor/app/<h5></a>
