@@ -43,7 +43,7 @@ Every BPMN element can add properties using the given property artefact in its t
 Any BPMN graph drawn can be downloaded as a JSON file. The users can also recreate a BPMN graph in the editor by importing a BPMN JSON file. This recreated graph will be editable just as a fresh one. 
 
 
-<a href="http://i65.tinypic.com/2gw5ag5.png" target="_blank"><img src="http://i65.tinypic.com/2gw5ag5.png" border="0" alt="BPMN editor screen shot"  height="490" width="500"></a>
+<a href="http://i64.tinypic.com/2910ydi.png" target="_blank"><img src="http://i64.tinypic.com/2910ydi.png" border="0" alt="BPMN editor screen shot"  height="490" width="500"></a>
 <!--<a href="http://tinypic.com?ref=2gw5ag5" target="_blank"><img src="http://i65.tinypic.com/2gw5ag5.png" border="0" alt="Image and video hosting by TinyPic"  height="490" width="500"></a>-->
 <br>
 <h3><b>Running the BPMN Editor</b></h3>
