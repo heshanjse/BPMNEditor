@@ -52,29 +52,33 @@ Runs like a typical Html/javaScript app:
  - Clone the project from github
  - Open index.html using your browser 
  ```
+ <h3><b>Directory Layout</b></h3>
  ```
- BPMNEditor/  
+BPMNEditor/  
  |—app/  
     |— drawingpage/  
     |      |— endevent/  
-    |      |      |—endevent.js  —>  
+    |      |      |—endevent.js    —>  End Event Controller  
     |      |—flow/
-    |      |      |—flow.js  —>  
+    |      |      |—flow.js        —>  Flow Controller  
     |      |—gateway/
-    |      |      |—gateway.js  —>  
+    |      |      |—gateway.js     —>  Gateway Controller  
     |      |—startevent/
-    |      |      |—startevent.js  —>  
+    |      |      |—startevent.js  —>  Start Event Contoller  
     |      |—task/
-    |      |      |—task.js —>  
-    |      |—bpmnjsonUpdater.js —>  
-    |      |—bpmnuploader.js —>  
-    |      |—devider.js —>  
-    |      |—drawing.js —>  
-    |— img/ —>  
+    |      |      |—task.js        —>  Task Controller  
+    |      |—bpmnjsonUpdater.js    —>  Recreate a BPMN graph after JSON import  
+    |      |—bpmnuploader.js       —>  Push BPMN elements to JSON file  
+    |      |—devider.js            —>  Declare second level app module  
+    |      |—drawing.js            —>  Declare top level app module  
+    |— img/                        —>  All images  
     |—public/
-    |      |—css/ —>  
-    |      |— js/ —>  
-    |— index.js —>  
+    |      |—css/                  —>  All css libraries  
+    |      |— js/                  —>   All javascript libraries  
+    |— index.js                    —>  Canvas and toolbox HTML page  
  ```
 <h3>Demo<h3>
 <a href="http://heshanjse.github.io/BPMNEditor/app/"><h5>http://heshanjse.github.io/BPMNEditor/app/<h5></a>
+
+ <h3><b>Contact</b></h3>
+ For more information on the application contact : shanujse@gmail.com
