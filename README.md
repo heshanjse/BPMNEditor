@@ -1,17 +1,47 @@
 <h2><b>BPMN Editor</b></h2>
 
-Business Process Model and Notation (BPMN) is a standard way of representing business processes in graphical representation.<br>
-This project will involve to implement Web based BPMN editor to construct business processes diagrams.
-User can implement BPMN diagrams using task,gateway,start event and end events. 
-<br>
-<ul>
-  <li>task-User task,Script task,Mail task,Manual task</li>
-  <li>Gateway-Parallel gateway,Exclusive gateway,Inclusive gateway,Event gateway</li>
-  <li>Start event-Start event,Time start event,Message start event,Error start event</li>
-  <li>End event-End event,Error end event,Terminate end event,Cancel end event</li>
-</ul>
+Business Process Model and Notation (BPMN) is a standard way of representing business processes in graphical form.  
+This project will involve implementing a Web based BPMN editor to construct business process diagrams. Users can implement BPMN diagrams using tasks,gateways,start events and end events.   
+  
+ - task-User Task,Script Task,Mail Task,Manual Task  
+ - Gateway-Parallel Gateway,Exclusive Gateway,Inclusive Gateway,Event Gateway  
+ - Start event-Start Event,Time Start Event,Message Start Event,Error Start Event  
+ - End event-End Event,Error End Event,Terminate End Event,Cancel End Event    
 
-This Editor has the capability to build complete Business process diagrams,download Business process diagram in Json format file and upload json format file and generate Business process diagram.
+This BPMN editor has the capability to build complete Business Process diagrams; download Business Process diagrams files in Json format; upload json format file and generate Business Process diagrams.
+
+<p>
+<h4><b>BPMN element Overview</b></h4>
+  Start Event&nbsp;&nbsp;&nbsp;&nbsp;Time Start Event&nbsp;&nbsp;&nbsp;&nbsp;Message Start Event&nbsp;&nbsp;&nbsp;&nbsp;Error Start Event  
+  <br>
+  <img src="http://i68.tinypic.com/jjsdh1.png" width="485"/>
+  <br>
+  End Event&nbsp;&nbsp;&nbsp;&nbsp;Terminate End Event&nbsp;&nbsp;&nbsp;&nbsp;Error End Event&nbsp;&nbsp;&nbsp;&nbsp;Cancel End Event  
+  <br>
+  <img src="http://i66.tinypic.com/2ahcpqf.png" width="485"/>
+  <br>
+  Parallel Gateway&nbsp;&nbsp;&nbsp;&nbsp;Exclusive Gateway&nbsp;&nbsp;&nbsp;&nbsp;Inclusive Gateway&nbsp;&nbsp;&nbsp;&nbsp;Event Gateway  
+  <br>
+  <img src="http://i65.tinypic.com/6oookg.png" width="485"/>
+  <br>
+  User Task&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Script Task&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mail Task&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Manual Task  
+  <br>
+  <img src="http://i66.tinypic.com/2f0fvk9.png" width="490"/>
+
+  <!--<img src="your_relative_path_here_number_2_large_name" width="350"/>-->
+  <h4><b>How to Use</b></h4>
+<img src="http://i66.tinypic.com/34htpfk.png" />
+</p>
+
+User can drag and drop BPMN elements from the tool box to the drawing canvas.Those BPMN elements can be dragged in the canvas and upon clicking on any of those elements will cause a tooltip to appear. Also, the artefacts inside any of tooltips depend on the BPMN element selected. eg:- End Event element does not have a flow drawing artefact whereas the Task  elements has all of the available artefacts
+
+BPMN flows(connect elements) can be drawn using  the flow artefact from either the toolbox or the element tooltip. That BPMN flow can be changed using multiple connection points.When the drawn elements move about, connected flows will also respond accordingly by maintaining the connections.
+
+A BPMN Task can be resized using its bounding box, additionally, the text of a BPMN Task can be changed after pressing the relevant artefact in tooltip. Every element can be deleted using the delete artefact of a tool tip, which means that all its connected flows will get deleted too. However,  the user has the ability to delete a flow without deleting it’s constituent BPMN elements. 
+Every BPMN element can add properties using the given property artefact in its tooltip, which will create a popup window showing the applicable properties. 
+
+Any BPMN graph drawn can be downloaded as a JSON file. The users can also recreate a BPMN graph in the editor by importing a BPMN JSON file. This recreated graph will be editable just as a fresh one. 
+
 
 <a href="http://i65.tinypic.com/2gw5ag5.png" target="_blank"><img src="http://i65.tinypic.com/2gw5ag5.png" border="0" alt="BPMN editor screen shot"  height="490" width="500"></a>
 <!--<a href="http://tinypic.com?ref=2gw5ag5" target="_blank"><img src="http://i65.tinypic.com/2gw5ag5.png" border="0" alt="Image and video hosting by TinyPic"  height="490" width="500"></a>-->
