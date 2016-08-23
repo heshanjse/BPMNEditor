@@ -74,7 +74,7 @@ BPMNEditor/
     |— img/                        —>  All images  
     |—public/
     |      |—css/                  —>  All css libraries  
-    |      |— js/                  —>   All javascript libraries  
+    |      |— js/                  —>  All javascript libraries  
     |— index.js                    —>  Canvas and toolbox HTML page  
  ```
 <h3>Demo<h3>
