@@ -17,8 +17,7 @@ This Editor has the capability to build complete Business process diagrams,downl
 <!--<a href="http://tinypic.com?ref=2gw5ag5" target="_blank"><img src="http://i65.tinypic.com/2gw5ag5.png" border="0" alt="Image and video hosting by TinyPic"  height="490" width="500"></a>-->
 <br>
 <h3><b>Running the BPMN Editor</b></h3>
-Runs like a typical Html/javaScript app:
-      - Clone the project from github
-      - Open iindex.html using your browser  
+Runs like a typical Html/javaScript app:Clone the project from github,Open iindex.html using your browser 
+    Clone the project from github
 <h3>Demo<h3>
 <a href="http://heshanjse.github.io/BPMNEditor/app/"><h5>http://heshanjse.github.io/BPMNEditor/app/<h5></a>
