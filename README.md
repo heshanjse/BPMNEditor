@@ -81,4 +81,4 @@ BPMNEditor/
 <a href="http://heshanjse.github.io/BPMNEditor/app/"><h5>http://heshanjse.github.io/BPMNEditor/app/<h5></a>
 
  <h3><b>Contact</b></h3>
- For more information on the application contact : shanujse@gmail.com
+ For more information on the application contact : heshjse@gmail.com
