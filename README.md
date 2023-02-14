@@ -14,23 +14,23 @@ This BPMN editor has the capability to build complete Business Process diagrams;
 <h4><b>BPMN element Overview</b></h4>
   Start Event&nbsp;&nbsp;&nbsp;&nbsp;Time Start Event&nbsp;&nbsp;&nbsp;&nbsp;Message Start Event&nbsp;&nbsp;&nbsp;&nbsp;Error Start Event  
   <br>
-  <img src="http://i68.tinypic.com/jjsdh1.png" width="485"/>
+  <img src="/app/img/startEvents.png" width="485"/>
   <br>
   End Event&nbsp;&nbsp;&nbsp;&nbsp;Terminate End Event&nbsp;&nbsp;&nbsp;&nbsp;Error End Event&nbsp;&nbsp;&nbsp;&nbsp;Cancel End Event  
   <br>
-  <img src="http://i66.tinypic.com/2ahcpqf.png" width="485"/>
+  <img src="/app/img/EndEvents.png" width="485"/>
   <br>
   Parallel Gateway&nbsp;&nbsp;&nbsp;&nbsp;Exclusive Gateway&nbsp;&nbsp;&nbsp;&nbsp;Inclusive Gateway&nbsp;&nbsp;&nbsp;&nbsp;Event Gateway  
   <br>
-  <img src="http://i65.tinypic.com/6oookg.png" width="485"/>
+  <img src="/app/img/Gateways.png" width="485"/>
   <br>
   User Task&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Script Task&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mail Task&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Manual Task  
   <br>
-  <img src="http://i66.tinypic.com/2f0fvk9.png" width="490"/>
+  <img src="/app/img/tasks.png" width="490"/>
 
   <!--<img src="your_relative_path_here_number_2_large_name" width="350"/>-->
   <h4><b>How to Use</b></h4>
-<img src="http://i66.tinypic.com/34htpfk.png" />
+<img src="/app/img/Drawing.png" />
 </p>
 
 User can drag and drop BPMN elements from the tool box to the drawing canvas.Those BPMN elements can be dragged in the canvas and upon clicking on any of those elements will cause a tooltip to appear. Also, the artefacts inside any of tooltips depend on the BPMN element selected. eg:- End Event element does not have a flow drawing artefact whereas the Task  elements has all of the available artefacts
@@ -43,7 +43,7 @@ Every BPMN element can add properties using the given property artefact in its t
 Any BPMN graph drawn can be downloaded as a JSON file. The users can also recreate a BPMN graph in the editor by importing a BPMN JSON file. This recreated graph will be editable just as a fresh one. 
 
 
-<a href="http://i64.tinypic.com/2910ydi.png" target="_blank"><img src="http://i64.tinypic.com/2910ydi.png" border="0" alt="BPMN editor screen shot" ></a>
+<!-- <a href="http://i64.tinypic.com/2910ydi.png" target="_blank"><img src="http://i64.tinypic.com/2910ydi.png" border="0" alt="BPMN editor screen shot" ></a> -->
 <!--<a href="http://tinypic.com?ref=2gw5ag5" target="_blank"><img src="http://i65.tinypic.com/2gw5ag5.png" border="0" alt="Image and video hosting by TinyPic"  height="490" width="500"></a>-->
 <br>
 <h3><b>Running the BPMN Editor</b></h3>
