@@ -55,6 +55,7 @@ Runs like a typical Html/javaScript app:
 ```
  
  <h3><b>Directory Layout</b></h3>
+ 
 ```
 BPMNEditor/  
  |—app/  
@@ -78,6 +79,7 @@ BPMNEditor/
     |      |—css/                  —>  All css libraries  
     |      |— js/                  —>  All javascript libraries  
     |— index.js                    —>  Canvas and toolbox HTML page  
+    
 ```
 <h3>Demo<h3>
 <a href="http://heshanjse.github.io/BPMNEditor/app/"><h5>http://heshanjse.github.io/BPMNEditor/app/<h5></a>
