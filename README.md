@@ -48,10 +48,12 @@ Any BPMN graph drawn can be downloaded as a JSON file. The users can also recrea
 <br>
 <h3><b>Running the BPMN Editor</b></h3>
 Runs like a typical Html/javaScript app:  
+
 ```
  - Clone the project from github
  - Open index.html using your browser 
- ```
+```
+ 
  <h3><b>Directory Layout</b></h3>
  ```
 BPMNEditor/  
