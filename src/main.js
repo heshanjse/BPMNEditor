@@ -118,8 +118,6 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
 
         // handle download data
         d3.select("#download-input").on("click", function () {
-            console.log("downlaod button clicked")
-            
             var bpmn = [];
             for (var i = 0; i < bpmnjson.length; i++) {
                 var bpmnnode = bpmnjson[i];
@@ -153,8 +151,6 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
 
 
         d3.select("#arrow").on("click", function () {
-            console.log("ok arrow");
-            models.divider();
             var sampleSVG = svg;
             sampleSVG.append('path')
                 .attr('class', 'link dragline hidden')
@@ -166,34 +162,23 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
 
         d3.select("#start-button").on("click", function () {
             document.body.style.cursor = "copy";
-            console.log("ok circle");
             bpmnElement = "startEvent";
             subElement = "StartEvent";
-
         });
         d3.select("#start-time-button").on("click", function () {
             document.body.style.cursor = "copy";
-            console.log("ok circle");
             bpmnElement = "startEvent";
             subElement = "TimeStartEvent";
-
-
         });
         d3.select("#start-message-button").on("click", function () {
             document.body.style.cursor = "copy";
-            console.log("ok circle");
             bpmnElement = "startEvent";
             subElement = "MessageStartEvent";
-
-
         });
         d3.select("#start-error-button").on("click", function () {
             document.body.style.cursor = "copy";
-            console.log("ok circle");
             bpmnElement = "startEvent";
             subElement = "ErrorStartEvent";
-
-
         });
 
         d3.select("#end-button").on("click", function () {
@@ -229,78 +214,46 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
         d3.select("#user-task-button").on("click", function () {
             document.body.style.cursor = "copy";
             bpmnElement = "task";
-            console.log("ok task");
             subElement = "UserTask";
-            // Extract the click location\
-
-
         });
         d3.select("#script-task-button").on("click", function () {
             document.body.style.cursor = "copy";
             bpmnElement = "task";
-            console.log("ok task");
             subElement = "ScriptTask";
-            // Extract the click location\
-
-
         });
         d3.select("#mail-task-button").on("click", function () {
             document.body.style.cursor = "copy";
             bpmnElement = "task";
-            console.log("ok task");
             subElement = "MailTask";
-            // Extract the click location\
-
-
         });
         d3.select("#manual-task-button").on("click", function () {
             document.body.style.cursor = "copy";
             bpmnElement = "task";
-            console.log("ok task");
             subElement = "ManualTask";
-            // Extract the click location\
-
-
         });
         d3.select("#parallel-gateway-button").on("click", function () {
-            console.log("ok gatway");
             document.body.style.cursor = "copy";
             bpmnElement = "gateway";
             subElement = "parallel";
-
-
         });
         d3.select("#exclusive-gateway-button").on("click", function () {
-            console.log("ok gatway");
             document.body.style.cursor = "copy";
             bpmnElement = "gateway";
             subElement = "exclusive";
-
-
         });
         d3.select("#inclusive-gateway-button").on("click", function () {
-            console.log("ok gatway");
             document.body.style.cursor = "copy";
             bpmnElement = "gateway";
             subElement = "inclusive";
-
-
         });
         d3.select("#event-gateway-button").on("click", function () {
-            console.log("ok gatway");
             document.body.style.cursor = "copy";
             bpmnElement = "gateway";
             subElement = "event";
-
-
         });
         d3.select("#arrow-button").on("click", function () {
-            console.log("arrow button click");
             document.body.style.cursor = "pointer";
             bpmnElement = "flow";
-        //    arrowbuttonclick = 1;
-
-
         });
 
         d3.select("#upload-input").on("click", function () {
@@ -400,19 +353,16 @@ document.onload = (function (d3, saveAs, Blob, undefined) {
 
 
     svg.on("click", function () {
-        console.log("svg onclick")
-        bpmnEventDivider(bpmnElement,subElement,svg);
+        bpmnEventDivider(bpmnElement, subElement, svg);
         d3.select('body').style("cursor", "auto");
         var element = document.getElementById('edittext');
         var textvalue = element.value;
         element.value = "";
         element.style.display = "none";
         if (window.selectedtextid != null) {
-            console.log(window.selectedtextid)
-            document.getElementById(window.selectedtextid).innerHTML=textvalue; 
+            document.getElementById(window.selectedtextid).innerHTML = textvalue;
             window.selectedtextid = null;
         }
-        
     });
 
     window.sampleSVG = svg;

@@ -1,6 +1,5 @@
 "use strict";
 var taskdevider = function (eid,subElement,svg,xvalue,yvalue){  
- console.log("commming")
 ++idtaskelement
 var w = window.innerWidth,
     h = window.innerHeight
@@ -17,15 +16,12 @@ var drag = d3.behavior.drag()
     .origin(Object)
     .on("drag", dragmove)
     .on("dragstart", function () { 
-        console.log("ondragstart")
         var elementid = d3.select(this).attr("id");
         idelement = elementid;
-        console.log(elementid)
         for (var i = 0; i < bpmnjson.length; i++) {
             var bpmnobject = bpmnjson[i];
 
         if (bpmnobject.start_id === elementid &&  bpmnobject.id != 0) {
-            console.log(" inside start")
             dragFlows.push({
                 "id": bpmnobject.id,
                 "start_id":bpmnobject.start_id,
@@ -39,14 +35,11 @@ var drag = d3.behavior.drag()
                 "end_type":bpmnobject.end_type,
                 "connection" : "start"
             })
-            console.log(bpmnobject.id+" removed")
-            console.log(dragFlows)
             sampleSVG.select("#group"+bpmnobject.id).remove(); 
            // d3.select(document.getElementById(bpmnobject.id)).remove(); 
             bpmnobject.id=0;
 
         }else if (bpmnobject.end_id ===elementid &&  bpmnobject.id != 0) {
-            console.log(" inside end")
             dragFlows.push({
                 "id": bpmnobject.id,
                 "start_id":bpmnobject.start_id,
@@ -60,8 +53,6 @@ var drag = d3.behavior.drag()
                 "end_type":bpmnobject.end_type,
                 "connection" : "end"
             })
-            console.log(bpmnobject.id+" removed")
-            console.log(dragFlows)
             sampleSVG.select("#group"+bpmnobject.id).remove(); 
            // d3.select(document.getElementById(bpmnobject.id)).remove(); 
             bpmnobject.id=0;
@@ -69,7 +60,6 @@ var drag = d3.behavior.drag()
         }
     })
     .on("dragend", function () {
-        console.log("try"); 
         function getScreenCoords(x, y, ctm) {
                     var xn = ctm.e + x * ctm.a + y * ctm.c;
                     var yn = ctm.f + x * ctm.b + y * ctm.d;
@@ -81,14 +71,9 @@ var drag = d3.behavior.drag()
                     cy = circle.getAttribute('y'),
                     ctm = circle.getCTM(),
                     coords = getScreenCoords(cx, cy, ctm);
-                    console.log("========cordeinate=======")
-                console.log(coords.x, coords.y);
 
     for (var i = 0; i < bpmnjson.length; i++) {
-        console.log("to")
-        console.log(idelement)
             if (bpmnjson[i].id === idelement) {
-                console.log("try to fixed")
                 bpmnjson[i].x = coords.x;
                 bpmnjson[i].y = coords.y;
                 break;
@@ -101,7 +86,6 @@ var drag = d3.behavior.drag()
         for (var i = 0; i < dragFlows.length; i++) {
             var flow = dragFlows[i];
             if (flow.connection === "start") {
-                console.log("start dragend -----")
                 var circle = document.getElementById(flow.start_id),
                     cx = circle.getAttribute('x'),
                     cy = circle.getAttribute('y'),
@@ -216,17 +200,11 @@ var drag = d3.behavior.drag()
                     ctm = circle.getCTM(),
                     coords = getScreenCoords(cx, cy, ctm);
                     if (flow.start_x > flow.end_x) {
-                        console.log("in sx > ex")
-                        console.log(flow.start_type)
-                        console.log("circle value"+circle.getAttribute('x'))
                         if (flow.start_type === "startEvent") {
                             flow.start_x = flow.start_x +21;
-                            console.log("value : "+coords.x)
                             if (coords.x <= flow.start_x) {
-                                console.log("in sx > cx")
                                 flow.start_x = flow.start_x -21; 
                             }else if (coords.x > flow.start_x) {
-                                console.log("in cx > sx")
                                 flow.start_x = flow.start_x +21; 
                             }    
                         }else if (flow.start_type === "task") {
@@ -245,7 +223,6 @@ var drag = d3.behavior.drag()
                             }
                         }
                     }else if (flow.start_x < flow.end_x) {
-                        console.log("in ex > sx")
                         if (flow.start_type === "startEvent") {
                             flow.start_x = flow.start_x -21;
                             if (coords.x <= flow.start_x) {
@@ -274,8 +251,6 @@ var drag = d3.behavior.drag()
 
                 if (coords.x < flow.start_x) {
                           //  endx = coords.x + 127;
-                           console.log("point--------------------")
-                           console.log(width)
                            endx = coords.x + width+7;
                             endy = coords.y + 40;              
                     }else if (coords.x > flow.start_x) {
@@ -337,13 +312,11 @@ var dragright = d3.behavior.drag()
     .origin(Object)
     
     .on("dragstart", function () { 
-        console.log("ondragstart")
         var elementid = d3.select(this).attr("id");
         for (var i = 0; i < bpmnjson.length; i++) {
             var bpmnobject = bpmnjson[i];
 
         if (bpmnobject.start_id === elementid &&  bpmnobject.id != 0) {
-            console.log("")
             dragFlows.push({
                 "id": bpmnobject.id,
                 "start_id":bpmnobject.start_id,
@@ -357,8 +330,6 @@ var dragright = d3.behavior.drag()
                 "end_type":bpmnobject.end_type,
                 "connection" : "start"
             })
-            console.log(bpmnobject.id+" removed")
-            console.log(dragFlows)
             sampleSVG.select("#group"+bpmnobject.id).remove(); 
            // d3.select(document.getElementById(bpmnobject.id)).remove(); 
             bpmnobject.id=0;
@@ -379,8 +350,6 @@ var dragright = d3.behavior.drag()
                 "end_type":bpmnobject.end_type,
                 "connection" : "end"
             })
-            console.log(bpmnobject.id+" removed")
-            console.log(dragFlows)
             sampleSVG.select("#group"+bpmnobject.id).remove(); 
            // d3.select(document.getElementById(bpmnobject.id)).remove(); 
            bpmnobject.id=0;
@@ -394,7 +363,6 @@ var dragright = d3.behavior.drag()
         for (var i = 0; i < dragFlows.length; i++) {
             var flow = dragFlows[i];
             if (flow.connection === "start") {
-                console.log("start dragend -----")
                 var circle = document.getElementById(flow.start_id),
                     cx = circle.getAttribute('x'),
                     cy = circle.getAttribute('y'),
@@ -482,17 +450,11 @@ var dragright = d3.behavior.drag()
                     ctm = circle.getCTM(),
                     coords = getScreenCoords(cx, cy, ctm);
                     if (flow.start_x > flow.end_x) {
-                        console.log("in sx > ex")
-                        console.log(flow.start_type)
-                        console.log("circle value"+circle.getAttribute('x'))
                         if (flow.start_type === "startEvent") {
                             flow.start_x = flow.start_x +21;
-                            console.log("value : "+coords.x)
                             if (coords.x <= flow.start_x) {
-                                console.log("in sx > cx")
                                 flow.start_x = flow.start_x -21; 
                             }else if (coords.x > flow.start_x) {
-                                console.log("in cx > sx")
                                 flow.start_x = flow.start_x +21; 
                             }    
                         }else if (flow.start_type === "task") {
@@ -511,7 +473,6 @@ var dragright = d3.behavior.drag()
                             }
                         }
                     }else if (flow.start_x < flow.end_x) {
-                        console.log("in ex > sx")
                         if (flow.start_type === "startEvent") {
                             flow.start_x = flow.start_x -21;
                             if (coords.x <= flow.start_x) {
@@ -540,8 +501,6 @@ var dragright = d3.behavior.drag()
 
                 if (coords.x < flow.start_x) {
                           //  endx = coords.x + 127;
-                           console.log("point--------------------")
-                           console.log(width)
                            endx = coords.x + width+7;
                             endy = coords.y + 40;              
                     }else if (coords.x > flow.start_x) {
@@ -635,7 +594,6 @@ var dragpic3 =group.append('path')
        // .call(drag);
            }else if (subElement === "ScriptTask") {
                
-                console.log("script task")
 
 
       var dragtext = group.append('foreignObject')
@@ -712,14 +670,12 @@ var dragrect = newg.append("rect")
             .attr("width", 120)
             .attr("height", 80)
             .on("dragend", function () { 
-                console.log("drag start event")
              })
             .on("mouseover", function () {
                 d3.select(this).style("fill", "aliceblue");
                 var point = d3.mouse(this)
                     , p = {mx: point[0], my: point[1]};
 
-                console.log(p.mx + "and " + p.my);
 
 
             })
@@ -740,15 +696,12 @@ var dragrect = newg.append("rect")
                     cy = circle.getAttribute('y'),
                     ctm = circle.getCTM(),
                     coords = getScreenCoords(cx, cy, ctm);
-                    console.log("========cordeinate=======")
-                console.log(coords.x, coords.y);
-                console.log(bpmnjson)
 
                 tooltipDiv.transition()
                     .duration(200)
                     .style("opacity", 1.9);
 
-                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >" +"&nbsp"+"<input id=" + "arrow-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/arrow.png" + " alt=" + "arrow" + " style=" + "width:25px;" + " >"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+"<input id=" + "text-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/review.png" + " alt=" + "Text" + " style=" + "width:25px;" + " >")
+                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >" +"&nbsp"+"<input id=" + "arrow-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/arrow.png" + " alt=" + "arrow" + " style=" + "width:25px;" + " >"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+"<input id=" + "text-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/review.png" + " alt=" + "Text" + " style=" + "width:25px;" + " >")
                     .style("left", coords.x + width+ 10 + "px")
                     .style("top", (coords.y + 15) + "px");
 
@@ -764,12 +717,10 @@ var dragrect = newg.append("rect")
 
                 tooltipDiv.select("#property-button").on("click", function () {
                     tooltipDiv.style("opacity", 0);
-                    console.log("end evnt button clicked ")
                     tmodal.style.display = "block";
                 });
                 tooltipDiv.select("#text-button").on("click", function () {
                     tooltipDiv.style("opacity", 0);
-                    console.log("end evnt button clicked ")
                     var element = document.getElementById('edittext');
                     element.style.width = width+"px";
                     element.style.height = height+"px";
@@ -778,18 +729,15 @@ var dragrect = newg.append("rect")
                     element.style.top = coords.y+"px";
                     element.value = document.getElementById("textid"+t).innerHTML;
                     window.selectedtextid = "textid"+t; 
-                    console.log("textid"+t)
                    // TextModal.style.display = "block";
                 });
                 tooltipDiv.select("#arrow-button").on("click", function () {
                     tooltipDiv.style("opacity", 0);
-                    console.log("end arrow button clicked ")
                     starttype = "task";
                     startid =t;
                     startx = coords.x;
                     starty = coords.y;
                     taskwidth = width;
-                    console.log(taskwidth)
                     window.bpmnElement = "flowselect";
                     document.body.style.cursor = "e-resize";
                 });
@@ -817,7 +765,6 @@ var dragrect = newg.append("rect")
                     coords = getScreenCoords(cx, cy, ctm);
 
                 if (window.bpmnElement === "flow") {
-                    console.log(width)
                     starttype = "task";
                     startid =t;
                     startx = coords.x;
@@ -825,14 +772,9 @@ var dragrect = newg.append("rect")
                     
                     window.bpmnElement = "flowselect";
                     document.body.style.cursor = "e-resize";
-                    console.log("ok1")
-                    console.log(startx)
-                    console.log(starty)
-                    console.log(taskwidth)
                 } else if (window.bpmnElement === "flowselect") {
                     endtype = "task"
                     endid =t;
-                    console.log(taskwidth)
                     window.bpmnElement = null
                     if (coords.x > startx) {
                         if (starttype === "startEvent") {
@@ -982,7 +924,6 @@ var dragbarbottom = newg.append("rect")
 function ldragresize(d) {
    if (isXChecked) {
       var oldx = d.x; 
-      console.log("drag+++++++")
      //Max x on the right is x + width - dragbarw
      //Max x on the left is 0 - (dragbarw/2)
       d.x = Math.max(0, Math.min(d.x + width - (dragbarw / 2), d3.event.x)); 
@@ -1032,10 +973,8 @@ function rdragresize(d) {
      dragrect
         .attr("width", width)
         .on("dragstart", function () { 
-        console.log("drag start ==========")
     })
     .on("dragend", function () { 
-       console.log("drag end ======")
     });
 
      dragtext

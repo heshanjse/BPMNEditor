@@ -1,10 +1,5 @@
 "use strict";
-var flowcreator = function (eid){  
-    console
-    console.log("startid : "+ startid);
-    console.log("startx : "+ startx);
-    console.log("starty : "+ starty);
-
+var flowcreator = function (eid) {
     if (eid === null || eid == undefined) {
 
                         eid = 'flow'+(++idflow);
@@ -49,20 +44,17 @@ var flowcreator = function (eid){
                                 var yn = ctm.f + x * ctm.b + y * ctm.d;
                                 return {x: xn, y: yn};
                             }
-                            console.log("--------")
-                            console.log(t)
                             var circle = document.getElementById(t),
                                 cx = +circle.getAttribute('x'),
                                 cy = +circle.getAttribute('y'),
                                 ctm = circle.getCTM(),
                                 coords = getScreenCoords(cx, cy, ctm);
-                            console.log(coords.x, coords.y);
 
                             tooltipDiv.transition()
                                 .duration(200)
                                 .style("opacity", 1.9);
 
-                            tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
+                            tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
                                 .style("left", coords.x  + "px")
                                 .style("top", coords.y + "px");
 
@@ -77,7 +69,6 @@ var flowcreator = function (eid){
 
                             tooltipDiv.select("#property-button").on("click", function () {
                                 tooltipDiv.style("opacity", 0);
-                                console.log("end evnt button clicked ")
                                 fmodal.style.display = "block";
                             });
                         });

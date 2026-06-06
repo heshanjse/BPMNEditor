@@ -7,10 +7,8 @@ var group = svg.append('g')
 // var sampleSVG = svg;
 
         if (subElement === "EndEvent") {
-              
-           }else if (subElement === "ErrorEndEvent") {
-               
-                console.log("error inside")
+
+        } else if (subElement === "ErrorEndEvent") {
                 group.append('path')
         .attr("fill","#808080")
                 .attr("stroke","none")
@@ -24,9 +22,7 @@ var group = svg.append('g')
         
 
         // -webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-opacity: 1;
-           }else if (subElement === "CancelEndEvent") {
-            console.log("cancel inside")
-            
+        } else if (subElement === "CancelEndEvent") {
                 group.append('path')
                 .attr("fill","#808080")
                 .attr("stroke","none")
@@ -39,9 +35,7 @@ var group = svg.append('g')
         .attr("transform","matrix(1.2375,0,0,1.2375,-18.9375,-18.9375)")
         
      
-           }else if (subElement === "TerminateEndEvent") {
-            console.log("terminate inside")
-            
+        } else if (subElement === "TerminateEndEvent") {
             group.append('circle')
                 .attr("fill","#808080")
                 .attr("stroke","#808080")
@@ -63,9 +57,6 @@ var group = svg.append('g')
             .style("fill-opacity", "0")
          //   .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
             .attr('r', '20')
-            .on("dragend", function () { 
-                console.log("drag start event")
-             })
             .on("mouseover", function () {
                 d3.select(this).style("fill", "aliceblue");
             })
@@ -84,13 +75,12 @@ var group = svg.append('g')
                     cy = +circle.getAttribute('cy'),
                     ctm = circle.getCTM(),
                     coords = getScreenCoords(cx, cy, ctm);
-                console.log(coords.x, coords.y);
 
                 tooltipDiv.transition()
                     .duration(200)
                     .style("opacity", 1.9);
 
-                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
+                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
                     .style("left", coords.x + 20 + "px")
                     .style("top", (coords.y - 20) + "px");
 
@@ -103,7 +93,6 @@ var group = svg.append('g')
 
                 tooltipDiv.select("#property-button").on("click", function () {
                     tooltipDiv.style("opacity", 0);
-                    console.log("end evnt button clicked ")
                     eemodal.style.display = "block";
                 });
             })
@@ -132,11 +121,6 @@ var group = svg.append('g')
                     endtype = "endEvent";
                     drawing = true;
                     window.bpmnElement = null;
-                    // console.log("startid : "+ startid);
-                    // console.log("startx : "+ startx);
-                    // console.log("starty : "+ starty);
-                    console.log("iddddd : "+t)
-                    //endid =t;
                     
                     if (coords.x > startx) {
                         if (starttype === "startEvent") {
@@ -166,11 +150,7 @@ var group = svg.append('g')
                         endy = coords.y;
                     }
                     endid = t;
-
                     midx = startx + ((endx - startx) / 2);
-                    console.log("startid : "+ startid);
-                    console.log("startx : "+ startx);
-                    console.log("starty : "+ starty);
                     flowcreator();
 
                       

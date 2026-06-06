@@ -2,7 +2,7 @@
 var starteventdevider = function (eid,subElement,svg,xvalue,yvalue){  
 var group = svg.append('g')
         .attr('transform', 'translate(' + xvalue + ',' + yvalue + ')')
-        .attr('id', 'startEvnet' + (++idstartelement))
+        .attr('id', 'startEvent' + (++idstartelement))
         .call(drag)
 // var sampleSVG = svg;
          if (subElement === "startEvent") {
@@ -70,7 +70,7 @@ var group = svg.append('g')
 
 
         group.append('circle')
-            .attr('id', 'startEvnet' + idstartelement)
+            .attr('id', 'startEvent' + idstartelement)
             .style("stroke", "black")
             .style("stroke-width", "2")
             .style("fill-opacity", "0")
@@ -101,58 +101,41 @@ var group = svg.append('g')
                     .duration(200)
                     .style("opacity", 1.9);
 
-                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+"<input id=" + "arrow-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/arrow.png" + " alt=" + "arrow" + " style=" + "width:25px;" + " >" + "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
+                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+"<input id=" + "arrow-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/arrow.png" + " alt=" + "arrow" + " style=" + "width:25px;" + " >" + "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
                     .style("left", coords.x + 20 + "px")
                     .style("top", (coords.y - 20) + "px");
 
 
                 tooltipDiv.select("#trash-button").on("click", function () {
                     deleteElement(t);
-                    console.log("t click")
-                  //  // semodal.style.display = "block";
                 });
 
                 tooltipDiv.select("#property-button").on("click", function () {
                     tooltipDiv.style("opacity", 0);
-                    for (var i = 0; i < bpmnjson.length ; i++) {
-                        var element = bpmnjson[i]
+                    for (var i = 0; i < bpmnjson.length; i++) {
+                        var element = bpmnjson[i];
                         if (element.id === t) {
-                            console.log("++++++++++++++")
-                            console.log(element.subtype)
                             if (element.subtype === "StartEvent") {
-                                console.log("ado awa")
-                            semodal.style.display = "block";
-                            console.log("-----------"+subElement)
-                            }else if (element.subtype === "TimeStartEvent") {
+                                semodal.style.display = "block";
+                            } else if (element.subtype === "TimeStartEvent") {
                                 tsemodal.style.display = "block";
-                            }else if (element.subtype === "MessageStartEvent") {
+                            } else if (element.subtype === "MessageStartEvent") {
                                 msemodal.style.display = "block";
-                            }else if (element.subtype === "ErrorStartEvent") {
+                            } else if (element.subtype === "ErrorStartEvent") {
                                 esemodal.style.display = "block";
                             }
-
-                            console.log()
                         }
                     }
-                    console.log("end evnt button clicked ")
-                    console.log("------adoz-----"+subElement)
-                    
-                   // semodal.style.display = "block";
                 });
 
                 tooltipDiv.select("#arrow-button").on("click", function () {
                     tooltipDiv.style("opacity", 0);
-                    console.log("end arrow button clicked ")
                     starttype = "startEvent";
-                    startid =t;
+                    startid = t;
                     startx = coords.x;
                     starty = coords.y;
                     window.bpmnElement = "flowselect";
                     document.body.style.cursor = "e-resize";
-                    console.log("startid : "+ startid)
-                    console.log("startx : "+ startx)
-                    console.log("starty : "+ starty)
-
                 });
 
             })
@@ -183,14 +166,11 @@ var group = svg.append('g')
 
                 if (window.bpmnElement === "flow") {
                     starttype = "startEvent";
-                    startid =t;
+                    startid = t;
                     startx = coords.x;
                     starty = coords.y;
                     window.bpmnElement = "flowselect";
                     document.body.style.cursor = "e-resize";
-                    console.log("ok1")
-                    console.log(startx)
-                    console.log(starty)
                 }
 
 
@@ -200,10 +180,10 @@ var group = svg.append('g')
         //     group.append('path')
         // .attr("d","m 12.8,12 5.942857142857143,7.771428571428571 -5.942857142857143,7.771428571428571,2.742857142857143,0 4.571428571428571,-5.971382857142857 4.571428571428571,5.971382857142857,2.742857142857143,0 -5.942857142857143,-7.771428571428571 5.942857142857143,-7.771428571428571,-2.742857142857143,0 -4.571428571428571,5.971382857142857 -4.571428571428571,-5.971382857142857,-2.742857142857143,0 z")   
             if (eid === null) {
-                eid ='startEvnet'+idstartelement;
+                eid ='startEvent'+idstartelement;
             }
 
-            EventBPMNJsonCreator(eid, xvalue, yvalue, 20, 20,"startEvnet",subElement);
+            EventBPMNJsonCreator(eid, xvalue, yvalue, 20, 20,"startEvent",subElement);
             subElement = null;
 
  }

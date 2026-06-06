@@ -77,9 +77,6 @@ var g2 = svg.append('g')
             .attr("width", 42.8)
             .attr("height", 42.8)
            .attr("transform", "matrix(0.7,0.7,-0.7,0.7,0,0)")
-            .on("dragend", function () { 
-                console.log("drag start event")
-             })
             .on("mouseover", function () {
                 d3.select(this).style("fill", "aliceblue");
             })
@@ -98,13 +95,12 @@ var g2 = svg.append('g')
                     cy = +circle.getAttribute('cy'),
                     ctm = circle.getCTM(),
                     coords = getScreenCoords(cx, cy, ctm);
-                console.log(coords.x, coords.y);
 
                 tooltipDiv.transition()
                     .duration(200)
                     .style("opacity", 1.9);
 
-                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+"<input id=" + "arrow-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/arrow.png" + " alt=" + "arrow" + " style=" + "width:25px;" + " >" + "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
+                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+"<input id=" + "arrow-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/arrow.png" + " alt=" + "arrow" + " style=" + "width:25px;" + " >" + "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
                     .style("left", coords.x + 30 + "px")
                     .style("top", (coords.y + 10) + "px");
 
@@ -117,12 +113,10 @@ var g2 = svg.append('g')
 
                 tooltipDiv.select("#property-button").on("click", function () {
                     tooltipDiv.style("opacity", 0);
-                    console.log("end evnt button clicked ")
                     gmodal.style.display = "block";
                 });
                 tooltipDiv.select("#arrow-button").on("click", function () {
                     tooltipDiv.style("opacity", 0);
-                    console.log("end arrow button clicked ");
                     starttype = "gateway";
                     startid =t;
                     startx = coords.x;
@@ -156,14 +150,11 @@ var g2 = svg.append('g')
 
                 if (window.bpmnElement === "flow") {
                     starttype = "gateway";
-                    startid =t;
+                    startid = t;
                     startx = coords.x;
                     starty = coords.y;
                     window.bpmnElement = "flowselect";
                     document.body.style.cursor = "e-resize";
-                    console.log("ok1")
-                    console.log(startx)
-                    console.log(starty)
                 } else if (window.bpmnElement === "flowselect") {
                     endtype = "gateway"
                     endid =t;

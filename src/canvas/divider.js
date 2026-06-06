@@ -32,34 +32,19 @@ var bpmnEventDivider = function (bpmnElement,subElement,svg) {
     }
 
 }
- function deleteElement(id){
-                        console.log("ididid : "+id)
-                        console.log(bpmnjson);
-                    
-                    for (var i = 0; i < bpmnjson.length; i++) {
-                       var bpmnobject = bpmnjson[i];
-                       console.log(bpmnobject.id);
-                        if (bpmnobject.id === id) {
-                          //  bpmnjson.splice(i, 1);
-                            
-                            bpmnobject.id=0;
-
-                          //  delete bpmnjson[i];
-                        }else if (bpmnobject.start_id ===id || bpmnobject.end_id ===id ) {
-                            var flow_id =bpmnobject.id;
-                          //  d3.select(document.getElementById(flow_id)).remove(); 
-                            sampleSVG.select("#group"+flow_id).remove(); 
-                          // bpmnjson.splice(i, 1);
-                            bpmnobject.id=0;
-                          //  delete bpmnjson[i];
-                        }
-                    }
-                    d3.select(document.getElementById(id)).remove(); 
-                    tooltipDiv.transition()
-                    .style("opacity", 0);
-                    console.log(bpmnjson);
-                    
- }
+function deleteElement(id) {
+    for (var i = 0; i < bpmnjson.length; i++) {
+        var bpmnobject = bpmnjson[i];
+        if (bpmnobject.id === id) {
+            bpmnobject.id = 0;
+        } else if (bpmnobject.start_id === id || bpmnobject.end_id === id) {
+            sampleSVG.select("#group" + bpmnobject.id).remove();
+            bpmnobject.id = 0;
+        }
+    }
+    d3.select(document.getElementById(id)).remove();
+    tooltipDiv.transition().style("opacity", 0);
+}
 
 function dragMove(me) {
 
@@ -86,91 +71,46 @@ function dragMove(me) {
     }
 
     var drag = d3.behavior.drag()
-    .on('drag', function (d) {
-        console.log("--dvalue--"+d)
-       // console.log("--dvalues--"+this)
-        dragMove(this)
+    .on('drag', function () {
+        dragMove(this);
     })
-    .on("dragstart", function () { 
-        console.log("ondragstart")
+    .on("dragstart", function () {
         var elementid = d3.select(this).attr("id");
         for (var i = 0; i < bpmnjson.length; i++) {
             var bpmnobject = bpmnjson[i];
-
-        // if (bpmnobject.start_id === elementid && bpmnobject.start_type ==="task" &&  bpmnobject.id != 0) {
-        //     console.log("")
-        //     dragFlows.push({
-        //         "id": bpmnobject.id,
-        //         "start_id":bpmnobject.start_id,
-        //         "end_id":bpmnobject.end_id,
-        //         "start_x": bpmnobject.start_x,
-        //         "start_y": bpmnobject.start_y,
-        //         "end_x": bpmnobject.end_x,
-        //         "end_y": bpmnobject.end_y,
-        //         "mid_x":bpmnobject.mid_x,
-        //         "width":bpmnobject.width,
-        //         "start_type":bpmnobject.start_type,
-        //         "end_type":bpmnobject.end_type,
-        //         "connection" : "start"
-        //     })
-        //     console.log(bpmnobject.width)
-        //     console.log(bpmnobject.id+" removed")
-        //     console.log("#group"+bpmnobject.id)
-        //     sampleSVG.select("#group"+bpmnobject.id).remove(); 
-        //    // sampleSVG.select("#groupflow0").remove(); 
-        //     bpmnobject.id=0;
-        //    // bpmnjson.splice(i, 1);
-        //     console.log("---slipse---")
-        //     console.log(bpmnjson)
-
-        // }else
-         if (bpmnobject.start_id === elementid &&  bpmnobject.id != 0) {
-            console.log("")
-            dragFlows.push({
-                "id": bpmnobject.id,
-                "start_id":bpmnobject.start_id,
-                "end_id":bpmnobject.end_id,
-                "start_x": bpmnobject.start_x,
-                "start_y": bpmnobject.start_y,
-                "end_x": bpmnobject.end_x,
-                "end_y": bpmnobject.end_y,
-                "mid_x":bpmnobject.mid_x,
-                "start_type":bpmnobject.start_type,
-                "end_type":bpmnobject.end_type,
-                "connection" : "start"
-            })
-            console.log(bpmnobject.id+" removed")
-            console.log("#group"+bpmnobject.id)
-            sampleSVG.select("#group"+bpmnobject.id).remove(); 
-           // sampleSVG.select("#groupflow0").remove(); 
-            bpmnobject.id=0;
-           // bpmnjson.splice(i, 1);
-            console.log("---slipse---")
-            console.log(bpmnjson)
-
-        }else if (bpmnobject.end_id ===elementid &&  bpmnobject.id != 0) {
-            dragFlows.push({
-                "id": bpmnobject.id,
-                "start_id":bpmnobject.start_id,
-                "end_id":bpmnobject.end_id,
-                "start_x": bpmnobject.start_x,
-                "start_y": bpmnobject.start_y,
-                "end_x": bpmnobject.end_x,
-                "end_y": bpmnobject.end_y,
-                "mid_x":bpmnobject.mid_x,
-                "start_type":bpmnobject.start_type,
-                "end_type":bpmnobject.end_type,
-                "connection" : "end"
-            })
-            console.log(bpmnobject.id+" removed")
-            console.log(dragFlows)
-            sampleSVG.select("#group"+bpmnobject.id).remove(); 
-            //d3.select(document.getElementById(bpmnobject.id)).remove(); 
-            bpmnobject.id=0;
-          // bpmnjson.splice(i, 1);
-           console.log("---slipse---")
-            console.log(bpmnjson)
-        }
+            if (bpmnobject.start_id === elementid && bpmnobject.id != 0) {
+                dragFlows.push({
+                    "id": bpmnobject.id,
+                    "start_id": bpmnobject.start_id,
+                    "end_id": bpmnobject.end_id,
+                    "start_x": bpmnobject.start_x,
+                    "start_y": bpmnobject.start_y,
+                    "end_x": bpmnobject.end_x,
+                    "end_y": bpmnobject.end_y,
+                    "mid_x": bpmnobject.mid_x,
+                    "start_type": bpmnobject.start_type,
+                    "end_type": bpmnobject.end_type,
+                    "connection": "start"
+                });
+                sampleSVG.select("#group" + bpmnobject.id).remove();
+                bpmnobject.id = 0;
+            } else if (bpmnobject.end_id === elementid && bpmnobject.id != 0) {
+                dragFlows.push({
+                    "id": bpmnobject.id,
+                    "start_id": bpmnobject.start_id,
+                    "end_id": bpmnobject.end_id,
+                    "start_x": bpmnobject.start_x,
+                    "start_y": bpmnobject.start_y,
+                    "end_x": bpmnobject.end_x,
+                    "end_y": bpmnobject.end_y,
+                    "mid_x": bpmnobject.mid_x,
+                    "start_type": bpmnobject.start_type,
+                    "end_type": bpmnobject.end_type,
+                    "connection": "end"
+                });
+                sampleSVG.select("#group" + bpmnobject.id).remove();
+                bpmnobject.id = 0;
+            }
         }
     })
     .on("dragend", function () { 
@@ -269,7 +209,7 @@ function dragMove(me) {
                     flowcreator(null);
   
 
-            }else if (flow.connection === "end") {
+            } else if (flow.connection === "end") {
 
                 var circle = document.getElementById(flow.end_id),
                     cx = +circle.getAttribute('cx'),
@@ -277,20 +217,14 @@ function dragMove(me) {
                     ctm = circle.getCTM(),
                     coords = getScreenCoords(cx, cy, ctm);
                     if (flow.start_x > flow.end_x) {
-                        console.log("in sx > ex")
-                        console.log(flow.start_type)
-                        console.log("circle value"+circle.getAttribute('x'))
                         if (flow.start_type === "startEvent") {
                             flow.start_x = flow.start_x +21;
-                            console.log("value : "+coords.x)
                             if (coords.x <= flow.start_x) {
-                                console.log("in sx > cx")
-                                flow.start_x = flow.start_x -21; 
-                            }else if (coords.x > flow.start_x) {
-                                console.log("in cx > sx")
-                                flow.start_x = flow.start_x +21; 
-                            }    
-                        }else if (flow.start_type === "task") {
+                                flow.start_x = flow.start_x -21;
+                            } else if (coords.x > flow.start_x) {
+                                flow.start_x = flow.start_x +21;
+                            }
+                        } else if (flow.start_type === "task") {
                             flow.start_x = flow.start_x +67;
                             if (coords.x < flow.start_x) {
                                 flow.start_x = flow.start_x -67; 
@@ -305,8 +239,7 @@ function dragMove(me) {
                                 flow.start_x = flow.start_x +35; 
                             }
                         }
-                    }else if (flow.start_x < flow.end_x) {
-                        console.log("in ex > sx")
+                    } else if (flow.start_x < flow.end_x) {
                         if (flow.start_type === "startEvent") {
                             flow.start_x = flow.start_x -21;
                             if (coords.x <= flow.start_x) {

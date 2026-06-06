@@ -82,7 +82,7 @@ div.tooltip {
 }
 
 input.trash-button {
-    background-image: url(img/trash-icon.png);
+    background-image: url(../assets/img/trash-icon.png);
     height: 5px; 
     width: 5px;   /* 16px x 16px */
     background-color: transparent; /* make the button transparent */
@@ -100,7 +100,7 @@ input.trash-button {
   width: 250px;
 }*/
 .trashbutton{
-     background-image:url('img/trash-icon.png');
+     background-image:url('../assets/img/trash-icon.png');
 }
 
 
