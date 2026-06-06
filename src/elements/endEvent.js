@@ -64,12 +64,6 @@ var group = svg.append('g')
                 d3.select(this).style("fill", "aliceblue");
                 var t = d3.select(this).attr("id");
 
-                function getScreenCoords(x, y, ctm) {
-                    var xn = ctm.e + x * ctm.a + y * ctm.c;
-                    var yn = ctm.f + x * ctm.b + y * ctm.d;
-                    return {x: xn, y: yn};
-                }
-
                 var circle = document.getElementById(t),
                     cx = +circle.getAttribute('cx'),
                     cy = +circle.getAttribute('cy'),
@@ -80,7 +74,7 @@ var group = svg.append('g')
                     .duration(200)
                     .style("opacity", 1.9);
 
-                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
+                tooltipDiv.html(buildTooltipHTML({ showArrow: false }))
                     .style("left", coords.x + 20 + "px")
                     .style("top", (coords.y - 20) + "px");
 
@@ -104,12 +98,6 @@ var group = svg.append('g')
             })
             .on("click", function () {
                 var t = d3.select(this).attr("id");
-
-                function getScreenCoords(x, y, ctm) {
-                    var xn = ctm.e + x * ctm.a + y * ctm.c;
-                    var yn = ctm.f + x * ctm.b + y * ctm.d;
-                    return {x: xn, y: yn};
-                }
 
                 var circle = document.getElementById(t),
                     cx = +circle.getAttribute('cx'),

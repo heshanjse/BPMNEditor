@@ -60,11 +60,6 @@ var drag = d3.behavior.drag()
         }
     })
     .on("dragend", function () {
-        function getScreenCoords(x, y, ctm) {
-                    var xn = ctm.e + x * ctm.a + y * ctm.c;
-                    var yn = ctm.f + x * ctm.b + y * ctm.d;
-                    return {x: xn, y: yn};
-                }
 
                 var circle = document.getElementById(idelement),
                     cx = circle.getAttribute('x'),
@@ -685,12 +680,6 @@ var dragrect = newg.append("rect")
 //                 console.log("++++++id++++++")
 //                 console.log(t)
 
-                function getScreenCoords(x, y, ctm) {
-                    var xn = ctm.e + x * ctm.a + y * ctm.c;
-                    var yn = ctm.f + x * ctm.b + y * ctm.d;
-                    return {x: xn, y: yn};
-                }
-
                 var circle = document.getElementById(t),
                     cx = circle.getAttribute('x'),
                     cy = circle.getAttribute('y'),
@@ -701,7 +690,7 @@ var dragrect = newg.append("rect")
                     .duration(200)
                     .style("opacity", 1.9);
 
-                tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >" +"&nbsp"+"<input id=" + "arrow-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/arrow.png" + " alt=" + "arrow" + " style=" + "width:25px;" + " >"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+"<input id=" + "text-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/review.png" + " alt=" + "Text" + " style=" + "width:25px;" + " >")
+                tooltipDiv.html(buildTooltipHTML({ showArrow: true, showText: true }))
                     .style("left", coords.x + width+ 10 + "px")
                     .style("top", (coords.y + 15) + "px");
 
@@ -752,11 +741,6 @@ var dragrect = newg.append("rect")
                 //tmodal.style.display = "block";
                 d3.select(this).style("fill", "white");
                 var t = d3.select(this).attr("id");
-                function getScreenCoords(x, y, ctm) {
-                    var xn = ctm.e + x * ctm.a + y * ctm.c;
-                    var yn = ctm.f + x * ctm.b + y * ctm.d;
-                    return {x: xn, y: yn};
-                }
 
                 var circle = document.getElementById(t),
                     cx = +circle.getAttribute('x'),

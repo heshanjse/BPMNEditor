@@ -63,13 +63,6 @@ function dragMove(me) {
        // console.log(bpmnjson);
     }
 
-
-    function getScreenCoords(x, y, ctm) {
-                    var xn = ctm.e + x * ctm.a + y * ctm.c;
-                    var yn = ctm.f + x * ctm.b + y * ctm.d;
-                    return {x: xn, y: yn};
-    }
-
     var drag = d3.behavior.drag()
     .on('drag', function () {
         dragMove(this);

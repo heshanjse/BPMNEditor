@@ -38,12 +38,6 @@ var flowcreator = function (eid) {
                         .on("mouseup", function () {
                             //d3.select(this).style("fill", "aliceblue");
                             var t = d3.select(this).attr("id");
-
-                            function getScreenCoords(x, y, ctm) {
-                                var xn = ctm.e + x * ctm.a + y * ctm.c;
-                                var yn = ctm.f + x * ctm.b + y * ctm.d;
-                                return {x: xn, y: yn};
-                            }
                             var circle = document.getElementById(t),
                                 cx = +circle.getAttribute('x'),
                                 cy = +circle.getAttribute('y'),
@@ -54,7 +48,7 @@ var flowcreator = function (eid) {
                                 .duration(200)
                                 .style("opacity", 1.9);
 
-                            tooltipDiv.html("<input id=" + "trash-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/trash-icon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >"+"&nbsp"+ "<br>" + "<input id=" + "property-button" + " type=" + "image" + " title=" + "End Event" + " src=" + "assets/img/settingsicon.png" + " alt=" + "trash" + " style=" + "width:25px;" + " >")
+                            tooltipDiv.html(buildTooltipHTML({ showArrow: false }))
                                 .style("left", coords.x  + "px")
                                 .style("top", coords.y + "px");
 
