@@ -29,7 +29,19 @@ function uploadgraphCreator(data) {
             endy = bpmnelement.end_y;
             startid = bpmnelement.start_id;
             endid = bpmnelement.end_id;
-            midx = startx + ((endx - startx) / 2);
+            flowPortASide = bpmnelement.port_a_side || "";
+            flowPortBSide = bpmnelement.port_b_side || "";
+            var isVA = (flowPortASide === 'top' || flowPortASide === 'bottom');
+            var isVB = (flowPortBSide === 'top' || flowPortBSide === 'bottom');
+            if (!isVA && !isVB) {           // HH
+                midx = startx + (endx - startx) / 2;  midy = 0;
+            } else if (isVA && isVB) {      // VV
+                midy = starty + (endy - starty) / 2;  midx = 0;
+            } else if (!isVA && isVB) {     // HV
+                midx = 0;  midy = starty + (endy - starty) / 2;
+            } else {                         // VH
+                midx = startx + (endx - startx) / 2;  midy = 0;
+            }
             flowcreator(bpmnelement.id);
         }
     }
