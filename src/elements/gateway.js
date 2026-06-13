@@ -4,7 +4,16 @@ var g2 = svg.append('g')
         .attr('transform', 'translate(' + xvalue + ',' + yvalue + ')')
         .attr('id', 'gateway' + (++idgatewayelement))
         .call(drag);
-      //  
+
+    var bgDiamond = g2.append('rect')
+        .attr("width", 42.8)
+        .attr("height", 42.8)
+        .attr("transform", "matrix(0.7,0.7,-0.7,0.7,0,0)")
+        .style("fill", "white")
+        .style("stroke", "none")
+        .attr("pointer-events", "none");
+
+      //
                     //.attr("transform", "matrix(0.7,0.7,-0.7,0.7," + d3.event.pageX + "," + d3.event.pageY + ")")
 
         if (subElement === "exclusive") {
@@ -72,16 +81,15 @@ var g2 = svg.append('g')
             .style("stroke-miterlimit", "2")
             .style("stroke-dashoffset", "0")
             .style("fill-opacity", "0")
-          //  .style("fill", "white")
             .attr("ry", 0)
             .attr("width", 42.8)
             .attr("height", 42.8)
            .attr("transform", "matrix(0.7,0.7,-0.7,0.7,0,0)")
             .on("mouseover", function () {
-                d3.select(this).style("fill", "aliceblue");
+                bgDiamond.style("fill", "aliceblue");
             })
-            .on("mouseup", function () {
-                d3.select(this).style("fill", "aliceblue");
+            .on("pointerup", function () {
+                bgDiamond.style("fill", "aliceblue");
                 var t = d3.select(this).attr("id");
 
                 var circle = document.getElementById(t),
@@ -90,7 +98,8 @@ var g2 = svg.append('g')
                     ctm = circle.getCTM(),
                     coords = getScreenCoords(cx, cy, ctm);
 
-                tooltipDiv.transition()
+                tooltipDiv.style("pointer-events", "all")
+                    .transition()
                     .duration(200)
                     .style("opacity", 1.9);
 
@@ -107,28 +116,39 @@ var g2 = svg.append('g')
 
                 tooltipDiv.select("#property-button").on("click", function () {
                     tooltipDiv.style("opacity", 0);
+                    editingElementId = t;
+                    for (var i = 0; i < bpmnjson.length; i++) {
+                        if (bpmnjson[i].id === t) {
+                            document.getElementById('g-name').value = bpmnjson[i].name || '';
+                            break;
+                        }
+                    }
                     gmodal.style.display = "block";
                 });
                 tooltipDiv.select("#arrow-button").on("click", function () {
                     tooltipDiv.style("opacity", 0);
+                    var canvasCoords = getCanvasCoords(cx, cy, ctm);
                     starttype = "gateway";
                     startid =t;
-                    startx = coords.x;
-                    starty = coords.y;
+                    startx = canvasCoords.x;
+                    starty = canvasCoords.y;
                     window.bpmnElement = "flowselect";
                     document.body.style.cursor = "e-resize";
 
                 });
             })
             .on("mouseout", function () {
-                d3.select(this).style("fill", "white");
+                bgDiamond.style("fill", "white");
                 tooltipDiv.transition()
                     .duration(3200)
-                    .style("opacity", 0);
+                    .style("opacity", 0)
+                    .on("end", function () {
+                        tooltipDiv.style("pointer-events", "none");
+                    });
             })
             .on("click", function () {
                 // gmodal.style.display = "block";
-                d3.select(this).style("fill", "white");
+                bgDiamond.style("fill", "white");
                 var t = d3.select(this).attr("id");
 
                 var circle = document.getElementById(t),
@@ -138,50 +158,18 @@ var g2 = svg.append('g')
                     coords = getScreenCoords(cx, cy, ctm);
 
                 if (window.bpmnElement === "flow") {
+                    var canvasCoords = getCanvasCoords(cx, cy, ctm);
                     starttype = "gateway";
                     startid = t;
-                    startx = coords.x;
-                    starty = coords.y;
+                    startx = canvasCoords.x;
+                    starty = canvasCoords.y;
                     window.bpmnElement = "flowselect";
                     document.body.style.cursor = "e-resize";
                 } else if (window.bpmnElement === "flowselect") {
-                    endtype = "gateway"
-                    endid =t;
-                    window.bpmnElement = null
-                    if (coords.x > startx) {
-                        if (starttype === "startEvent") {
-                            startx = startx + 20;
-                            starty = starty;  
-                        }else if (starttype === "task") {
-                          //  startx = startx + 120;
-                          startx = startx + taskwidth;
-                            starty = starty + 40;
-                        }else if (starttype === "gateway") {
-                            startx = startx + 30;
-                            starty = starty + 30;
-                        }
-                        endx = coords.x - 35;
-                        endy = coords.y + 30;
-                    }else if (coords.x < startx) {
-                        if (starttype === "startEvent") {
-                            startx = startx - 20;
-                            starty = starty;  
-                        }else if (starttype === "task") {
-                            startx = startx - 2;
-                            starty = starty + 40;
-                        }else if (starttype === "gateway") {
-                            startx = startx - 30;
-                            starty = starty + 30;
-                        }
-                        endx = coords.x + 35;
-                        endy = coords.y + 30;
-                    }
-                    
-                    endid =t;
-                    midx = startx + ((endx - startx) / 2);
-                    flowcreator();
-
-                  
+                    endtype = "gateway";
+                    endid = t;
+                    window.bpmnElement = null;
+                    flowcreator(null);
                 }
             })
          //   .call(drags)

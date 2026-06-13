@@ -4,6 +4,13 @@ var group = svg.append('g')
         .attr('transform', 'translate(' + xvalue + ',' + yvalue + ')')
         .attr('id', 'startEvent' + (++idstartelement))
         .call(drag)
+
+    var bgCircle = group.append('circle')
+        .attr('r', '20')
+        .style('fill', 'white')
+        .style('stroke', 'none')
+        .attr('pointer-events', 'none');
+
 // var sampleSVG = svg;
          if (subElement === "startEvent") {
            //     subElement = null;
@@ -74,14 +81,13 @@ var group = svg.append('g')
             .style("stroke", "black")
             .style("stroke-width", "2")
             .style("fill-opacity", "0")
-           // .style("fill", "white")
          //   .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
             .attr('r', '20')
             .on("mouseover", function () {
-                d3.select(this).style("fill", "aliceblue");
+                bgCircle.style("fill", "aliceblue");
             })
-            .on("mouseup", function () {
-                d3.select(this).style("fill", "aliceblue");
+            .on("pointerup", function () {
+                bgCircle.style("fill", "aliceblue");
                 var t = d3.select(this).attr("id");
 
                 var circle = document.getElementById(t),
@@ -91,7 +97,8 @@ var group = svg.append('g')
                     coords = getScreenCoords(cx, cy, ctm);
            //     console.log(coords.x, coords.y);
 
-                tooltipDiv.transition()
+                tooltipDiv.style("pointer-events", "all")
+                    .transition()
                     .duration(200)
                     .style("opacity", 1.9);
 
@@ -109,41 +116,51 @@ var group = svg.append('g')
                     for (var i = 0; i < bpmnjson.length; i++) {
                         var element = bpmnjson[i];
                         if (element.id === t) {
+                            editingElementId = t;
+                            var inputId;
                             if (element.subtype === "StartEvent") {
+                                inputId = 'se-name';
                                 semodal.style.display = "block";
                             } else if (element.subtype === "TimeStartEvent") {
+                                inputId = 'tse-name';
                                 tsemodal.style.display = "block";
                             } else if (element.subtype === "MessageStartEvent") {
+                                inputId = 'mse-name';
                                 msemodal.style.display = "block";
                             } else if (element.subtype === "ErrorStartEvent") {
+                                inputId = 'ese-name';
                                 esemodal.style.display = "block";
                             }
+                            document.getElementById(inputId).value = element.name || '';
                         }
                     }
                 });
 
                 tooltipDiv.select("#arrow-button").on("click", function () {
                     tooltipDiv.style("opacity", 0);
+                    var canvasCoords = getCanvasCoords(cx, cy, ctm);
                     starttype = "startEvent";
                     startid = t;
-                    startx = coords.x;
-                    starty = coords.y;
+                    startx = canvasCoords.x;
+                    starty = canvasCoords.y;
                     window.bpmnElement = "flowselect";
                     document.body.style.cursor = "e-resize";
                 });
 
             })
             .on("mouseout", function () {
-                d3.select(this).style("fill", "white");
+                bgCircle.style("fill", "white");
                 tooltipDiv.transition()
                     .duration(3200)
-                    .style("opacity", 0);
-
+                    .style("opacity", 0)
+                    .on("end", function () {
+                        tooltipDiv.style("pointer-events", "none");
+                    });
             })
 
             .on("click", function () {
 
-                d3.select(this).style("fill", "white");
+                bgCircle.style("fill", "white");
                 var t = d3.select(this).attr("id");
 
                 var circle = document.getElementById(t),
@@ -153,10 +170,11 @@ var group = svg.append('g')
                     coords = getScreenCoords(cx, cy, ctm);
 
                 if (window.bpmnElement === "flow") {
+                    var canvasCoords = getCanvasCoords(cx, cy, ctm);
                     starttype = "startEvent";
                     startid = t;
-                    startx = coords.x;
-                    starty = coords.y;
+                    startx = canvasCoords.x;
+                    starty = canvasCoords.y;
                     window.bpmnElement = "flowselect";
                     document.body.style.cursor = "e-resize";
                 }

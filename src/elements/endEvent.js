@@ -4,6 +4,13 @@ var group = svg.append('g')
         .attr('transform', 'translate(' + xvalue + ',' + yvalue + ')')
         .attr('id', 'endEvent' + (++idendelement))
         .call(drag)
+
+    var bgCircle = group.append('circle')
+        .attr('r', '20')
+        .style('fill', 'white')
+        .style('stroke', 'none')
+        .attr('pointer-events', 'none');
+
 // var sampleSVG = svg;
 
         if (subElement === "EndEvent") {
@@ -58,10 +65,10 @@ var group = svg.append('g')
          //   .attr('transform', 'translate(' + d3.event.pageX + ',' + d3.event.pageY + ')')
             .attr('r', '20')
             .on("mouseover", function () {
-                d3.select(this).style("fill", "aliceblue");
+                bgCircle.style("fill", "aliceblue");
             })
-            .on("mouseup", function () {
-                d3.select(this).style("fill", "aliceblue");
+            .on("pointerup", function () {
+                bgCircle.style("fill", "aliceblue");
                 var t = d3.select(this).attr("id");
 
                 var circle = document.getElementById(t),
@@ -70,7 +77,8 @@ var group = svg.append('g')
                     ctm = circle.getCTM(),
                     coords = getScreenCoords(cx, cy, ctm);
 
-                tooltipDiv.transition()
+                tooltipDiv.style("pointer-events", "all")
+                    .transition()
                     .duration(200)
                     .style("opacity", 1.9);
 
@@ -87,62 +95,34 @@ var group = svg.append('g')
 
                 tooltipDiv.select("#property-button").on("click", function () {
                     tooltipDiv.style("opacity", 0);
+                    editingElementId = t;
+                    for (var i = 0; i < bpmnjson.length; i++) {
+                        if (bpmnjson[i].id === t) {
+                            document.getElementById('ee-name').value = bpmnjson[i].name || '';
+                            break;
+                        }
+                    }
                     eemodal.style.display = "block";
                 });
             })
             .on("mouseout", function () {
-                d3.select(this).style("fill", "white");
+                bgCircle.style("fill", "white");
                 tooltipDiv.transition()
                     .duration(3200)
-                    .style("opacity", 0);
+                    .style("opacity", 0)
+                    .on("end", function () {
+                        tooltipDiv.style("pointer-events", "none");
+                    });
             })
             .on("click", function () {
                 var t = d3.select(this).attr("id");
 
-                var circle = document.getElementById(t),
-                    cx = +circle.getAttribute('cx'),
-                    cy = +circle.getAttribute('cy'),
-                    ctm = circle.getCTM(),
-                    coords = getScreenCoords(cx, cy, ctm);
-
                 if (window.bpmnElement === "flowselect") {
                     endtype = "endEvent";
+                    endid = t;
                     drawing = true;
                     window.bpmnElement = null;
-                    
-                    if (coords.x > startx) {
-                        if (starttype === "startEvent") {
-                            startx = startx + 20;
-                            starty = starty;  
-                        }else if (starttype === "task") {
-                            startx = startx + taskwidth;
-                            starty = starty + 40;
-                        }else if (starttype === "gateway") {
-                            startx = startx + 30;
-                            starty = starty + 30;
-                        }
-                        endx = coords.x - 26;
-                        endy = coords.y;
-                    }else if (coords.x < startx) {
-                        if (starttype === "startEvent") {
-                            startx = startx - 20;
-                            starty = starty;  
-                        }else if (starttype === "task") {
-                            startx = startx - 2;
-                            starty = starty + 40;
-                        }else if (starttype === "gateway") {
-                            startx = startx - 30;
-                            starty = starty + 30;
-                        }
-                        endx = coords.x + 26;
-                        endy = coords.y;
-                    }
-                    endid = t;
-                    midx = startx + ((endx - startx) / 2);
-                    flowcreator();
-
-                      
-                   
+                    flowcreator(null);
                 }
             })
           //  .call(drag);
