@@ -20,27 +20,6 @@ body{
     background-color: rgb(248, 248, 248)
 }
 
-#toolbox_other{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    margin-bottom: 0.5em;
-    margin-left: 10em;
-    border: 2px solid #EEEEEE;
-    border-radius: 5px;
-    padding: 1em;
-    z-index: 5;
-}
-
-#toolbox_other input{
-    width: 22px;
-    height: 20px;
-    opacity: 0.4;
-}
-#toolbox_other input:hover{
-    opacity: 1;
-    cursor: pointer;
-}
 
 
 #toolbox{
@@ -53,15 +32,46 @@ body{
     border-radius: 5px;
     padding: 1em;
     z-index: 5;
+    background-color: white;
 }
 
 #toolbox input{
     width: 30px;
-    opacity: 0.4;
+    opacity: 1;
 }
 #toolbox input:hover{
-    opacity: 1;
     cursor: pointer;
+}
+
+#zoom-controls {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 0.5em;
+    margin-right: 1em;
+    z-index: 5;
+    display: flex;
+    gap: 4px;
+}
+
+#zoom-in-btn,
+#zoom-out-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    line-height: 1;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    opacity: 1;
+    padding: 0;
+}
+
+#zoom-in-btn:hover,
+#zoom-out-btn:hover {
+    background: #f0f0f0;
 }
 
 #hidden-file-upload{

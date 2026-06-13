@@ -2,17 +2,18 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="styles/toolbox.css" />
-    <link rel="stylesheet" type="text/css" href="vendor/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap5.min.css" />
     <link rel="stylesheet" type="text/css" href="styles/app.css" />
-    <script type="text/javascript" src="vendor/d3.js" charset="utf-8"></script>
-    <script type="text/javascript" src="vendor/jquery.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="vendor/bootstrap.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="vendor/d3v7.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="vendor/bootstrap5.bundle.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="vendor/FileSaver.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="src/state/store.js" charset="utf-8"></script>
     <script type="text/javascript" src="src/utils/geometry.js" charset="utf-8"></script>
     <script type="text/javascript" src="src/ui/tooltip.js" charset="utf-8"></script>
     <script type="text/javascript" src="src/io/deserializer.js" charset="utf-8"></script>
     <script type="text/javascript" src="src/canvas/divider.js" charset="utf-8"></script>
     <script type="text/javascript" src="src/io/serializer.js" charset="utf-8"></script>
+    <script type="text/javascript" src="src/canvas/flowEngine.js" charset="utf-8"></script>
     <script type="text/javascript" src="src/elements/startEvent.js" charset="utf-8"></script>
     <script type="text/javascript" src="src/elements/gateway.js" charset="utf-8"></script>
     <script type="text/javascript" src="src/elements/task.js" charset="utf-8"></script>
@@ -23,9 +24,9 @@
   <body >
 
  <div id="mySvg"></div>
-    <div id="toolbox_other">
-      <input type="file" id="hidden-file-upload"><input id="upload-input" type="image" title="upload graph" src="assets/img/upload-icon.png" alt="upload graph"> <input type="image" id="download-input" title="download graph" src="assets/img/download-icon.png" alt="download graph">
-       <!-- <input type="image" id="delete-graph" title="delete graph" src="assets/img/trash-icon.png" alt="delete graph">  -->
+    <div id="zoom-controls">
+      <button id="zoom-in-btn"  title="Zoom In">+</button>
+      <button id="zoom-out-btn" title="Zoom Out">&#8722;</button>
     </div>
     <textarea id="edittext" title="Press SHIFT+Enter for line feed" style="width: 120px; height: 80px; left: 608px; top: 180px; position: absolute; text-align: center; box-sizing: border-box; margin: 0px; display: none;"></textarea>
 
@@ -57,6 +58,10 @@
       <hr>
   <!--     <span><b>Connections</b></span><br> -->
       <input id="arrow-button" type="image" title="Sequence Flow" src="assets/img/arrow.png" alt="Sequence Flow" style="width: 30px;height: 30px"><br>
+      <hr>
+      <input type="file" id="hidden-file-upload">
+      <input id="upload-input" type="image" title="Upload graph" src="assets/img/upload-icon.png" alt="Upload graph" style="width:30px;height:30px">
+      <input id="download-input" type="image" title="Download graph" src="assets/img/download-icon.png" alt="Download graph" style="width:30px;height:30px"><br>
     </div>
 
     <!-- The Modal -->
@@ -65,44 +70,38 @@
       <!-- Modal content -->
       <div class="modal-content" style="width:1000px">
         <div class="modal-header">
-          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="SEClose" aria-hidden="true">&times;</span></button> -->
+          <!-- <button type="button" class="close" aria-label="Close"><span id="SEClose" aria-hidden="true">&times;</span></button> -->
 
           <center><h4>Start Event</h4></center>
         </div>
         <div class="modal-body">
 
-          <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    General
-                  </a>
-                </h4>
-              </div>
-              <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                <div class="panel-body">
+          <div class="accordion" id="accordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+<button type="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapseOne" data-bs-target="#collapseOne">General</button>
+                </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show" role="tabpanel" aria-labelledby="headingOne">
+                <div class="accordion-body">
                   <div class="form-group">
                     <label>id</label>
                     <input type="text" class="form-control"></input>
                   </div>
                   <div class="form-group">
                     <label>Name</label>
-                    <input type="text" class="form-control"></input>
+                    <input type="text" class="form-control" id="se-name"></input>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingTwo">
-                <h4 class="panel-title">
-                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                     Main Config
-                  </a>
-                </h4>
-              </div>
-              <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                <div class="panel-body">
+                  </button>
+                </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="accordion-body">
                   <div class="form-group">
                     <label>Initiator</label>
                     <input type="text" class="form-control"></input>
@@ -114,16 +113,14 @@
                 </div>
               </div>
             </div>
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingThree">
-                <h4 class="panel-title">
-                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                     Form
-                  </a>
-                </h4>
-              </div>
-              <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                <div class="panel-body">
+                  </button>
+                </h2>
+              <div id="collapseThree" class="accordion-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                <div class="accordion-body">
                   <div class="row">
                     <div class="col-md-6">
                       <!-- <label>Id</label> -->
@@ -136,9 +133,7 @@
                       <input type="text" class="form-control" id="idvalue" placeholder="Data Pattern"><br>
                       <!-- <label>Readable</label> -->
                       <input type="text" class="form-control" id="idvalue" placeholder="Readable"><br>
-                      <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        Add Form Value
-                      </a>
+                      <button type="button" class="btn btn-primary" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" data-bs-target="#collapseExample">Add Form Value</button>
 
                     </div>
                     <div class="col-md-6">
@@ -166,7 +161,7 @@
                       <input type="text" class="form-control" id="namevalue" placeholder="ID"><br>
                       <!-- <label>Writeable</label> -->
                       <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
-                      <button type="button" class="btn btn-default">Add Form value</button>
+                      <button type="button" class="btn btn-secondary">Add Form value</button>
                       <table class="table">
                         <tr>
                           <th>Id</th>
@@ -184,7 +179,7 @@
         </div>
       </div>
       <br>
-      <button type="button" class="btn btn-default">Add Value</button>
+      <button type="button" class="btn btn-secondary">Add Value</button>
       <br>
       <br>
       <table class="table">
@@ -270,8 +265,8 @@
        
       </div>
       <div class="modal-footer">
-        <button id="SEClose" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-default">Save</button>
+        <button id="SEClose" type="button" class="btn btn-secondary">Cancel</button>
+        <button type="button" class="btn btn-secondary" id="se-save">Save</button>
       </div>
     </div>
   </div>
@@ -282,44 +277,38 @@
       <!-- Modal content -->
       <div class="modal-content" style="width:1000px">
         <div class="modal-header">
-          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="TSEClose" aria-hidden="true">&times;</span></button> -->
+          <!-- <button type="button" class="close" aria-label="Close"><span id="TSEClose" aria-hidden="true">&times;</span></button> -->
 
           <center><h4>Time Start Event</h4></center>
         </div>
         <div class="modal-body">
 
-          <div class="panel-group" id="tseaccordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#tseaccordion" href="#tsecollapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    General
-                  </a>
-                </h4>
-              </div>
-              <div id="tsecollapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                <div class="panel-body">
+          <div class="accordion" id="tseaccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+<button type="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapseOne" data-bs-target="#tsecollapseOne">General</button>
+                </h2>
+              <div id="tsecollapseOne" class="accordion-collapse collapse show" role="tabpanel" aria-labelledby="headingOne">
+                <div class="accordion-body">
                   <div class="form-group">
                     <label>id</label>
                     <input type="text" class="form-control"></input>
                   </div>
                   <div class="form-group">
                     <label>Name</label>
-                    <input type="text" class="form-control"></input>
+                    <input type="text" class="form-control" id="tse-name"></input>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="tseheadingTwo">
-                <h4 class="panel-title">
-                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#tseaccordion" href="#tsecollapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="tseheadingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tsecollapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                     Main Config
-                  </a>
-                </h4>
-              </div>
-              <div id="tsecollapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                <div class="panel-body">
+                  </button>
+                </h2>
+              <div id="tsecollapseTwo" class="accordion-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="accordion-body">
                   <div class="form-group">
                     <label>Time Duration</label>
                     <input type="text" class="form-control"></input>
@@ -335,16 +324,14 @@
                 </div>
               </div>
             </div>
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="tseheadingThree">
-                <h4 class="panel-title">
-                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#tseaccordion" href="#tsecollapseThree" aria-expanded="false" aria-controls="collapseThree">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="tseheadingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tsecollapseThree" aria-expanded="false" aria-controls="collapseThree">
                     Form
-                  </a>
-                </h4>
-              </div>
-              <div id="tsecollapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                <div class="panel-body">
+                  </button>
+                </h2>
+              <div id="tsecollapseThree" class="accordion-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                <div class="accordion-body">
                   <div class="row">
                     <div class="col-md-6">
                       <!-- <label>Id</label> -->
@@ -357,9 +344,7 @@
                       <input type="text" class="form-control" id="idvalue" placeholder="Data Pattern"><br>
                       <!-- <label>Readable</label> -->
                       <input type="text" class="form-control" id="idvalue" placeholder="Readable"><br>
-                      <a class="btn btn-primary" role="button" data-toggle="collapse" href="#tsecollapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        Add Form Value
-                      </a>
+                      <button type="button" class="btn btn-primary" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" data-bs-target="#tsecollapseExample">Add Form Value</button>
 
                     </div>
                     <div class="col-md-6">
@@ -387,7 +372,7 @@
                       <input type="text" class="form-control" id="namevalue" placeholder="ID"><br>
                       <!-- <label>Writeable</label> -->
                       <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
-                      <button type="button" class="btn btn-default">Add Form value</button>
+                      <button type="button" class="btn btn-secondary">Add Form value</button>
                       <table class="table">
                         <tr>
                           <th>Id</th>
@@ -405,7 +390,7 @@
         </div>
       </div>
       <br>
-      <button type="button" class="btn btn-default">Add Value</button>
+      <button type="button" class="btn btn-secondary">Add Value</button>
       <br>
       <br>
       <table class="table">
@@ -491,8 +476,8 @@
       
       </div>
       <div class="modal-footer">
-        <button type="button" id="TSEClose" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-default">Save</button>
+        <button type="button" id="TSEClose" class="btn btn-secondary">Cancel</button>
+        <button type="button" class="btn btn-secondary" id="tse-save">Save</button>
       </div>
     </div>
   </div>
@@ -502,44 +487,38 @@
       <!-- Modal content -->
       <div class="modal-content" style="width:1000px">
         <div class="modal-header">
-          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="ESEClose" aria-hidden="true">&times;</span></button> -->
+          <!-- <button type="button" class="close" aria-label="Close"><span id="ESEClose" aria-hidden="true">&times;</span></button> -->
 
           <center><h4>Error Start Event</h4></center>
         </div>
         <div class="modal-body">
 
-          <div class="panel-group" id="eseaccordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#eseaccordion" href="#esecollapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    General
-                  </a>
-                </h4>
-              </div>
-              <div id="esecollapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                <div class="panel-body">
+          <div class="accordion" id="eseaccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+<button type="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapseOne" data-bs-target="#esecollapseOne">General</button>
+                </h2>
+              <div id="esecollapseOne" class="accordion-collapse collapse show" role="tabpanel" aria-labelledby="headingOne">
+                <div class="accordion-body">
                   <div class="form-group">
                     <label>id</label>
                     <input type="text" class="form-control"></input>
                   </div>
                   <div class="form-group">
                     <label>Name</label>
-                    <input type="text" class="form-control"></input>
+                    <input type="text" class="form-control" id="ese-name"></input>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="eseheadingTwo">
-                <h4 class="panel-title">
-                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#eseaccordion" href="#esecollapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="eseheadingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#esecollapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                     Main Config
-                  </a>
-                </h4>
-              </div>
-              <div id="esecollapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                <div class="panel-body">
+                  </button>
+                </h2>
+              <div id="esecollapseTwo" class="accordion-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="accordion-body">
                   <div class="form-group">
                     <label>Time Duration</label>
                     <input type="text" class="form-control"></input>
@@ -555,16 +534,14 @@
                 </div>
               </div>
             </div>
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="eseheadingThree">  
-                <h4 class="panel-title">
-                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#eseaccordion" href="#esecollapseThree" aria-expanded="false" aria-controls="collapseThree">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="eseheadingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#esecollapseThree" aria-expanded="false" aria-controls="collapseThree">
                     Form
-                  </a>
-                </h4>
-              </div>
-              <div id="esecollapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                <div class="panel-body">
+                  </button>
+                </h2>
+              <div id="esecollapseThree" class="accordion-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                <div class="accordion-body">
                   <div class="row">
                     <div class="col-md-6">
                       <!-- <label>Id</label> -->
@@ -577,9 +554,7 @@
                       <input type="text" class="form-control" id="idvalue" placeholder="Data Pattern"><br>
                       <!-- <label>Readable</label> -->
                       <input type="text" class="form-control" id="idvalue" placeholder="Readable"><br>
-                      <a class="btn btn-primary" role="button" data-toggle="collapse" href="#esecollapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        Add Form Value
-                      </a>
+                      <button type="button" class="btn btn-primary" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" data-bs-target="#esecollapseExample">Add Form Value</button>
 
                     </div>
                     <div class="col-md-6">
@@ -607,7 +582,7 @@
                       <input type="text" class="form-control" id="namevalue" placeholder="ID"><br>
                       <!-- <label>Writeable</label> -->
                       <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
-                      <button type="button" class="btn btn-default">Add Form value</button>
+                      <button type="button" class="btn btn-secondary">Add Form value</button>
                       <table class="table">
                         <tr>
                           <th>Id</th>
@@ -625,7 +600,7 @@
         </div>
       </div>
       <br>
-      <button type="button" class="btn btn-default">Add Value</button>
+      <button type="button" class="btn btn-secondary">Add Value</button>
       <br>
       <br>
       <table class="table">
@@ -711,8 +686,8 @@
       
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" id="ESEClose">Cancel</button>
-        <button type="button" class="btn btn-default">Save</button>
+        <button type="button" class="btn btn-secondary" id="ESEClose">Cancel</button>
+        <button type="button" class="btn btn-secondary" id="ese-save">Save</button>
       </div>
     </div>
   </div>
@@ -721,44 +696,38 @@
       <!-- Modal content -->
       <div class="modal-content" style="width:1000px">
         <div class="modal-header">
-          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="MSEClose" aria-hidden="true">&times;</span></button> -->
+          <!-- <button type="button" class="close" aria-label="Close"><span id="MSEClose" aria-hidden="true">&times;</span></button> -->
 
           <center><h4>Message Start Event</h4></center>
         </div>
         <div class="modal-body">
 
-          <div class="panel-group" id="mseaccordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="headingOne">
-                <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#mseaccordion" href="#msecollapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    General
-                  </a>
-                </h4>
-              </div>
-              <div id="msecollapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                <div class="panel-body">
+          <div class="accordion" id="mseaccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+<button type="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapseOne" data-bs-target="#msecollapseOne">General</button>
+                </h2>
+              <div id="msecollapseOne" class="accordion-collapse collapse show" role="tabpanel" aria-labelledby="headingOne">
+                <div class="accordion-body">
                   <div class="form-group">
                     <label>id</label>
                     <input type="text" class="form-control"></input>
                   </div>
                   <div class="form-group">
                     <label>Name</label>
-                    <input type="text" class="form-control"></input>
+                    <input type="text" class="form-control" id="mse-name"></input>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="mseheadingTwo">
-                <h4 class="panel-title">
-                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#mseaccordion" href="#msecollapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="mseheadingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#msecollapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                     Main Config
-                  </a>
-                </h4>
-              </div>
-              <div id="msecollapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                <div class="panel-body">
+                  </button>
+                </h2>
+              <div id="msecollapseTwo" class="accordion-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="accordion-body">
                   <div class="form-group">
                     <label>Message ref</label>
                     <input type="text" class="form-control"></input>
@@ -767,28 +736,22 @@
                 </div>
               </div>
             </div>
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab" id="mseheadingThree">
-                <h4 class="panel-title">
-                  <a class="collapsed" role="button" data-toggle="collapse" data-parent="#mseaccordion" href="#msecollapseThree" aria-expanded="false" aria-controls="collapseThree">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="mseheadingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#msecollapseThree" aria-expanded="false" aria-controls="collapseThree">
                     Listeners
-                  </a>
-                </h4>
-              </div>
-              <div id="msecollapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                <div class="panel-body">
+                  </button>
+                </h2>
+              <div id="msecollapseThree" class="accordion-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                <div class="accordion-body">
                   <div class="row">
                     <div class="col-md-3">
                       
-                      <a class="btn btn-primary" role="button" data-parent="#drpaccordion" data-toggle="collapse" href="#jccollapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        Java Class
-                      </a>
+                      <button type="button" class="btn btn-primary" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" data-bs-target="#jccollapseExample">Java Class</button>
 
                     </div>
                     <div class="col-md-3">
-                     <a class="btn btn-primary" role="button"  data-parent="#drpaccordion" data-toggle="collapse" href="#ecollapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        Expression
-                      </a>
+                     <button type="button" class="btn btn-primary" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" data-bs-target="#ecollapseExample">Expression</button>
 
 
 
@@ -796,18 +759,14 @@
                    </div>
                    <div class="col-md-3">
                      
-                      <a class="btn btn-primary" role="button"  data-parent="#drpaccordion"  data-toggle="collapse" href="#decollapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        Delegate Expression
-                      </a>
+                      <button type="button" class="btn btn-primary"  data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" data-bs-target="#decollapseExample">Delegate Expression</button>
 
 
 
                    </div>
                    <div class="col-md-3">
                      
-                      <a class="btn btn-primary" role="button"  data-parent="#drpaccordion" data-toggle="collapse" href="#aescollapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        Alfresco Execution Script
-                      </a>
+                      <button type="button" class="btn btn-primary" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" data-bs-target="#aescollapseExample">Alfresco Execution Script</button>
 
 
 
@@ -815,13 +774,13 @@
                  </div>
                  <div class="row">
 
-                  <div class="collapse panel-group" id="jccollapseExample">
+                  <div class="collapse" id="jccollapseExample">
                     <div class="well">
                       <label>Form value</label>
                       <input type="text" class="form-control" id="namevalue" placeholder="ID"><br>
                       <!-- <label>Writeable</label> -->
                       <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
-                      <button type="button" class="btn btn-default">Add Form value</button>
+                      <button type="button" class="btn btn-secondary">Add Form value</button>
                       <table class="table">
                         <tr>
                           <th>Id</th>
@@ -831,13 +790,13 @@
                       <br>
                     </div>
                   </div>
-                  <div class="collapse panel-group" id="ecollapseExample">
+                  <div class="collapse" id="ecollapseExample">
                     <div class="well">
                       <label>Form value</label>
                       <input type="text" class="form-control" id="namevalue" placeholder="ID"><br>
                       <!-- <label>Writeable</label> -->
                       <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
-                      <button type="button" class="btn btn-default">Add Form value</button>
+                      <button type="button" class="btn btn-secondary">Add Form value</button>
                       <table class="table">
                         <tr>
                           <th>Id</th>
@@ -847,13 +806,13 @@
                       <br>
                     </div>
                   </div>
-                  <div class="collapse panel-group" id="decollapseExample">
+                  <div class="collapse" id="decollapseExample">
                     <div class="well">
                       <label>Form value</label>
                       <input type="text" class="form-control" id="namevalue" placeholder="ID"><br>
                       <!-- <label>Writeable</label> -->
                       <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
-                      <button type="button" class="btn btn-default">Add Form value</button>
+                      <button type="button" class="btn btn-secondary">Add Form value</button>
                       <table class="table">
                         <tr>
                           <th>Id</th>
@@ -863,13 +822,13 @@
                       <br>
                     </div>
                   </div>
-                  <div class="collapse panel-group" id="aescollapseExample">
+                  <div class="collapse" id="aescollapseExample">
                     <div class="well">
                       <label>Form value</label>
                       <input type="text" class="form-control" id="namevalue" placeholder="ID"><br>
                       <!-- <label>Writeable</label> -->
                       <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
-                      <button type="button" class="btn btn-default">Add Form value</button>
+                      <button type="button" class="btn btn-secondary">Add Form value</button>
                       <table class="table">
                         <tr>
                           <th>Id</th>
@@ -881,7 +840,7 @@
                   </div>
       </div>
       <br>
-      <button type="button" class="btn btn-default">Add Value</button>
+      <button type="button" class="btn btn-secondary">Add Value</button>
       <br>
       <br>
       <table class="table">
@@ -929,8 +888,8 @@
       
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" id="MSEClose">Cancel</button>
-        <button type="button" class="btn btn-default">Save</button>
+        <button type="button" class="btn btn-secondary" id="MSEClose">Cancel</button>
+        <button type="button" class="btn btn-secondary" id="mse-save">Save</button>
       </div>
     </div>
   </div>
@@ -940,45 +899,39 @@
       <!-- Modal content -->
        <div class="modal-content" style="width:1000px">
         <div class="modal-header">
-       <!--  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="EEClose" aria-hidden="true">&times;</span></button> -->
+       <!--  <button type="button" class="close" aria-label="Close"><span id="EEClose" aria-hidden="true">&times;</span></button> -->
          
           <center><h4>End Event</h4></center>
         </div>
         <div class="modal-body">
 
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingOne">
-      <h4 class="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          General
-        </a>
-      </h4>
-    </div>
-    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-      <div class="panel-body">
+        <div class="accordion" id="accordion">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+<button type="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="collapseOne" data-bs-target="#collapseOne">General</button>
+                </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" role="tabpanel" aria-labelledby="headingOne">
+      <div class="accordion-body">
         <div class="form-group">
             <label>id</label>
             <input type="text" class="form-control"></input>
           </div>
           <div class="form-group">
             <label>Name</label>
-            <input type="text" class="form-control"></input>
+            <input type="text" class="form-control" id="ee-name"></input>
           </div>
       </div>
     </div>
   </div>
 
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingThree">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          Listeners
-        </a>
-      </h4>
-    </div>
-    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-      <div class="panel-body">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Listeners
+                  </button>
+                </h2>
+    <div id="collapseThree" class="accordion-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+      <div class="accordion-body">
       <div class="row">
         <div class="col-md-6">
             <!-- <label>Id</label> -->
@@ -991,9 +944,7 @@
             <input type="text" class="form-control" id="idvalue" placeholder="Data Pattern"><br>
             <!-- <label>Readable</label> -->
             <input type="text" class="form-control" id="idvalue" placeholder="Readable"><br>
-            <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-  Add Form Value
-</a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" data-bs-target="#collapseExample">Add Form Value</button>
             
           </div>
           <div class="col-md-6">
@@ -1021,7 +972,7 @@
   <input type="text" class="form-control" id="namevalue" placeholder="ID"><br>
              <!-- <label>Writeable</label> -->
             <input type="text" class="form-control" id="namevalue" placeholder="Name"><br>
-            <button type="button" class="btn btn-default">Add Form value</button>
+            <button type="button" class="btn btn-secondary">Add Form value</button>
     <table class="table">
             <tr>
               <th>Id</th>
@@ -1039,7 +990,7 @@
 </div>
           </div>
           <br>
-          <button type="button" class="btn btn-default">Add Value</button>
+          <button type="button" class="btn btn-secondary">Add Value</button>
           <br>
           <br>
         <table class="table">
@@ -1087,8 +1038,8 @@
    
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" id="EEClose">Cancel</button>
-          <button type="button" class="btn btn-default">Save</button>
+          <button type="button" class="btn btn-secondary" id="EEClose">Cancel</button>
+          <button type="button" class="btn btn-secondary" id="ee-save">Save</button>
         </div>
       </div>
      </div>
@@ -1098,7 +1049,7 @@
       <!-- Modal content -->
        <div class="modal-content">
         <div class="modal-header">
-         <!--  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="TClose" aria-hidden="true">&times;</span></button> -->
+         <!--  <button type="button" class="close" aria-label="Close"><span id="TClose" aria-hidden="true">&times;</span></button> -->
           
           <center><h4>Task</h4></center>
         </div>
@@ -1109,11 +1060,11 @@
           </div>
           <div class="form-group">
             <label>Name</label>
-            <input type="text" class="form-control"></input>
+            <input type="text" class="form-control" id="t-name"></input>
           </div>
           <div class="form-group">
             <label>Assignee</label>
-            <input type="text" class="form-control"></input>
+            <input type="text" class="form-control" id="t-assignee"></input>
           </div>
           <div class="form-group">
             <label>Candidate users (Comma separated)</label>
@@ -1145,8 +1096,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" id="TClose">Cancel</button>
-          <button type="button" class="btn btn-default">Save</button>
+          <button type="button" class="btn btn-secondary" id="TClose">Cancel</button>
+          <button type="button" class="btn btn-secondary" id="t-save">Save</button>
         </div>
       </div>
     </div>
@@ -1156,7 +1107,7 @@
       
        <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="TextClose" aria-hidden="true">&times;</span></button>
+          <button type="button" class="close" aria-label="Close"><span id="TextClose" aria-hidden="true">&times;</span></button>
           
           <center><h4>Text</h4></center>
         </div>
@@ -1168,8 +1119,8 @@
         </div>
           
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-default">Save changes</button>
+          <button type="button" class="btn btn-secondary">Close</button>
+          <button type="button" class="btn btn-secondary">Save changes</button>
         </div>
       </div>
     </div> -->
@@ -1178,7 +1129,7 @@
       <!-- Modal content -->
       <div class="modal-content">
         <div class="modal-header">
-          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="GClose" aria-hidden="true">&times;</span></button> -->
+          <!-- <button type="button" class="close" aria-label="Close"><span id="GClose" aria-hidden="true">&times;</span></button> -->
           
           <center><h4>Flow</h4></center>
         </div>
@@ -1189,12 +1140,12 @@
           </div>
           <div class="form-group">
             <label>Name</label>
-            <input type="text" class="form-control"></input>
+            <input type="text" class="form-control" id="f-name"></input>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" id="FClose">Cancel</button>
-          <button type="button" class="btn btn-default">Save</button>
+          <button type="button" class="btn btn-secondary" id="FClose">Cancel</button>
+          <button type="button" class="btn btn-secondary" id="f-save">Save</button>
         </div>
       </div>
     </div> 
@@ -1204,7 +1155,7 @@
       <!-- Modal content -->
       <div class="modal-content">
         <div class="modal-header">
-          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span id="GClose" aria-hidden="true">&times;</span></button> -->
+          <!-- <button type="button" class="close" aria-label="Close"><span id="GClose" aria-hidden="true">&times;</span></button> -->
           
           <center><h4>Gateway</h4></center>
         </div>
@@ -1215,12 +1166,12 @@
           </div>
           <div class="form-group">
             <label>Name</label>
-            <input type="text" class="form-control"></input>
+            <input type="text" class="form-control" id="g-name"></input>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" id="GClose">Cancel</button>
-          <button type="button" class="btn btn-default">Save</button>
+          <button type="button" class="btn btn-secondary" id="GClose">Cancel</button>
+          <button type="button" class="btn btn-secondary" id="g-save">Save</button>
         </div>
       </div>
     </div> 
